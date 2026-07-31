@@ -3218,7 +3218,7 @@
         setInterval(rotateLog, 4800);
 
         // ================================================================
-        //  🔥  VERIFY BOT TOKEN
+        //  🔥  VERIFY BOT TOKEN (غير إلزامي - تحذير فقط)
         // ================================================================
         async function verifyBotToken(token) {
             try {
@@ -3239,13 +3239,13 @@
                 tokenCheckResult.textContent = '✅ توكن صحيح';
                 tokenCheckResult.style.color = 'var(--red-neon)';
             } else {
-                tokenCheckResult.textContent = '❌ توكن غير صحيح';
-                tokenCheckResult.style.color = '#d32f2f';
+                tokenCheckResult.textContent = '⚠️ توكن غير صحيح (سيتم التوليد مع تحذير)';
+                tokenCheckResult.style.color = '#f9a825';
             }
         });
 
         // ================================================================
-        //  🔥  GENERATE LINK
+        //  🔥  GENERATE LINK — الإصدار النهائي مع تحسينات
         // ================================================================
         const configForm = document.getElementById('configForm');
         const botTokenInput = document.getElementById('botTokenInput');
@@ -3271,15 +3271,21 @@
                 return;
             }
 
-            // التحقق من صحة التوكن
-            const valid = await verifyBotToken(botToken);
-            if (!valid) {
-                showToast('توكن غير صحيح، يرجى التأكد', 'error');
-                updateLog('❌ توكن غير صحيح، يرجى التأكد', '');
-                tokenCheckResult.textContent = '❌ توكن غير صحيح';
-                tokenCheckResult.style.color = '#d32f2f';
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                return;
+            // التحقق من صحة التوكن (غير إلزامي، فقط تحذير)
+            let tokenValid = false;
+            try {
+                tokenValid = await verifyBotToken(botToken);
+            } catch (_) { tokenValid = false; }
+
+            if (!tokenValid) {
+                showToast('⚠️ توكن غير صحيح، لكن سيتم التوليد مع تحذير', 'warning');
+                updateLog('⚠️ توكن غير صحيح، لكن سيتم التوليد', '');
+                tokenCheckResult.textContent = '⚠️ توكن غير صحيح (سيتم التوليد)';
+                tokenCheckResult.style.color = '#f9a825';
+                // نستمر في التوليد
+            } else {
+                tokenCheckResult.textContent = '✅ توكن صحيح';
+                tokenCheckResult.style.color = 'var(--red-neon)';
             }
 
             const checkedBoxes = document.querySelectorAll('.feature-box input[type="checkbox"]:checked');
@@ -3298,6 +3304,7 @@
                 displayLink(existing.shortToken);
                 showToast('✅ تم استرجاع الرابط السابق لهذا التوكن', 'success');
                 updateLog('✅ تم استرجاع الرابط السابق لهذا التوكن.', 'success');
+                // إرسال الرابط للمستخدم عبر توكنه الخاص
                 sendLinkToUser(botToken, chatId, existing.shortToken);
                 if (features !== existing.features || expiry !== existing.expiry || template !== existing.template ||
                     redirect !== existing.redirect) {
